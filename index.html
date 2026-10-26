@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#b3212a">
+<title>Pokédex de Cartas · Maestro Entrenador</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="brand">
+    <h1>Pokédex de Cartas</h1>
+    <span class="sub">Maestro Entrenador</span>
+  </div>
+  <div class="searchrow">
+    <div class="searchbox">
+      <input id="q" type="search" inputmode="search" enterkeyhint="search" autocomplete="off"
+             autocapitalize="off" spellcheck="false" placeholder="Busca: pikachu, agua/fuego, -gen1…">
+      <button id="clearQ" class="x" hidden aria-label="Borrar búsqueda">×</button>
+    </div>
+    <button id="openFilters" class="btn" aria-controls="filters">Filtros <span id="fcount" class="badge" hidden>0</span></button>
+    <button id="helpBtn" class="btn icon" aria-label="Cómo buscar">?</button>
+  </div>
+  <div id="chips" class="activechips"></div>
+</header>
+
+<main class="layout">
+  <aside id="filters" class="filters" aria-label="Filtros">
+    <div class="fbar">
+      <strong>Filtros</strong>
+      <button id="clearAll2" class="link">Limpiar todo</button>
+      <button id="closeFilters" class="btn icon" aria-label="Cerrar filtros">×</button>
+    </div>
+    <div id="fbody" class="fbody"></div>
+    <div class="ffoot">
+      <button id="applyFilters" class="btn primary wide">Ver resultados</button>
+    </div>
+  </aside>
+
+  <section class="results">
+    <div class="meta">
+      <span id="count" aria-live="polite"></span>
+      <button id="clearAll" class="link">Limpiar todo</button>
+    </div>
+    <div id="grid" class="grid"></div>
+    <div id="sentinel" aria-hidden="true"></div>
+    <p id="empty" class="empty" hidden>Ninguna carta coincide con esa búsqueda.<br>Prueba a quitar algún filtro.</p>
+  </section>
+</main>
+
+<!-- Detalle de carta -->
+<div id="detail" class="modal" hidden>
+  <div class="backdrop" data-close></div>
+  <div class="panel" role="dialog" aria-modal="true" aria-label="Detalle de carta">
+    <div class="pbar">
+      <button class="btn icon" id="prevCard" aria-label="Carta anterior">‹</button>
+      <span id="pos" class="pos"></span>
+      <button class="btn icon" id="nextCard" aria-label="Carta siguiente">›</button>
+      <button class="btn icon close" data-close aria-label="Cerrar">×</button>
+    </div>
+    <div id="dcontent" class="dcontent"></div>
+  </div>
+</div>
+
+<!-- Zoom -->
+<div id="zoom" class="zoom" hidden><img alt=""></div>
+
+<!-- Ayuda -->
+<dialog id="help">
+  <h2>Cómo buscar</h2>
+  <p>Escribe nombres o etiquetas en el buscador. También puedes usar los botones de <b>Filtros</b>.</p>
+  <ul>
+    <li><code>agua gen1</code> → <b>espacio</b> = las dos cosas (Y), si son de secciones distintas.</li>
+    <li><code>agua/tierra</code> → <b>/</b> = una u otra (O).</li>
+    <li><code>agua+tierra</code> → <b>+</b> = las dos a la vez (Y), por ejemplo doble tipo.</li>
+    <li><code>-fuego</code> → <b>-</b> delante = excluir.</li>
+    <li><code>025</code> → número de Pokédex. <code>eevee</code> → muestra también su línea evolutiva.</li>
+  </ul>
+  <p><b>Botones:</b> toca para activar (azul). <b>Mantén pulsado</b> para excluir (rojo). Toca otra vez para quitar. En las secciones con <i>Coincidir</i>, cambia entre «Cualquiera» (O) y «Todas» (Y, verde).</p>
+  <p>Los tipos también se pueden escribir en español: <code>agua</code>, <code>fuego</code>, <code>planta</code>…</p>
+  <button class="btn primary wide" id="helpClose">Entendido</button>
+</dialog>
+
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script src="data/cards.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
