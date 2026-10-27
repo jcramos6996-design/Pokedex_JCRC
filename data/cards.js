@@ -15,8 +15,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "pink",
-  "text": "Habilidad: Espesura — Gana +1 al total si usas un movimiento de tipo Planta y el resultado del dado de combate fue 2 o menos\nCaptura: 3+\nAtaque 1: Latigo Cepa (Planta, D6, potencia 2)\nAtaque 2: Gruñido (Normal, D6, potencia 0) — N-D6"
+  "ability": "Espesura",
+  "abilityDesc": "Gana +1 al total si usas un movimiento de tipo Planta y el resultado del dado de combate fue 2 o menos",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Latigo Cepa",
+    "type": "grass",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Gruñido",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "002",
@@ -32,8 +52,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Espesura — Gana +1 al total si usas un movimiento de tipo Planta y el resultado del dado de combate fue 2 o menos\nCaptura: 5+\nAtaque 1: Hoja Afilada (Planta, D6, potencia 2) — D6 +5\nAtaque 2: Derribo (Normal, D6, potencia 3) — KO 5"
+  "ability": "Espesura",
+  "abilityDesc": "Gana +1 al total si usas un movimiento de tipo Planta y el resultado del dado de combate fue 2 o menos",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Hoja Afilada",
+    "type": "grass",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "D6 +5"
+    ]
+   },
+   {
+    "name": "Derribo",
+    "type": "normal",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "KO 5"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "003",
@@ -47,8 +89,40 @@ window.CARDS = [
    "kanto"
   ],
   "canMega": true,
-  "color": "red",
-  "text": "Habilidad: Espesura — Gana +1 al total si usas un movimiento de tipo Planta y el resultado del dado de combate fue 2 o menos\nCaptura: 7+\nAtaque 1: Doble Filo (Normal, D6, potencia 4) — KO 5\nAtaque 2: Somnífero (Planta, D6, potencia 0) — Dormido, Espera\nAtaque 3: Rayo Solar (Planta, D6, potencia 4) — Stat. Down"
+  "ability": "Espesura",
+  "abilityDesc": "Gana +1 al total si usas un movimiento de tipo Planta y el resultado del dado de combate fue 2 o menos",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Doble Filo",
+    "type": "normal",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "KO 5"
+    ]
+   },
+   {
+    "name": "Somnífero",
+    "type": "grass",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Dormido",
+     "Espera"
+    ]
+   },
+   {
+    "name": "Rayo Solar",
+    "type": "grass",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "Stat. Down"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "004",
@@ -63,8 +137,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "pink",
-  "text": "Habilidad: Mar Llamas — Gana +1 al total si usas un movimiento de tipo fuego y el resultado del dado de combate fue 2 o menos\nCaptura: 3+\nAtaque 1: Ascuas (Fuego, D6, potencia 2) — Quemado 6\nAtaque 2: Gruñido (Normal, D6, potencia 0) — N-D6"
+  "ability": "Mar Llamas",
+  "abilityDesc": "Gana +1 al total si usas un movimiento de tipo fuego y el resultado del dado de combate fue 2 o menos",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Ascuas",
+    "type": "fire",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Quemado 6"
+    ]
+   },
+   {
+    "name": "Gruñido",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "005",
@@ -79,8 +175,31 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Mar Llamas — Gana +1 al total si usas un movimiento de tipo fuego y el resultado del dado de combate fue 2 o menos\nCaptura: 5+\nAtaque 1: Colmillo Ígneo (Fuego, D8, potencia 2) — Quemado 6, N-D6 +6\nAtaque 2: Cuchillada (Normal, D8, potencia 2) — B-D6 +5"
+  "ability": "Mar Llamas",
+  "abilityDesc": "Gana +1 al total si usas un movimiento de tipo fuego y el resultado del dado de combate fue 2 o menos",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Colmillo Ígneo",
+    "type": "fire",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "Quemado 6",
+     "N-D6 +6"
+    ]
+   },
+   {
+    "name": "Cuchillada",
+    "type": "normal",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "B-D6 +5"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "006",
@@ -97,8 +216,37 @@ window.CARDS = [
    "fly"
   ],
   "canMega": true,
-  "color": "red",
-  "text": "Habilidad: Mar Llamas — Gana +1 al total si usas un movimiento de tipo fuego y el resultado del dado de combate fue 2 o menos\nCaptura: 7+\nAtaque 1: Tajo Aéreo (Volador, D8, potencia 2)\nAtaque 2: Onda ígnea (Fuego, D6, potencia 3) — Quemado 6\nAtaque 3: Envite Ígneo (Fuego, D6, potencia 4) — B-KO +5"
+  "ability": "Mar Llamas",
+  "abilityDesc": "Gana +1 al total si usas un movimiento de tipo fuego y el resultado del dado de combate fue 2 o menos",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Tajo Aéreo",
+    "type": "flying",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Onda ígnea",
+    "type": "fire",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Quemado 6"
+    ]
+   },
+   {
+    "name": "Envite Ígneo",
+    "type": "fire",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "B-KO +5"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "007",
@@ -116,8 +264,28 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "pink",
-  "text": "Habilidad: Torrente — Gana +1 al total si usas un movimiento de tipo agua y el resultado del dado de combate fue 2 o menos\nCaptura: 3+\nAtaque 1: Pistola Agua (Agua, D6, potencia 2)\nAtaque 2: Látigo (Normal, D6, potencia 0) — D6 +1"
+  "ability": "Torrente",
+  "abilityDesc": "Gana +1 al total si usas un movimiento de tipo agua y el resultado del dado de combate fue 2 o menos",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Pistola Agua",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Látigo",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "D6 +1"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "008",
@@ -135,8 +303,30 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "blue",
-  "text": "Habilidad: Torrente — Gana +1 al total si usas un movimiento de tipo agua y el resultado del dado de combate fue 2 o menos\nCaptura: 5+\nAtaque 1: Hidropulso (Agua, D6, potencia 2) — Confuso 5\nAtaque 2: Mordisco (Siniestro, D6, potencia 2) — N-D6 +5"
+  "ability": "Torrente",
+  "abilityDesc": "Gana +1 al total si usas un movimiento de tipo agua y el resultado del dado de combate fue 2 o menos",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Hidropulso",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 5"
+    ]
+   },
+   {
+    "name": "Mordisco",
+    "type": "dark",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +5"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "009",
@@ -152,8 +342,39 @@ window.CARDS = [
    "surf"
   ],
   "canMega": true,
-  "color": "red",
-  "text": "Habilidad: Torrente — Gana +1 al total si usas un movimiento de tipo agua y el resultado del dado de combate fue 2 o menos\nCaptura: 7+\nAtaque 1: Protección (Normal, D6, potencia 0) — Protección, No repite\nAtaque 2: Cabezazo (Acero, D6, potencia 3) — N-D6 +4, No repite\nAtaque 3: Hidrobomba (Agua, D8, potencia 3)"
+  "ability": "Torrente",
+  "abilityDesc": "Gana +1 al total si usas un movimiento de tipo agua y el resultado del dado de combate fue 2 o menos",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Protección",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Protección",
+     "No repite"
+    ]
+   },
+   {
+    "name": "Cabezazo",
+    "type": "steel",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "N-D6 +4",
+     "No repite"
+    ]
+   },
+   {
+    "name": "Hidrobomba",
+    "type": "water",
+    "die": "D8",
+    "power": "3",
+    "effects": []
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "010",
@@ -168,8 +389,21 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "pink",
-  "text": "Habilidad: Polvo Escudo — Inmune a N-D6 de movimientos\nCaptura: 3+\nAtaque 1: Disparo Demora (Bicho, D6, potencia 0) — N-D6"
+  "ability": "Polvo Escudo",
+  "abilityDesc": "Inmune a N-D6 de movimientos",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Disparo Demora",
+    "type": "bug",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "011",
@@ -184,8 +418,21 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "pink",
-  "text": "Habilidad: Mudar — Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.\nCaptura: 4+\nAtaque 1: Fortaleza (Bicho, D6, potencia 0) — N-D6"
+  "ability": "Mudar",
+  "abilityDesc": "Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Fortaleza",
+    "type": "bug",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "012",
@@ -198,8 +445,40 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Ojo Compuesto — Si sacas 1 en el dado de combate, puedes repetir tirada con un D4\nCaptura: 5+\nAtaque 1: Zumbido (Bicho, D6, potencia 3) — D6 +6\nAtaque 2: Somnífero (Planta, D6, potencia 0) — Dormido, Espera\nAtaque 3: Viento Afín (Volador, D6, potencia 0*) — D6 +1"
+  "ability": "Ojo Compuesto",
+  "abilityDesc": "Si sacas 1 en el dado de combate, puedes repetir tirada con un D4",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Zumbido",
+    "type": "bug",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "D6 +6"
+    ]
+   },
+   {
+    "name": "Somnífero",
+    "type": "grass",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Dormido",
+     "Espera"
+    ]
+   },
+   {
+    "name": "Viento Afín",
+    "type": "flying",
+    "die": "D6",
+    "power": "0*",
+    "effects": [
+     "D6 +1"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "013",
@@ -215,8 +494,21 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "pink",
-  "text": "Habilidad: Polvo Escudo — Inmune a N-D6 de movimientos\nCaptura: 3+\nAtaque 1: Picotazo Venenoso (Veneno, D6, potencia 1) — Veneno 5"
+  "ability": "Polvo Escudo",
+  "abilityDesc": "Inmune a N-D6 de movimientos",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Picotazo Venenoso",
+    "type": "poison",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Veneno 5"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "014",
@@ -232,8 +524,21 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "pink",
-  "text": "Habilidad: Mudar — Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.\nCaptura: 4+\nAtaque 1: Fortaleza (Bicho, D6, potencia 0) — N-D6"
+  "ability": "Mudar",
+  "abilityDesc": "Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Fortaleza",
+    "type": "bug",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "015",
@@ -247,8 +552,40 @@ window.CARDS = [
    "kanto"
   ],
   "canMega": true,
-  "color": "green",
-  "text": "Habilidad: Enjambre — Gana +1 al total si usas un movimiento de tipo Bicho y el resultado del dado de combate fue 2 o menos\nCaptura: 5+\nAtaque 1: Doble Ataque (Bicho, D4, potencia 1) — D+, Veneno 5\nAtaque 2: Furia (Normal, D6, potencia 1) — D+puño\nAtaque 3: Puya Nociva (Veneno, D6, potencia 3) — Veneno 5"
+  "ability": "Enjambre",
+  "abilityDesc": "Gana +1 al total si usas un movimiento de tipo Bicho y el resultado del dado de combate fue 2 o menos",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Doble Ataque",
+    "type": "bug",
+    "die": "D4",
+    "power": "1",
+    "effects": [
+     "D+",
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Furia",
+    "type": "normal",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "D+puño"
+    ]
+   },
+   {
+    "name": "Puya Nociva",
+    "type": "poison",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Veneno 5"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "016",
@@ -267,8 +604,28 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
-  "color": "pink",
-  "text": "Habilidad: Vista Lince — Siempre acierta sus ataques\nCaptura: 3+\nAtaque 1: Tornado (Volador, D6, potencia 1)\nAtaque 2: Ataque Arena (Tierra, D6, potencia 0) — N-D6"
+  "ability": "Vista Lince",
+  "abilityDesc": "Siempre acierta sus ataques",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Tornado",
+    "type": "flying",
+    "die": "D6",
+    "power": "1",
+    "effects": []
+   },
+   {
+    "name": "Ataque Arena",
+    "type": "ground",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "017",
@@ -287,8 +644,28 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
-  "color": "blue",
-  "text": "Habilidad: Vista Lince — Siempre acierta sus ataques\nCaptura: 5+\nAtaque 1: Ataque Ala (Volador, D6, potencia 2)\nAtaque 2: Ciclón (Dragón, D6, potencia 2) — B-D6"
+  "ability": "Vista Lince",
+  "abilityDesc": "Siempre acierta sus ataques",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Ataque Ala",
+    "type": "flying",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Ciclón",
+    "type": "dragon",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "B-D6"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "018",
@@ -305,8 +682,39 @@ window.CARDS = [
    "fly"
   ],
   "canMega": true,
-  "color": "red",
-  "text": "Habilidad: Vista Lince — Siempre acierta sus ataques\nCaptura: 7+\nAtaque 1: Ataque Aéreo (Volador, D8, potencia 4) — N-D6 +5\nAtaque 2: Descanso (Psíquico, D6, potencia 0) — Revivir\nAtaque 3: Autodestrucción (Normal, D6, potencia 4) — B-KO"
+  "ability": "Vista Lince",
+  "abilityDesc": "Siempre acierta sus ataques",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Ataque Aéreo",
+    "type": "flying",
+    "die": "D8",
+    "power": "4",
+    "effects": [
+     "N-D6 +5"
+    ]
+   },
+   {
+    "name": "Descanso",
+    "type": "psychic",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Revivir"
+    ]
+   },
+   {
+    "name": "Autodestrucción",
+    "type": "normal",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "B-KO"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "019",
@@ -321,8 +729,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "pink",
-  "text": "Habilidad: Agallas — Si el Pokemon sufre algún estado, su ataque se incrementa en +2\nCaptura: 3+\nAtaque 1: Látigo (Normal, D6, potencia 0) — B-D6\nAtaque 2: Ataque Rápido (Normal, D6, potencia 2) — Prioridad"
+  "ability": "Agallas",
+  "abilityDesc": "Si el Pokemon sufre algún estado, su ataque se incrementa en +2",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Látigo",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "B-D6"
+    ]
+   },
+   {
+    "name": "Ataque Rápido",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Prioridad"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "020",
@@ -334,8 +764,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Agallas — Si el Pokemon sufre algún estado, su ataque se incrementa en +2\nCaptura: 5+\nAtaque 1: Hipercolmillo (Normal, D8, potencia 2) — N-D6 +6\nAtaque 2: Triturar (Siniestro, D8, potencia 2)"
+  "ability": "Agallas",
+  "abilityDesc": "Si el Pokemon sufre algún estado, su ataque se incrementa en +2",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Hipercolmillo",
+    "type": "normal",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "N-D6 +6"
+    ]
+   },
+   {
+    "name": "Triturar",
+    "type": "dark",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "021",
@@ -354,8 +804,28 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
-  "color": "pink",
-  "text": "Habilidad: Vista Lince — Siempre acierta sus ataques\nCaptura: 3+\nAtaque 1: Látigo (Normal, D6, potencia 0) — B-D6\nAtaque 2: Ataque Ala (Volador, D6, potencia 2)"
+  "ability": "Vista Lince",
+  "abilityDesc": "Siempre acierta sus ataques",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Látigo",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "B-D6"
+    ]
+   },
+   {
+    "name": "Ataque Ala",
+    "type": "flying",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "022",
@@ -371,8 +841,28 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
-  "color": "blue",
-  "text": "Habilidad: Vista Lince — Siempre acierta sus ataques\nCaptura: 5+\nAtaque 1: Movimiento Espejo (Volador, D6, potencia 0) — Reflejo\nAtaque 2: Pico Taladro (Volador, D8, potencia 2)"
+  "ability": "Vista Lince",
+  "abilityDesc": "Siempre acierta sus ataques",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Movimiento Espejo",
+    "type": "flying",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Reflejo"
+    ]
+   },
+   {
+    "name": "Pico Taladro",
+    "type": "flying",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "023",
@@ -387,8 +877,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "pink",
-  "text": "Habilidad: Mudar — Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.\nCaptura: 3+\nAtaque 1: Picotazo Venenoso (Veneno, D6, potencia 1) — Veneno 5\nAtaque 2: Mordisco (Siniestro, D6, potencia 2) — N-D6 +5"
+  "ability": "Mudar",
+  "abilityDesc": "Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Picotazo Venenoso",
+    "type": "poison",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Mordisco",
+    "type": "dark",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +5"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "024",
@@ -400,8 +912,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Mudar — Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.\nCaptura: 5+\nAtaque 1: Puya Nociva (Veneno, D6, potencia 3) — Veneno 5\nAtaque 2: Mordisco (Siniestro, D6, potencia 2) — N-D6 +5"
+  "ability": "Mudar",
+  "abilityDesc": "Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Puya Nociva",
+    "type": "poison",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Mordisco",
+    "type": "dark",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +5"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "025",
@@ -416,8 +950,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Electricidad Estática — Al final de cada ronda lanza un dada de efecto Parálisis +5\nCaptura: 5+\nAtaque 1: Ataque Rápido (Normal, D6, potencia 2) — Prioridad\nAtaque 2: Impactrueno (Electrico, D6, potencia 1) — Parálisis +6"
+  "ability": "Electricidad Estática",
+  "abilityDesc": "Al final de cada ronda lanza un dada de efecto Parálisis +5",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Ataque Rápido",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Prioridad"
+    ]
+   },
+   {
+    "name": "Impactrueno",
+    "type": "electric",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Parálisis +6"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "026",
@@ -429,8 +985,37 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "red",
-  "text": "Habilidad: Electricidad Estática — Al final de cada ronda lanza un dada de efecto Parálisis +5\nCaptura: 7+\nAtaque 1: Atizar (Normal, D6, potencia 3)\nAtaque 2: Moflete Estático (Electrico, D6, potencia 1) — Parálisis\nAtaque 3: Trueno (Electrico, D8, potencia 3) — Parálisis +5"
+  "ability": "Electricidad Estática",
+  "abilityDesc": "Al final de cada ronda lanza un dada de efecto Parálisis +5",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Atizar",
+    "type": "normal",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Moflete Estático",
+    "type": "electric",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Parálisis"
+    ]
+   },
+   {
+    "name": "Trueno",
+    "type": "electric",
+    "die": "D8",
+    "power": "3",
+    "effects": [
+     "Parálisis +5"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "027",
@@ -445,8 +1030,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "pink",
-  "text": "Habilidad: Velo Arena — Gana +2 al total, si el resultado del dado de combate fue 2 o menos\nCaptura: 3+\nAtaque 1: Arañazo (Normal, D6, potencia 1)\nAtaque 2: Ataque Arena (Tierra, D6, potencia 0) — N-D6"
+  "ability": "Velo Arena",
+  "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Arañazo",
+    "type": "normal",
+    "die": "D6",
+    "power": "1",
+    "effects": []
+   },
+   {
+    "name": "Ataque Arena",
+    "type": "ground",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "028",
@@ -458,8 +1063,26 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Velo Arena — Gana +2 al total, si el resultado del dado de combate fue 2 o menos\nCaptura: 5+\nAtaque 1: Cuchillada (Normal, D8, potencia 2)\nAtaque 2: Excavar (Tierra, D8, potencia 2)"
+  "ability": "Velo Arena",
+  "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Cuchillada",
+    "type": "normal",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Excavar",
+    "type": "ground",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "029",
@@ -477,8 +1100,30 @@ window.CARDS = [
   "aliases": [
    "nidoran"
   ],
-  "color": "pink",
-  "text": "Habilidad: Punto Tóxico — Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado\nCaptura: 3+\nAtaque 1: Picotazo Venenoso (Veneno, D6, potencia 1) — Veneno 5\nAtaque 2: Látigo (Normal, D6, potencia 0) — B-D6"
+  "ability": "Punto Tóxico",
+  "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Picotazo Venenoso",
+    "type": "poison",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Látigo",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "B-D6"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "030",
@@ -493,8 +1138,31 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Punto Tóxico — Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado\nCaptura: 5+\nAtaque 1: Picotazo Venenoso (Veneno, D6, potencia 1) — Veneno 5\nAtaque 2: Drenadoras (Planta, D6, potencia 1) — Repetición, Corazón"
+  "ability": "Punto Tóxico",
+  "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Picotazo Venenoso",
+    "type": "poison",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Drenadoras",
+    "type": "grass",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Repetición",
+     "Corazón"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "031",
@@ -507,8 +1175,39 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "red",
-  "text": "Habilidad: Punto Tóxico — Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado\nCaptura: 7+\nAtaque 1: Puya Nociva (Veneno, D6, potencia 3) — Veneno 5\nAtaque 2: Terratemblor (Tierra, D6, potencia 2) — N-D6\nAtaque 3: Roca Afilada (Roca, D6, potencia 3) — KO 6"
+  "ability": "Punto Tóxico",
+  "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Puya Nociva",
+    "type": "poison",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Terratemblor",
+    "type": "ground",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6"
+    ]
+   },
+   {
+    "name": "Roca Afilada",
+    "type": "rock",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "KO 6"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "032",
@@ -526,8 +1225,30 @@ window.CARDS = [
   "aliases": [
    "nidoran"
   ],
-  "color": "pink",
-  "text": "Habilidad: Punto Tóxico — Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado\nCaptura: 3+\nAtaque 1: Picotazo Venenoso (Veneno, D6, potencia 1) — Veneno 5\nAtaque 2: Látigo (Normal, D6, potencia 0) — B-D6"
+  "ability": "Punto Tóxico",
+  "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Picotazo Venenoso",
+    "type": "poison",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Látigo",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "B-D6"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "033",
@@ -542,8 +1263,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Punto Tóxico — Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado\nCaptura: 5+\nAtaque 1: Picotazo Venenoso (Veneno, D6, potencia 1) — Veneno 5\nAtaque 2: Doble Patada (Lucha, D4, potencia 1) — Repetición"
+  "ability": "Punto Tóxico",
+  "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Picotazo Venenoso",
+    "type": "poison",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Doble Patada",
+    "type": "fighting",
+    "die": "D4",
+    "power": "1",
+    "effects": [
+     "Repetición"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "034",
@@ -556,8 +1299,37 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "red",
-  "text": "Habilidad: Punto Tóxico — Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado\nCaptura: 7+\nAtaque 1: Puya Nociva (Veneno, D6, potencia 3) — Veneno 5\nAtaque 2: Movimiento Sísmico (Lucha, D6, potencia *) — Ignore Type\nAtaque 3: Megacuerno (Bicho, D6, potencia 3)"
+  "ability": "Punto Tóxico",
+  "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Puya Nociva",
+    "type": "poison",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Movimiento Sísmico",
+    "type": "fighting",
+    "die": "D6",
+    "power": "*",
+    "effects": [
+     "Ignore Type"
+    ]
+   },
+   {
+    "name": "Megacuerno",
+    "type": "bug",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "035",
@@ -575,8 +1347,30 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
-  "color": "pink",
-  "text": "Habilidad: Gran Encanto — Cuando este Pokemon es atacado por otro, el atacante tira un dado y si el resultado es 5 o 6, queda confuso\nCaptura: 4+\nAtaque 1: Canto (Normal, D6, potencia 0) — Dormido\nAtaque 2: Voz Cautivadora (Hada, D6, potencia 2) — B-D6"
+  "ability": "Gran Encanto",
+  "abilityDesc": "Cuando este Pokemon es atacado por otro, el atacante tira un dado y si el resultado es 5 o 6, queda confuso",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Canto",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Dormido"
+    ]
+   },
+   {
+    "name": "Voz Cautivadora",
+    "type": "fairy",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "B-D6"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "036",
@@ -591,8 +1385,28 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
-  "color": "blue",
-  "text": "Habilidad: Gran Encanto — Cuando este Pokemon es atacado por otro, el atacante tira un dado y si el resultado es 5 o 6, queda confuso\nCaptura: 5+\nAtaque 1: Metrónomo (Normal, D6, potencia *)\nAtaque 2: Luz Lunar (Hada, D6, potencia 0) — Corazón"
+  "ability": "Gran Encanto",
+  "abilityDesc": "Cuando este Pokemon es atacado por otro, el atacante tira un dado y si el resultado es 5 o 6, queda confuso",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Metrónomo",
+    "type": "normal",
+    "die": "D6",
+    "power": "*",
+    "effects": []
+   },
+   {
+    "name": "Luz Lunar",
+    "type": "fairy",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Corazón"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "037",
@@ -607,8 +1421,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Absorbe Fuego — Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos\nCaptura: 4+\nAtaque 1: Ataque Rápido (Normal, D6, potencia 2) — Prioridad\nAtaque 2: Ascuas (Fuego, D6, potencia 2) — Quemado 6"
+  "ability": "Absorbe Fuego",
+  "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Ataque Rápido",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Prioridad"
+    ]
+   },
+   {
+    "name": "Ascuas",
+    "type": "fire",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Quemado 6"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "038",
@@ -620,8 +1456,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Absorbe Fuego — Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos\nCaptura: 6+\nAtaque 1: Ataque Rápido (Normal, D6, potencia 2) — Prioridad\nAtaque 2: Lanzallamas (Fuego, D6, potencia 3) — Quemado 5"
+  "ability": "Absorbe Fuego",
+  "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Ataque Rápido",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Prioridad"
+    ]
+   },
+   {
+    "name": "Lanzallamas",
+    "type": "fire",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Quemado 5"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "039",
@@ -669,8 +1527,30 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
-  "color": "pink",
-  "text": "Habilidad: Fuerza Mental — Inmune a N-DY y  a la habilidad de Intimidación.\nCaptura: 3+\nAtaque 1: Picotazo Venenoso (Veneno, D6, potencia 1) — Veneno 5\nAtaque 2: Supersónico (Normal, D6, potencia 0) — Confuso"
+  "ability": "Fuerza Mental",
+  "abilityDesc": "Inmune a N-DY y  a la habilidad de Intimidación.",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Picotazo Venenoso",
+    "type": "poison",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Supersónico",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Confuso"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "042",
@@ -689,8 +1569,30 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
-  "color": "blue",
-  "text": "Habilidad: Fuerza Mental — Inmune a N-DY y  a la habilidad de Intimidación.\nCaptura: 5+\nAtaque 1: Veneno X (Veneno, D6, potencia 2) — Veneno 5\nAtaque 2: Chupavidas (Bicho, D6, potencia 1) — Corazón"
+  "ability": "Fuerza Mental",
+  "abilityDesc": "Inmune a N-DY y  a la habilidad de Intimidación.",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Veneno X",
+    "type": "poison",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Chupavidas",
+    "type": "bug",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Corazón"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "043",
@@ -706,8 +1608,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Clorofila — Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.\nCaptura: 4+\nAtaque 1: Absorber (Planta, D6, potencia 1) — Corazón\nAtaque 2: Polvo Veneno (Veneno, D6, potencia 0) — Veneno 3"
+  "ability": "Clorofila",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Absorber",
+    "type": "grass",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Corazón"
+    ]
+   },
+   {
+    "name": "Polvo Veneno",
+    "type": "poison",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Veneno 3"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "044",
@@ -723,8 +1647,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Clorofila — Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.\nCaptura: 4+\nAtaque 1: Paralizador (Planta, D6, potencia 0) — Paralizado 3\nAtaque 2: Ácido (Veneno, D6, potencia 2) — D6 +6"
+  "ability": "Clorofila",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Paralizador",
+    "type": "grass",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Paralizado 3"
+    ]
+   },
+   {
+    "name": "Ácido",
+    "type": "poison",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "D6 +6"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "045",
@@ -737,8 +1683,37 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Clorofila — Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.\nCaptura: 6+\nAtaque 1: Tormenta Floral (Planta, D6, potencia 3)\nAtaque 2: Polvo Veneno (Veneno, D6, potencia 0) — Veneno 3\nAtaque 3: Rayo Solar (Planta, D6, potencia 4) — Stat. Down"
+  "ability": "Clorofila",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Tormenta Floral",
+    "type": "grass",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Polvo Veneno",
+    "type": "poison",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Veneno 3"
+    ]
+   },
+   {
+    "name": "Rayo Solar",
+    "type": "grass",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "Stat. Down"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "046",
@@ -754,8 +1729,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "pink",
-  "text": "Habilidad: Efecto Espora — Al terminar la ronda de batalla lanza un D6, si sale 6=Duerme, 3=Paraliza, 1=Envenena al Pokemon rival\nCaptura: 4+\nAtaque 1: Arañazo (Normal, D6, potencia 1)\nAtaque 2: Paralizador (Planta, D6, potencia 0) — Parálisis"
+  "ability": "Efecto Espora",
+  "abilityDesc": "Al terminar la ronda de batalla lanza un D6, si sale 6=Duerme, 3=Paraliza, 1=Envenena al Pokemon rival",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Arañazo",
+    "type": "normal",
+    "die": "D6",
+    "power": "1",
+    "effects": []
+   },
+   {
+    "name": "Paralizador",
+    "type": "grass",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Parálisis"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "047",
@@ -768,8 +1763,38 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Efecto Espora — Al terminar la ronda de batalla lanza un D6, si sale 6=Duerme, 3=Paraliza, 1=Envenena al Pokemon rival\nCaptura: 5+\nAtaque 1: Somnífero (Planta, D6, potencia 0) — Dormido, Espera\nAtaque 2: Cuchillada (Normal, D8, potencia 2) — B-D6 +5\nAtaque 3: Tijera X (Bicho, D6, potencia 3)"
+  "ability": "Efecto Espora",
+  "abilityDesc": "Al terminar la ronda de batalla lanza un D6, si sale 6=Duerme, 3=Paraliza, 1=Envenena al Pokemon rival",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Somnífero",
+    "type": "grass",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Dormido",
+     "Espera"
+    ]
+   },
+   {
+    "name": "Cuchillada",
+    "type": "normal",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "B-D6 +5"
+    ]
+   },
+   {
+    "name": "Tijera X",
+    "type": "bug",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "048",
@@ -785,8 +1810,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Ojo Compuesto — Si sacas 1 en el dado de combate, puedes repetir tirada con un D4\nCaptura: 5+\nAtaque 1: Paralizador (Planta, D6, potencia 0) — Paralizado 3\nAtaque 2: Rayo Señal (Bicho, D8, potencia 2) — Confuso 6"
+  "ability": "Ojo Compuesto",
+  "abilityDesc": "Si sacas 1 en el dado de combate, puedes repetir tirada con un D4",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Paralizador",
+    "type": "grass",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Paralizado 3"
+    ]
+   },
+   {
+    "name": "Rayo Señal",
+    "type": "bug",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "Confuso 6"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "049",
@@ -799,8 +1846,41 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Ojo Compuesto — Si sacas 1 en el dado de combate, puedes repetir tirada con un D4\nCaptura: 6+\nAtaque 1: Psíquico (Psíquico, D8, potencia 2) — 3Dice +6, Espera\nAtaque 2: Somnífero (Planta, D6, potencia 0) — Domrido, Espera\nAtaque 3: Zumbido (Bicho, D6, potencia 3) — B-D6 +6"
+  "ability": "Ojo Compuesto",
+  "abilityDesc": "Si sacas 1 en el dado de combate, puedes repetir tirada con un D4",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Psíquico",
+    "type": "psychic",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "3Dice +6",
+     "Espera"
+    ]
+   },
+   {
+    "name": "Somnífero",
+    "type": "grass",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Domrido",
+     "Espera"
+    ]
+   },
+   {
+    "name": "Zumbido",
+    "type": "bug",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "B-D6 +6"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "050",
@@ -815,8 +1895,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Velo Arena — Gana +2 al total, si el resultado del dado de combate fue 2 o menos\nCaptura: 4+\nAtaque 1: Arañazo (Normal, D6, potencia 1)\nAtaque 2: Tormenta Arena (Tierra, D6, potencia 2) — Add Dice6 +4"
+  "ability": "Velo Arena",
+  "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Arañazo",
+    "type": "normal",
+    "die": "D6",
+    "power": "1",
+    "effects": []
+   },
+   {
+    "name": "Tormenta Arena",
+    "type": "ground",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Add Dice6 +4"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "051",
@@ -828,8 +1928,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Velo Arena — Gana +2 al total, si el resultado del dado de combate fue 2 o menos\nCaptura: 6+\nAtaque 1: Fisura (Tierra, D6, potencia 2) — N-KO +5\nAtaque 2: Excavar (Tierra, D8, potencia 2)"
+  "ability": "Velo Arena",
+  "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Fisura",
+    "type": "ground",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-KO +5"
+    ]
+   },
+   {
+    "name": "Excavar",
+    "type": "ground",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "052",
@@ -844,8 +1964,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Experto — Gana +2 al total, si el resultado del dado de combate fue 2 o menos\nCaptura: 4+\nAtaque 1: Día de Pago (Normal, D6, potencia 2) — Adicional 6\nAtaque 2: Mordisco (Siniestro, D6, potencia 2) — N-D6 +5"
+  "ability": "Experto",
+  "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Día de Pago",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Adicional 6"
+    ]
+   },
+   {
+    "name": "Mordisco",
+    "type": "dark",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +5"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "053",
@@ -857,8 +1999,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Experto — Gana +2 al total, si el resultado del dado de combate fue 2 o menos\nCaptura: 6+\nAtaque 1: Cuchillada (Normal, D8, potencia 2) — B-D6 +5\nAtaque 2: Carantoña (Hada, D6, potencia 3) — N-D6 +3"
+  "ability": "Experto",
+  "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Cuchillada",
+    "type": "normal",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "B-D6 +5"
+    ]
+   },
+   {
+    "name": "Carantoña",
+    "type": "fairy",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "N-D6 +3"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "054",
@@ -876,8 +2040,37 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "green",
-  "text": "Habilidad: Humedad — Ningun Pokemon en combate puede usar Autodestrucción ni Explosión. Si el Pokemon es sacado a combatir el turno en que uno de estos movimientos es elegido, este fallará.\nCaptura: 4+\nAtaque 1: Confusión (Psíquico, D6, potencia 2) — Confuso 6\nAtaque 2: Anulación (Normal, D6, potencia 0*)\nAtaque 3: Hidropulso (Agua, D6, potencia 2) — Confuso 5"
+  "ability": "Humedad",
+  "abilityDesc": "Ningun Pokemon en combate puede usar Autodestrucción ni Explosión. Si el Pokemon es sacado a combatir el turno en que uno de estos movimientos es elegido, este fallará.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Confusión",
+    "type": "psychic",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 6"
+    ]
+   },
+   {
+    "name": "Anulación",
+    "type": "normal",
+    "die": "D6",
+    "power": "0*",
+    "effects": []
+   },
+   {
+    "name": "Hidropulso",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 5"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "055",
@@ -892,8 +2085,35 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Humedad — Ningun Pokemon en combate puede usar Autodestrucción ni Explosión. Si el Pokemon es sacado a combatir el turno en que uno de estos movimientos es elegido, este fallará.\nCaptura: 7+\nAtaque 1: Cabezazo Zen (Psíquico, D6, potencia 3) — N-D6 +5\nAtaque 2: Acua Cola (Agua, D6, potencia 3)\nAtaque 3: Golpes Furia (Agua, D4, potencia D4)"
+  "ability": "Humedad",
+  "abilityDesc": "Ningun Pokemon en combate puede usar Autodestrucción ni Explosión. Si el Pokemon es sacado a combatir el turno en que uno de estos movimientos es elegido, este fallará.",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Cabezazo Zen",
+    "type": "psychic",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "N-D6 +5"
+    ]
+   },
+   {
+    "name": "Acua Cola",
+    "type": "water",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Golpes Furia",
+    "type": "water",
+    "die": "D4",
+    "power": "D4",
+    "effects": []
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "056",
@@ -908,8 +2128,26 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Espíritu Vital — Este Pokemon no puede quedar Dormido\nCaptura: 4+\nAtaque 1: Golpa Karate (Lucha, D8, potencia 1)\nAtaque 2: Golpes Furia (Normal, D6, potencia D4 Amarillo)"
+  "ability": "Espíritu Vital",
+  "abilityDesc": "Este Pokemon no puede quedar Dormido",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Golpa Karate",
+    "type": "fighting",
+    "die": "D8",
+    "power": "1",
+    "effects": []
+   },
+   {
+    "name": "Golpes Furia",
+    "type": "normal",
+    "die": "D6",
+    "power": "D4 Amarillo",
+    "effects": []
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "057",
@@ -924,8 +2162,39 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Espíritu Vital — Este Pokemon no puede quedar Dormido\nCaptura: 6+\nAtaque 1: Movimiento Sísmico (Lucha, D6, potencia *) — Ignore Type\nAtaque 2: Golpe Cuerpo (Normal, D6, potencia 2) — Parálisis 4+\nAtaque 3: Enfado (Dragón, D6, potencia 3) — B-Confuso 3"
+  "ability": "Espíritu Vital",
+  "abilityDesc": "Este Pokemon no puede quedar Dormido",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Movimiento Sísmico",
+    "type": "fighting",
+    "die": "D6",
+    "power": "*",
+    "effects": [
+     "Ignore Type"
+    ]
+   },
+   {
+    "name": "Golpe Cuerpo",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Parálisis 4+"
+    ]
+   },
+   {
+    "name": "Enfado",
+    "type": "dragon",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "B-Confuso 3"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "058",
@@ -940,8 +2209,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Absorbe Fuego — Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos\nCaptura: 4+\nAtaque 1: Gruñido (Normal, D6, potencia 0) — N-D6\nAtaque 2: Ascuas (Fuego, D6, potencia 2) — Quemado 6"
+  "ability": "Absorbe Fuego",
+  "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Gruñido",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6"
+    ]
+   },
+   {
+    "name": "Ascuas",
+    "type": "fire",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Quemado 6"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "059",
@@ -953,8 +2244,31 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Absorbe Fuego — Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos\nCaptura: 6+\nAtaque 1: Velocidad Extrema (Normal, D6, potencia 3) — Prioridad\nAtaque 2: Colmillo Ígneo (Fuego, D8, potencia 2) — Quemado 6, N-D6 +6"
+  "ability": "Absorbe Fuego",
+  "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Velocidad Extrema",
+    "type": "normal",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Prioridad"
+    ]
+   },
+   {
+    "name": "Colmillo Ígneo",
+    "type": "fire",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "Quemado 6",
+     "N-D6 +6"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "060",
@@ -972,8 +2286,28 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "pink",
-  "text": "Habilidad: Absorbe Agua — Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.\nCaptura: 4+\nAtaque 1: Pistola Agua (Agua, D6, potencia 2)\nAtaque 2: Hipnosis (Psíquico, D6, potencia 0) — Dormido"
+  "ability": "Absorbe Agua",
+  "abilityDesc": "Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Pistola Agua",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Hipnosis",
+    "type": "psychic",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Dormido"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "061",
@@ -991,8 +2325,28 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "blue",
-  "text": "Habilidad: Absorbe Agua — Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.\nCaptura: 6+\nAtaque 1: Burbuja (Agua, D6, potencia 2) — N-D6 +6\nAtaque 2: Doble Bofetón (Normal, D4, potencia D4)"
+  "ability": "Absorbe Agua",
+  "abilityDesc": "Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Burbuja",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +6"
+    ]
+   },
+   {
+    "name": "Doble Bofetón",
+    "type": "normal",
+    "die": "D4",
+    "power": "D4",
+    "effects": []
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "062",
@@ -1008,8 +2362,40 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "red",
-  "text": "Habilidad: Absorbe Agua — Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.\nCaptura: 7+\nAtaque 1: Golpe Cuerpo (Normal, D6, potencia 3) — Paralizado 5\nAtaque 2: Acua Jet (Agua, 2, potencia D6) — Explamación\nAtaque 3: Puño Dinámico (Lucha, D6, potencia 3) — Confuso 4, Espera"
+  "ability": "Absorbe Agua",
+  "abilityDesc": "Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Golpe Cuerpo",
+    "type": "normal",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Paralizado 5"
+    ]
+   },
+   {
+    "name": "Acua Jet",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Explamación"
+    ]
+   },
+   {
+    "name": "Puño Dinámico",
+    "type": "fighting",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Confuso 4",
+     "Espera"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "063",
@@ -1027,8 +2413,19 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
-  "color": "green",
-  "text": "Habilidad: Sincronía — Contagia el envenenamiento, las quemaduras o la parálisis al Pokémon que le cause ese estado.\nCaptura: 4+\nAtaque 1: Teletransporte (Psíquico, D6, potencia 0)"
+  "ability": "Sincronía",
+  "abilityDesc": "Contagia el envenenamiento, las quemaduras o la parálisis al Pokémon que le cause ese estado.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Teletransporte",
+    "type": "psychic",
+    "die": "D6",
+    "power": "0",
+    "effects": []
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "064",
@@ -1046,8 +2443,30 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
-  "color": "blue",
-  "text": "Habilidad: Sincronía — Contagia el envenenamiento, las quemaduras o la parálisis al Pokémon que le cause ese estado.\nCaptura: 5+\nAtaque 1: Confusión (Psíquico, D6, potencia 2) — Confuso 4\nAtaque 2: Recuperación (Normal, D6, potencia 0) — Corazón"
+  "ability": "Sincronía",
+  "abilityDesc": "Contagia el envenenamiento, las quemaduras o la parálisis al Pokémon que le cause ese estado.",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Confusión",
+    "type": "psychic",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 4"
+    ]
+   },
+   {
+    "name": "Recuperación",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Corazón"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "065",
@@ -1063,8 +2482,40 @@ window.CARDS = [
    "teleport"
   ],
   "canMega": true,
-  "color": "red",
-  "text": "Habilidad: Sincronía — Contagia el envenenamiento, las quemaduras o la parálisis al Pokémon que le cause ese estado.\nCaptura: 7+\nAtaque 1: Psíquico (Psíquico, D8, potencia 2) — 3Dice +6, Espera\nAtaque 2: Recuperación (Normal, D6, potencia 0) — Corazón\nAtaque 3: Tri-Ataque (Normal, D4, potencia 3) — Adicional 6"
+  "ability": "Sincronía",
+  "abilityDesc": "Contagia el envenenamiento, las quemaduras o la parálisis al Pokémon que le cause ese estado.",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Psíquico",
+    "type": "psychic",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "3Dice +6",
+     "Espera"
+    ]
+   },
+   {
+    "name": "Recuperación",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Corazón"
+    ]
+   },
+   {
+    "name": "Tri-Ataque",
+    "type": "normal",
+    "die": "D4",
+    "power": "3",
+    "effects": [
+     "Adicional 6"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "066",
@@ -1079,8 +2530,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Agallas — Si el Pokemon sufre algún estado, su ataque se incrementa en +2\nCaptura: 4+\nAtaque 1: Golpa Karate (Lucha, D8, potencia 1)\nAtaque 2: Lanzarrocas (Roca, D6, potencia 1) — N-D6 +2"
+  "ability": "Agallas",
+  "abilityDesc": "Si el Pokemon sufre algún estado, su ataque se incrementa en +2",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Golpa Karate",
+    "type": "fighting",
+    "die": "D8",
+    "power": "1",
+    "effects": []
+   },
+   {
+    "name": "Lanzarrocas",
+    "type": "rock",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "N-D6 +2"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "067",
@@ -1095,8 +2566,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Agallas — Si el Pokemon sufre algún estado, su ataque se incrementa en +2\nCaptura: 6+\nAtaque 1: Sumisión (Lucha, D8, potencia 2)\nAtaque 2: Avalancha (Roca, D6, potencia 2) — N-D6 +2"
+  "ability": "Agallas",
+  "abilityDesc": "Si el Pokemon sufre algún estado, su ataque se incrementa en +2",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Sumisión",
+    "type": "fighting",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Avalancha",
+    "type": "rock",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +2"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "068",
@@ -1108,8 +2599,40 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "red",
-  "text": "Habilidad: Agallas — Si el Pokemon sufre algún estado, su ataque se incrementa en +2\nCaptura: 7+\nAtaque 1: Avalancha (Roca, D6, potencia 2) — N-D6 +2\nAtaque 2: Puño Dinámico (Lucha, D6, potencia 3) — B-D6+2, B-Confuso\nAtaque 3: Puño Trueno (Electrico, D6, potencia 2) — Parálisis 2"
+  "ability": "Agallas",
+  "abilityDesc": "Si el Pokemon sufre algún estado, su ataque se incrementa en +2",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Avalancha",
+    "type": "rock",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +2"
+    ]
+   },
+   {
+    "name": "Puño Dinámico",
+    "type": "fighting",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "B-D6+2",
+     "B-Confuso"
+    ]
+   },
+   {
+    "name": "Puño Trueno",
+    "type": "electric",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Parálisis 2"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "069",
@@ -1125,8 +2648,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Clorofila — Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.\nCaptura: 4+\nAtaque 1: Latigo Cepa (Planta, D6, potencia 2)\nAtaque 2: Polvo Veneno (Veneno, D6, potencia 0) — Veneno 3"
+  "ability": "Clorofila",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Latigo Cepa",
+    "type": "grass",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Polvo Veneno",
+    "type": "poison",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Veneno 3"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "070",
@@ -1142,8 +2685,31 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Clorofila — Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.\nCaptura: 5+\nAtaque 1: Somnífero (Planta, D6, potencia 0) — Dormido, Espera\nAtaque 2: Ácido (Veneno, D6, potencia 2) — D6 +6"
+  "ability": "Clorofila",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Somnífero",
+    "type": "grass",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Dormido",
+     "Espera"
+    ]
+   },
+   {
+    "name": "Ácido",
+    "type": "poison",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "D6 +6"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "071",
@@ -1156,8 +2722,39 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Clorofila — Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.\nCaptura: 7+\nAtaque 1: Hoja Aguda (Planta, D6, potencia 3) — D6 +5\nAtaque 2: Desarme (Siniestro, D8, potencia 2) — Carta Negra\nAtaque 3: Puya Nociva (Veneno, D6, potencia 3) — Veneno 5"
+  "ability": "Clorofila",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Hoja Aguda",
+    "type": "grass",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "D6 +5"
+    ]
+   },
+   {
+    "name": "Desarme",
+    "type": "dark",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "Carta Negra"
+    ]
+   },
+   {
+    "name": "Puya Nociva",
+    "type": "poison",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Veneno 5"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "072",
@@ -1176,8 +2773,30 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "pink",
-  "text": "Habilidad: Cuerpo Puro — Inmune a N-D6 de movimientos o habilidades de otro pokemon.\nCaptura: 4+\nAtaque 1: Hidropulso (Agua, D6, potencia 2) — Confuso 5\nAtaque 2: Picotazo Venenoso (Veneno, D6, potencia 1) — Veneno 5"
+  "ability": "Cuerpo Puro",
+  "abilityDesc": "Inmune a N-D6 de movimientos o habilidades de otro pokemon.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Hidropulso",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 5"
+    ]
+   },
+   {
+    "name": "Picotazo Venenoso",
+    "type": "poison",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Veneno 5"
+    ]
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "073",
@@ -1193,8 +2812,37 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "red",
-  "text": "Habilidad: Cuerpo Puro — Inmune a N-D6 de movimientos o habilidades de otro pokemon.\nCaptura: 7+\nAtaque 1: Puya Nociva (Veneno, D6, potencia 3) — Veneno 5\nAtaque 2: Supersónico (Normal, D6, potencia 0) — Confuso 3\nAtaque 3: Hidrobomba (Agua, D8, potencia 3)"
+  "ability": "Cuerpo Puro",
+  "abilityDesc": "Inmune a N-D6 de movimientos o habilidades de otro pokemon.",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Puya Nociva",
+    "type": "poison",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Supersónico",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Confuso 3"
+    ]
+   },
+   {
+    "name": "Hidrobomba",
+    "type": "water",
+    "die": "D8",
+    "power": "3",
+    "effects": []
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "074",
@@ -1210,8 +2858,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "pink",
-  "text": "Habilidad: Robustez — Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.\nCaptura: 3+\nAtaque 1: Rizo Defensa (Normal, D6, potencia 0) — N-D6 +1\nAtaque 2: Lanzarrocas (Roca, D6, potencia 2)"
+  "ability": "Robustez",
+  "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
+  "captura": "3+",
+  "moves": [
+   {
+    "name": "Rizo Defensa",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6 +1"
+    ]
+   },
+   {
+    "name": "Lanzarrocas",
+    "type": "rock",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "075",
@@ -1227,8 +2895,31 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Robustez — Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.\nCaptura: 6+\nAtaque 1: Terratemblor (Tierra, D6, potencia 2) — N-D6 +1\nAtaque 2: Autodestrucción (Normal, D6, potencia 5) — B-KO, Recarga"
+  "ability": "Robustez",
+  "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Terratemblor",
+    "type": "ground",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +1"
+    ]
+   },
+   {
+    "name": "Autodestrucción",
+    "type": "normal",
+    "die": "D6",
+    "power": "5",
+    "effects": [
+     "B-KO",
+     "Recarga"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "076",
@@ -1241,8 +2932,38 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "red",
-  "text": "Habilidad: Robustez — Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.\nCaptura: 7+\nAtaque 1: Terremoto (Tierra, D6, potencia 3)\nAtaque 2: Autodestrucción (Normal, D6, potencia 5) — B-KO, Recarga\nAtaque 3: Roca Afilada (Roca, D6, potencia 3) — KO 6"
+  "ability": "Robustez",
+  "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Terremoto",
+    "type": "ground",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Autodestrucción",
+    "type": "normal",
+    "die": "D6",
+    "power": "5",
+    "effects": [
+     "B-KO",
+     "Recarga"
+    ]
+   },
+   {
+    "name": "Roca Afilada",
+    "type": "rock",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "KO 6"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "077",
@@ -1257,8 +2978,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Absorbe Fuego — Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos\nCaptura: 5+\nAtaque 1: Pisotón (Normal, D6, potencia 2) — N-D6 +5\nAtaque 2: Nitrocarga (Fuego, D6, potencia 2) — Prioridad"
+  "ability": "Absorbe Fuego",
+  "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Pisotón",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +5"
+    ]
+   },
+   {
+    "name": "Nitrocarga",
+    "type": "fire",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Prioridad"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "078",
@@ -1270,8 +3013,39 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "red",
-  "text": "Habilidad: Absorbe Fuego — Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos\nCaptura: 7+\nAtaque 1: Derribo (Normal, D6, potencia 3) — B-KO +3\nAtaque 2: Rueda Fuego (Fuego, D6, potencia 3) — Quemado +\nAtaque 3: Envite Ígneo (Fuego, D6, potencia 4) — B-KO 5"
+  "ability": "Absorbe Fuego",
+  "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Derribo",
+    "type": "normal",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "B-KO +3"
+    ]
+   },
+   {
+    "name": "Rueda Fuego",
+    "type": "fire",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Quemado +"
+    ]
+   },
+   {
+    "name": "Envite Ígneo",
+    "type": "fire",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "B-KO 5"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "079",
@@ -1291,8 +3065,35 @@ window.CARDS = [
    "surf",
    "teleport"
   ],
-  "color": "green",
-  "text": "Habilidad: Ritmo Propio — Inmune al estado Confuso y la habilidad Intimidación\nCaptura: 4+\nAtaque 1: Bostezo (Normal, D6, potencia 0*)\nAtaque 2: Pistola Agua (Agua, D6, potencia 2)\nAtaque 3: Confusión (Psíquico, D6, potencia 2) — Confuso 6"
+  "ability": "Ritmo Propio",
+  "abilityDesc": "Inmune al estado Confuso y la habilidad Intimidación",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Bostezo",
+    "type": "normal",
+    "die": "D6",
+    "power": "0*",
+    "effects": []
+   },
+   {
+    "name": "Pistola Agua",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Confusión",
+    "type": "psychic",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 6"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "080",
@@ -1310,8 +3111,39 @@ window.CARDS = [
    "teleport"
   ],
   "canMega": true,
-  "color": "red",
-  "text": "Habilidad: Ritmo Propio — Inmune al estado Confuso y la habilidad Intimidación\nCaptura: 7+\nAtaque 1: Relajo (Normal, D6, potencia 0) — Corazones\nAtaque 2: Psíquico (Psíquico, D6, potencia 3) — D6 +6\nAtaque 3: Hidropulso (Agua, D6, potencia 2) — Confuso 5"
+  "ability": "Ritmo Propio",
+  "abilityDesc": "Inmune al estado Confuso y la habilidad Intimidación",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Relajo",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Corazones"
+    ]
+   },
+   {
+    "name": "Psíquico",
+    "type": "psychic",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "D6 +6"
+    ]
+   },
+   {
+    "name": "Hidropulso",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 5"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "081",
@@ -1327,8 +3159,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Robustez — Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.\nCaptura: 4+\nAtaque 1: Impactrueno (Electrico, D6, potencia 2) — Parálisis 6\nAtaque 2: Supersónico (Normal, D6, potencia 0) — CONFUSO"
+  "ability": "Robustez",
+  "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Impactrueno",
+    "type": "electric",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Parálisis 6"
+    ]
+   },
+   {
+    "name": "Supersónico",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "CONFUSO"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "082",
@@ -1341,8 +3195,39 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Robustez — Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.\nCaptura: 6+\nAtaque 1: Onda Trueno (Electrico, D6, potencia 0) — Parálisis\nAtaque 2: Bomba Imán (Acero, D6, potencia 2) — 1 CAMBIO\nAtaque 3: Tri-Ataque (Normal, D4, potencia 2) — Adicional 3"
+  "ability": "Robustez",
+  "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Onda Trueno",
+    "type": "electric",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Parálisis"
+    ]
+   },
+   {
+    "name": "Bomba Imán",
+    "type": "steel",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "1 CAMBIO"
+    ]
+   },
+   {
+    "name": "Tri-Ataque",
+    "type": "normal",
+    "die": "D4",
+    "power": "2",
+    "effects": [
+     "Adicional 3"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "083",
@@ -1358,8 +3243,28 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
-  "color": "green",
-  "text": "Habilidad: Vista Lince — Siempre acierta sus ataques\nCaptura: 5+\nAtaque 1: Cortes Furia (Bicho, D6, potencia 1) — Repetición\nAtaque 2: Ataque Ala (Volador, D6, potencia 2)"
+  "ability": "Vista Lince",
+  "abilityDesc": "Siempre acierta sus ataques",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Cortes Furia",
+    "type": "bug",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Repetición"
+    ]
+   },
+   {
+    "name": "Ataque Ala",
+    "type": "flying",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "084",
@@ -1378,8 +3283,28 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
-  "color": "blue",
-  "text": "Habilidad: Madrugar — Si este Pokemon se duerme, tardará la mitad de turnos en despertarse.\nCaptura: 5+\nAtaque 1: Doble Golpe (Normal, D4, potencia 2) — Add Dice\nAtaque 2: Ataque Ala (Volador, D6, potencia 2)"
+  "ability": "Madrugar",
+  "abilityDesc": "Si este Pokemon se duerme, tardará la mitad de turnos en despertarse.",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Doble Golpe",
+    "type": "normal",
+    "die": "D4",
+    "power": "2",
+    "effects": [
+     "Add Dice"
+    ]
+   },
+   {
+    "name": "Ataque Ala",
+    "type": "flying",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "085",
@@ -1395,8 +3320,21 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Madrugar — Si este Pokemon se duerme, tardará la mitad de turnos en despertarse.\nCaptura: 6+\nAtaque 1: Tri-Ataque (Normal, D4, potencia 2) — Adicional 3"
+  "ability": "Madrugar",
+  "abilityDesc": "Si este Pokemon se duerme, tardará la mitad de turnos en despertarse.",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Tri-Ataque",
+    "type": "normal",
+    "die": "D4",
+    "power": "2",
+    "effects": [
+     "Adicional 3"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "086",
@@ -1414,8 +3352,37 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "green",
-  "text": "Habilidad: Hidratación — Si la carta Lluvia está en el campo de batalla, es inmune a cualquier estado.\nCaptura: 5+\nAtaque 1: Canto Helado (Hielo, D6, potencia 2) — Exclamación\nAtaque 2: Golpe Cabeza (Normal, D6, potencia 2) — N-D6 +5\nAtaque 3: Salmuera (Agua, D8, potencia 2)"
+  "ability": "Hidratación",
+  "abilityDesc": "Si la carta Lluvia está en el campo de batalla, es inmune a cualquier estado.",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Canto Helado",
+    "type": "ice",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Exclamación"
+    ]
+   },
+   {
+    "name": "Golpe Cabeza",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +5"
+    ]
+   },
+   {
+    "name": "Salmuera",
+    "type": "water",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "087",
@@ -1431,8 +3398,39 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Hidratación — Si la carta Lluvia está en el campo de batalla, es inmune a cualquier estado.\nCaptura: 7+\nAtaque 1: Acua Jet (Agua, D6, potencia 2) — Exclamación\nAtaque 2: Rayo Hielo (Hielo, D6, potencia 3) — Helado 6\nAtaque 3: Velo Sagrado (Normal, D6, potencia 0) — Escudo con picos"
+  "ability": "Hidratación",
+  "abilityDesc": "Si la carta Lluvia está en el campo de batalla, es inmune a cualquier estado.",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Acua Jet",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Exclamación"
+    ]
+   },
+   {
+    "name": "Rayo Hielo",
+    "type": "ice",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Helado 6"
+    ]
+   },
+   {
+    "name": "Velo Sagrado",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Escudo con picos"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "088",
@@ -1447,8 +3445,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Hedor — Si es atacado, el atacante recibe N-D6 (Desventaja)\nCaptura: 5+\nAtaque 1: Disparo Lodo (Tierra, D6, potencia 2) — N-D6 +2\nAtaque 2: Tóxico (Veneno, D6, potencia 0) — Veneno"
+  "ability": "Hedor",
+  "abilityDesc": "Si es atacado, el atacante recibe N-D6 (Desventaja)",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Disparo Lodo",
+    "type": "ground",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +2"
+    ]
+   },
+   {
+    "name": "Tóxico",
+    "type": "poison",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Veneno"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "089",
@@ -1460,8 +3480,38 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "red",
-  "text": "Habilidad: Hedor — Si es atacado, el atacante recibe N-D6 (Desventaja)\nCaptura: 7+\nAtaque 1: Puya Nociva (Veneno, D6, potencia 3) — Veneno 5\nAtaque 2: Terremoto (Tierra, D6, potencia 3)\nAtaque 3: Legado (Siniestro, D6, potencia 0) — N-3Dice, B-KO"
+  "ability": "Hedor",
+  "abilityDesc": "Si es atacado, el atacante recibe N-D6 (Desventaja)",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Puya Nociva",
+    "type": "poison",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "Veneno 5"
+    ]
+   },
+   {
+    "name": "Terremoto",
+    "type": "ground",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Legado",
+    "type": "dark",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-3Dice",
+     "B-KO"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "090",
@@ -1479,8 +3529,28 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "green",
-  "text": "Habilidad: Caparazón — Bloquea golpes críticos, no se acumula\nCaptura: 4+\nAtaque 1: Refugio (Agua, D6, potencia 0) — N-D6\nAtaque 2: Carámbano (Hielo, D4, potencia D4 Amarillo)"
+  "ability": "Caparazón",
+  "abilityDesc": "Bloquea golpes críticos, no se acumula",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Refugio",
+    "type": "water",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6"
+    ]
+   },
+   {
+    "name": "Carámbano",
+    "type": "ice",
+    "die": "D4",
+    "power": "D4 Amarillo",
+    "effects": []
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "091",
@@ -1496,8 +3566,37 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Caparazón — Bloquea golpes críticos, no se acumula\nCaptura: 6+\nAtaque 1: Chuzos (Hielo, D6, potencia 3) — N-D6 +5\nAtaque 2: Protección (Normal, D6, potencia 0) — Escudo\nAtaque 3: Hidrobomba (Agua, D8, potencia 3)"
+  "ability": "Caparazón",
+  "abilityDesc": "Bloquea golpes críticos, no se acumula",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Chuzos",
+    "type": "ice",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "N-D6 +5"
+    ]
+   },
+   {
+    "name": "Protección",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Escudo"
+    ]
+   },
+   {
+    "name": "Hidrobomba",
+    "type": "water",
+    "die": "D8",
+    "power": "3",
+    "effects": []
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "092",
@@ -1513,8 +3612,21 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Levitación — Inmune a ataques de tipo Tierra\nCaptura: 4+\nAtaque 1: Lenguetazo (Fantasma, D8, potencia 1) — Parálisis 5"
+  "ability": "Levitación",
+  "abilityDesc": "Inmune a ataques de tipo Tierra",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Lenguetazo",
+    "type": "ghost",
+    "die": "D8",
+    "power": "1",
+    "effects": [
+     "Parálisis 5"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "093",
@@ -1530,8 +3642,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Levitación — Inmune a ataques de tipo Tierra\nCaptura: 6+\nAtaque 1: Puño Sombra (Fantasma, D6, potencia 2) — 1 CAMBIO\nAtaque 2: Vendetta (Siniestro, D6, potencia 2*)"
+  "ability": "Levitación",
+  "abilityDesc": "Inmune a ataques de tipo Tierra",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Puño Sombra",
+    "type": "ghost",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "1 CAMBIO"
+    ]
+   },
+   {
+    "name": "Vendetta",
+    "type": "dark",
+    "die": "D6",
+    "power": "2*",
+    "effects": []
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "094",
@@ -1545,8 +3677,37 @@ window.CARDS = [
    "kanto"
   ],
   "canMega": true,
-  "color": "red",
-  "text": "Habilidad: Levitación — Inmune a ataques de tipo Tierra\nCaptura: 7+\nAtaque 1: Bola Sombra (Fantasma, D6, potencia 3) — B-D6 +5\nAtaque 2: Pulso Umbrío (Siniestro, D6, potencia 3) — N-D6 +5\nAtaque 3: Mismo Destino (Fantasma, D6, potencia 0*)"
+  "ability": "Levitación",
+  "abilityDesc": "Inmune a ataques de tipo Tierra",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Bola Sombra",
+    "type": "ghost",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "B-D6 +5"
+    ]
+   },
+   {
+    "name": "Pulso Umbrío",
+    "type": "dark",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "N-D6 +5"
+    ]
+   },
+   {
+    "name": "Mismo Destino",
+    "type": "ghost",
+    "die": "D6",
+    "power": "0*",
+    "effects": []
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "095",
@@ -1562,8 +3723,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Robustez — Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.\nCaptura: 4+\nAtaque 1: Terratemblor (Tierra, D6, potencia 2) — N-D6 +1\nAtaque 2: Avalancha (Roca, D6, potencia 2) — N-D6 +2"
+  "ability": "Robustez",
+  "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Terratemblor",
+    "type": "ground",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +1"
+    ]
+   },
+   {
+    "name": "Avalancha",
+    "type": "rock",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +2"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "096",
@@ -1581,8 +3764,28 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
-  "color": "green",
-  "text": "Habilidad: Insomnio — Este Pokemon no puede quedar Dormido\nCaptura: 4+\nAtaque 1: Confusión (Psíquico, D6, potencia 2) — Confuso 4\nAtaque 2: Anulación (Normal, D6, potencia 0*)"
+  "ability": "Insomnio",
+  "abilityDesc": "Este Pokemon no puede quedar Dormido",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Confusión",
+    "type": "psychic",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 4"
+    ]
+   },
+   {
+    "name": "Anulación",
+    "type": "normal",
+    "die": "D6",
+    "power": "0*",
+    "effects": []
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "097",
@@ -1597,8 +3800,39 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Insomnio — Este Pokemon no puede quedar Dormido\nCaptura: 6+\nAtaque 1: Hipnosis (Psíquico, D6, potencia 0) — Dormido\nAtaque 2: Cabezazo Zen (Psíquico, D6, potencia 3) — N-D6 +5\nAtaque 3: Maquinación (Siniestro, D6, potencia 0) — B-3Dice"
+  "ability": "Insomnio",
+  "abilityDesc": "Este Pokemon no puede quedar Dormido",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Hipnosis",
+    "type": "psychic",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Dormido"
+    ]
+   },
+   {
+    "name": "Cabezazo Zen",
+    "type": "psychic",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "N-D6 +5"
+    ]
+   },
+   {
+    "name": "Maquinación",
+    "type": "dark",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "B-3Dice"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "098",
@@ -1616,8 +3850,35 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "green",
-  "text": "Habilidad: Corte Fuerte — Inmune a N-D6 de movimientos o habilidades de otro pokemon.\nCaptura: 4+\nAtaque 1: Agarre (Normal, D6, potencia 2)\nAtaque 2: Chapoteo Lodo (Tierra, D6, potencia 0*)\nAtaque 3: Burbuja (Agua, D6, potencia 2) — N-D6 +6"
+  "ability": "Corte Fuerte",
+  "abilityDesc": "Inmune a N-D6 de movimientos o habilidades de otro pokemon.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Agarre",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Chapoteo Lodo",
+    "type": "ground",
+    "die": "D6",
+    "power": "0*",
+    "effects": []
+   },
+   {
+    "name": "Burbuja",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +6"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "099",
@@ -1632,8 +3893,39 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "red",
-  "text": "Habilidad: Corte Fuerte — Inmune a N-D6 de movimientos o habilidades de otro pokemon.\nCaptura: 7+\nAtaque 1: Disparo Lodo (Tierra, D6, potencia 2) — N-D6 +2\nAtaque 2: Guillotina (Normal, D6, potencia 0) — N-KO 5\nAtaque 3: Martillazo (Agua, D8, potencia 3) — D6 +5"
+  "ability": "Corte Fuerte",
+  "abilityDesc": "Inmune a N-D6 de movimientos o habilidades de otro pokemon.",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Disparo Lodo",
+    "type": "ground",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +2"
+    ]
+   },
+   {
+    "name": "Guillotina",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-KO 5"
+    ]
+   },
+   {
+    "name": "Martillazo",
+    "type": "water",
+    "die": "D8",
+    "power": "3",
+    "effects": [
+     "D6 +5"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "100",
@@ -1648,8 +3940,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Detonación — Cuando es debilitado sin usar Autodest. Lanza el efecto KO +6\nCaptura: 4+\nAtaque 1: Onda Anómala (Electrico, D6, potencia 0) — N-3Dice\nAtaque 2: Autodestrucción (Normal, D6, potencia 4) — B-KO"
+  "ability": "Detonación",
+  "abilityDesc": "Cuando es debilitado sin usar Autodest. Lanza el efecto KO +6",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Onda Anómala",
+    "type": "electric",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-3Dice"
+    ]
+   },
+   {
+    "name": "Autodestrucción",
+    "type": "normal",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "B-KO"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "101",
@@ -1661,8 +3975,39 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Detonación — Cuando es debilitado sin usar Autodest. Lanza el efecto KO +6\nCaptura: 6+\nAtaque 1: Rayo Carga (Electrico, D6, potencia 2) — B-D6 +3\nAtaque 2: Rapidez (Normal, D6, potencia 2) — 1 CAMBIO\nAtaque 3: Explosión (Normal, D6, potencia 5) — B-KO"
+  "ability": "Detonación",
+  "abilityDesc": "Cuando es debilitado sin usar Autodest. Lanza el efecto KO +6",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Rayo Carga",
+    "type": "electric",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "B-D6 +3"
+    ]
+   },
+   {
+    "name": "Rapidez",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "1 CAMBIO"
+    ]
+   },
+   {
+    "name": "Explosión",
+    "type": "normal",
+    "die": "D6",
+    "power": "5",
+    "effects": [
+     "B-KO"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "102",
@@ -1678,8 +4023,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Clorofila — Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.\nCaptura: 5+\nAtaque 1: Recurrente (Planta, D4, potencia *) — D4 Amarillo\nAtaque 2: Hipnosis (Psíquico, D6, potencia 0) — Dormido"
+  "ability": "Clorofila",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Recurrente",
+    "type": "grass",
+    "die": "D4",
+    "power": "*",
+    "effects": [
+     "D4 Amarillo"
+    ]
+   },
+   {
+    "name": "Hipnosis",
+    "type": "psychic",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Dormido"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "103",
@@ -1692,8 +4059,37 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "red",
-  "text": "Habilidad: Clorofila — Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.\nCaptura: 5+\nAtaque 1: Confusión (Psíquico, D6, potencia 2) — Confuso 6\nAtaque 2: Bomba Huevo (Normal, D8, potencia 3)\nAtaque 3: Mazazo (Planta, D6, potencia 4) — Stat. Down"
+  "ability": "Clorofila",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Confusión",
+    "type": "psychic",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 6"
+    ]
+   },
+   {
+    "name": "Bomba Huevo",
+    "type": "normal",
+    "die": "D8",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Mazazo",
+    "type": "grass",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "Stat. Down"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "104",
@@ -1708,8 +4104,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Velo Arena — Gana +2 al total, si el resultado del dado de combate fue 2 o menos\nCaptura: 4+\nAtaque 1: Arañazo (Normal, D6, potencia 1)\nAtaque 2: Hueso Palo (Tierra, D6, potencia 2) — N-D6 +5"
+  "ability": "Velo Arena",
+  "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Arañazo",
+    "type": "normal",
+    "die": "D6",
+    "power": "1",
+    "effects": []
+   },
+   {
+    "name": "Hueso Palo",
+    "type": "ground",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +5"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "105",
@@ -1721,8 +4137,39 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Velo Arena — Gana +2 al total, si el resultado del dado de combate fue 2 o menos\nCaptura: 6+\nAtaque 1: Movimiento Sísmico (Lucha, D6, potencia *) — Ignore Type\nAtaque 2: Huesomerang (Tierra, D4, potencia 3) — Add Dice\nAtaque 3: Saña (Normal, D4, potencia 3) — B-Confuso 2"
+  "ability": "Velo Arena",
+  "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Movimiento Sísmico",
+    "type": "fighting",
+    "die": "D6",
+    "power": "*",
+    "effects": [
+     "Ignore Type"
+    ]
+   },
+   {
+    "name": "Huesomerang",
+    "type": "ground",
+    "die": "D4",
+    "power": "3",
+    "effects": [
+     "Add Dice"
+    ]
+   },
+   {
+    "name": "Saña",
+    "type": "normal",
+    "die": "D4",
+    "power": "3",
+    "effects": [
+     "B-Confuso 2"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "106",
@@ -1734,8 +4181,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Flexibilidad — Este Pokemon no puede quedar Paralizado\nCaptura: 6+\nAtaque 1: Patada Salto (Lucha, D6, potencia 3)\nAtaque 2: Patada ígnea (Fuego, D6, potencia 2) — Quemado 3"
+  "ability": "Flexibilidad",
+  "abilityDesc": "Este Pokemon no puede quedar Paralizado",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Patada Salto",
+    "type": "fighting",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Patada ígnea",
+    "type": "fire",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Quemado 3"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "107",
@@ -1747,8 +4214,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Vista Lince — Siempre acierta sus ataques\nCaptura: 6+\nAtaque 1: Puño Certero (Lucha, D6, potencia 4)\nAtaque 2: Puño Trueno (Electrico, D6, potencia 2) — Parálisis 2"
+  "ability": "Vista Lince",
+  "abilityDesc": "Siempre acierta sus ataques",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Puño Certero",
+    "type": "fighting",
+    "die": "D6",
+    "power": "4",
+    "effects": []
+   },
+   {
+    "name": "Puño Trueno",
+    "type": "electric",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Parálisis 2"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "108",
@@ -1763,8 +4250,39 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Ritmo Propio — Inmune al estado Confuso y la habilidad Intimidación\nCaptura: 6+\nAtaque 1: Descanso (Psíquico, D6, potencia 0) — Revivir\nAtaque 2: Doble Filo (Normal, D8, potencia 3) — B-KO +4\nAtaque 3: Rodar (Tierra, D6, potencia 1) — Adicional 4"
+  "ability": "Ritmo Propio",
+  "abilityDesc": "Inmune al estado Confuso y la habilidad Intimidación",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Descanso",
+    "type": "psychic",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Revivir"
+    ]
+   },
+   {
+    "name": "Doble Filo",
+    "type": "normal",
+    "die": "D8",
+    "power": "3",
+    "effects": [
+     "B-KO +4"
+    ]
+   },
+   {
+    "name": "Rodar",
+    "type": "ground",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Adicional 4"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "109",
@@ -1779,8 +4297,30 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Gas Reactivo — Mientras esté en el terreno de combate, anula las habilidades de los demás Pokemon activos\nCaptura: 5+\nAtaque 1: Gas Venenoso (Veneno, D6, potencia 0) — Veneno 2\nAtaque 2: Niebla Clara (Veneno, D6, potencia 1) — B-D6"
+  "ability": "Gas Reactivo",
+  "abilityDesc": "Mientras esté en el terreno de combate, anula las habilidades de los demás Pokemon activos",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Gas Venenoso",
+    "type": "poison",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Veneno 2"
+    ]
+   },
+   {
+    "name": "Niebla Clara",
+    "type": "poison",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "B-D6"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "110",
@@ -1792,8 +4332,40 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "red",
-  "text": "Habilidad: Gas Reactivo — Mientras esté en el terreno de combate, anula las habilidades de los demás Pokemon activos\nCaptura: 6+\nAtaque 1: Residuos (Veneno, D6, potencia 2) — Veneno 3\nAtaque 2: Legado (Siniestro, D6, potencia 0) — N-3Dice, B-KO\nAtaque 3: Autodestrucción (Normal, D6, potencia 4) — B-KO"
+  "ability": "Gas Reactivo",
+  "abilityDesc": "Mientras esté en el terreno de combate, anula las habilidades de los demás Pokemon activos",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Residuos",
+    "type": "poison",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Veneno 3"
+    ]
+   },
+   {
+    "name": "Legado",
+    "type": "dark",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-3Dice",
+     "B-KO"
+    ]
+   },
+   {
+    "name": "Autodestrucción",
+    "type": "normal",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "B-KO"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "111",
@@ -1809,8 +4381,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Velo Arena — Gana +2 al total, si el resultado del dado de combate fue 2 o menos\nCaptura: 6+\nAtaque 1: Avalancha (Roca, D6, potencia 2) — N-D6 +2\nAtaque 2: Excavar (Tierra, D8, potencia 2)"
+  "ability": "Velo Arena",
+  "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Avalancha",
+    "type": "rock",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +2"
+    ]
+   },
+   {
+    "name": "Excavar",
+    "type": "ground",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "112",
@@ -1826,8 +4418,35 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "red",
-  "text": "Habilidad: Velo Arena — Gana +2 al total, si el resultado del dado de combate fue 2 o menos\nCaptura: 7+\nAtaque 1: Terremoto (Tierra, D6, potencia 3)\nAtaque 2: Megacuerno (Bicho, D6, potencia 3)\nAtaque 3: Roca Afilada (Roca, D6, potencia 3) — N-KO 6"
+  "ability": "Velo Arena",
+  "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Terremoto",
+    "type": "ground",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Megacuerno",
+    "type": "bug",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Roca Afilada",
+    "type": "rock",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "N-KO 6"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "113",
@@ -1842,8 +4461,37 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Cura Natural — Se cura cualquier estado al salir de la batalla\nCaptura: 6+\nAtaque 1: Descanso (Psíquico, D6, potencia 0) — Revivir\nAtaque 2: Luz Lunar (Hada, D6, potencia 0) — Corazón\nAtaque 3: Bomba Huevo (Normal, D6, potencia 3)"
+  "ability": "Cura Natural",
+  "abilityDesc": "Se cura cualquier estado al salir de la batalla",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Descanso",
+    "type": "psychic",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Revivir"
+    ]
+   },
+   {
+    "name": "Luz Lunar",
+    "type": "fairy",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Corazón"
+    ]
+   },
+   {
+    "name": "Bomba Huevo",
+    "type": "normal",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "114",
@@ -1858,8 +4506,29 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Clorofila — Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.\nCaptura: 5+\nAtaque 1: Drenadoras (Planta, D6, potencia 1) — Repetición, Corazón\nAtaque 2: Poder Pasado (Roca, D6, potencia 2)"
+  "ability": "Clorofila",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Drenadoras",
+    "type": "grass",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Repetición",
+     "Corazón"
+    ]
+   },
+   {
+    "name": "Poder Pasado",
+    "type": "rock",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "115",
@@ -1872,8 +4541,37 @@ window.CARDS = [
    "kanto"
   ],
   "canMega": true,
-  "color": "yellow",
-  "text": "Habilidad: Intrépido — Alcanza a Pokémon de tipo Fantasma con movimientos de tipo Normal o Lucha. Además, no sufre los efectos de Intimidación.\nCaptura: 6+\nAtaque 1: Enfado (Dragón, D8, potencia 2) — W-Confuso 2\nAtaque 2: Movimiento Sísmico (Lucha, D6, potencia *) — Ignore Type\nAtaque 3: Última Baza (Normal, D6, potencia 4*)"
+  "ability": "Intrépido",
+  "abilityDesc": "Alcanza a Pokémon de tipo Fantasma con movimientos de tipo Normal o Lucha. Además, no sufre los efectos de Intimidación.",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Enfado",
+    "type": "dragon",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "W-Confuso 2"
+    ]
+   },
+   {
+    "name": "Movimiento Sísmico",
+    "type": "fighting",
+    "die": "D6",
+    "power": "*",
+    "effects": [
+     "Ignore Type"
+    ]
+   },
+   {
+    "name": "Última Baza",
+    "type": "normal",
+    "die": "D6",
+    "power": "4*",
+    "effects": []
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "116",
@@ -1891,8 +4589,28 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "green",
-  "text": "Habilidad: Nado Rápido — Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.\nCaptura: 4+\nAtaque 1: Pistola Agua (Agua, D6, potencia 2)\nAtaque 2: Pantalla Humo (Normal, D6, potencia 0) — N-D6"
+  "ability": "Nado Rápido",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Pistola Agua",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Pantalla Humo",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "117",
@@ -1910,8 +4628,39 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "blue",
-  "text": "Habilidad: Francotirador — Gana +2 de fuerza adicional si consigues el resultado mas alto en el dado de combate\nCaptura: 6+\nAtaque 1: Ciclón (Dragón, D6, potencia 2) — N-D6 +5\nAtaque 2: Agilidad (Psíquico, D6, potencia 0) — D6 * 3\nAtaque 3: Rayo Burbuja (Agia, D8, potencia 2) — N-D6 +6"
+  "ability": "Francotirador",
+  "abilityDesc": "Gana +2 de fuerza adicional si consigues el resultado mas alto en el dado de combate",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Ciclón",
+    "type": "dragon",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "N-D6 +5"
+    ]
+   },
+   {
+    "name": "Agilidad",
+    "type": "psychic",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "D6 * 3"
+    ]
+   },
+   {
+    "name": "Rayo Burbuja",
+    "type": "",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "N-D6 +6"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "118",
@@ -1929,8 +4678,35 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "pink",
-  "text": "Habilidad: Nado Rápido — Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.\nCaptura: 4+\nAtaque 1: Picotazo (Volador, D8, potencia 1)\nAtaque 2: Hidropulso (Agua, D6, potencia 2) — Confuso 5\nAtaque 3: Cornada (Normal, D8, potencia 2)"
+  "ability": "Nado Rápido",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Picotazo",
+    "type": "flying",
+    "die": "D8",
+    "power": "1",
+    "effects": []
+   },
+   {
+    "name": "Hidropulso",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 5"
+    ]
+   },
+   {
+    "name": "Cornada",
+    "type": "normal",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "119",
@@ -1945,8 +4721,37 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Nado Rápido — Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.\nCaptura: 7+\nAtaque 1: Cascada (Agua, D6, potencia 3) — N-D6 +5\nAtaque 2: Perforador (Normal, D6, potencia 0) — N-KO 5\nAtaque 3: Megacuerdo (Bicho, D8, potencia 3)"
+  "ability": "Nado Rápido",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Cascada",
+    "type": "water",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "N-D6 +5"
+    ]
+   },
+   {
+    "name": "Perforador",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-KO 5"
+    ]
+   },
+   {
+    "name": "Megacuerdo",
+    "type": "bug",
+    "die": "D8",
+    "power": "3",
+    "effects": []
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "120",
@@ -1964,8 +4769,40 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "green",
-  "text": "Habilidad: Cura Natural — Se cura cualquier estado al salir de la batalla\nCaptura: 4+\nAtaque 1: Rapidez (Normal, D6, potencia 2) — 1 rotación\nAtaque 2: Psicoonda (Psíquico, D6) — 1/2 LVL, Viñeta\nAtaque 3: Rayo Burbuja (Agia, D8, potencia 2) — N-D6 +6"
+  "ability": "Cura Natural",
+  "abilityDesc": "Se cura cualquier estado al salir de la batalla",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Rapidez",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "1 rotación"
+    ]
+   },
+   {
+    "name": "Psicoonda",
+    "type": "psychic",
+    "die": "D6",
+    "power": "",
+    "effects": [
+     "1/2 LVL",
+     "Viñeta"
+    ]
+   },
+   {
+    "name": "Rayo Burbuja",
+    "type": "",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "N-D6 +6"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "121",
@@ -1981,8 +4818,37 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Cura Natural — Se cura cualquier estado al salir de la batalla\nCaptura: 7+\nAtaque 1: Psíquico (Psíquico, D6, potencia 3) — N-D6 +6\nAtaque 2: Giro Rápido (Normal, D6*2, potencia 2) — Viento\nAtaque 3: Hidrobomba (Agua, D8, potencia 3)"
+  "ability": "Cura Natural",
+  "abilityDesc": "Se cura cualquier estado al salir de la batalla",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Psíquico",
+    "type": "psychic",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "N-D6 +6"
+    ]
+   },
+   {
+    "name": "Giro Rápido",
+    "type": "normal",
+    "die": "D6*2",
+    "power": "2",
+    "effects": [
+     "Viento"
+    ]
+   },
+   {
+    "name": "Hidrobomba",
+    "type": "water",
+    "die": "D8",
+    "power": "3",
+    "effects": []
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "122",
@@ -1998,8 +4864,28 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
-  "color": "green",
-  "text": "Habilidad: Filtro — Mitiga el daño que le infligen los movimientos supereficaces, en lugar de +4 hacen +2\nCaptura: 5+\nAtaque 1: Barrera (Psíquico, D6, potencia 0) — N-3Dice\nAtaque 2: Mimético (Normal, D6, potencia *)"
+  "ability": "Filtro",
+  "abilityDesc": "Mitiga el daño que le infligen los movimientos supereficaces, en lugar de +4 hacen +2",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Barrera",
+    "type": "psychic",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-3Dice"
+    ]
+   },
+   {
+    "name": "Mimético",
+    "type": "normal",
+    "die": "D6",
+    "power": "*",
+    "effects": []
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "123",
@@ -2015,8 +4901,39 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Experto — Gana +2 al total, si el resultado del dado de combate fue 2 o menos\nCaptura: 6+\nAtaque 1: Cuchillada (Normal, D8, potencia 2) — B-D6 +5\nAtaque 2: Corte Furia (Bicho, D6, potencia 2) — Repetición\nAtaque 3: Tajo Umbrío (Siniestro, D8, potencia 2) — B-D6 +5"
+  "ability": "Experto",
+  "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Cuchillada",
+    "type": "normal",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "B-D6 +5"
+    ]
+   },
+   {
+    "name": "Corte Furia",
+    "type": "bug",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Repetición"
+    ]
+   },
+   {
+    "name": "Tajo Umbrío",
+    "type": "dark",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "B-D6 +5"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "124",
@@ -2029,8 +4946,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Captura: 6+"
+  "captura": "6+",
+  "color": "yellow"
  },
  {
   "id": "125",
@@ -2078,8 +4995,37 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Intimidación — Aplica N-D6 +4 al entrar en combate (solo al inicio, al ser intercambiado o al megaevolucionar)\nCaptura: 6+\nAtaque 1: Descanso (Psíquico, D6, potencia 0) — Revivir\nAtaque 2: Terremoto (Tierra, D6, potencia 3)\nAtaque 3: Gigaimpacto (Normal, D6, potencia 4) — Espera"
+  "ability": "Intimidación",
+  "abilityDesc": "Aplica N-D6 +4 al entrar en combate (solo al inicio, al ser intercambiado o al megaevolucionar)",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Descanso",
+    "type": "psychic",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Revivir"
+    ]
+   },
+   {
+    "name": "Terremoto",
+    "type": "ground",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Gigaimpacto",
+    "type": "normal",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "Espera"
+    ]
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "129",
@@ -2097,8 +5043,26 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "pink",
-  "text": "Habilidad: Nado Rápido — Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.\nCaptura: 4+\nAtaque 1: Salpicadura (Normal, D6, potencia 0)\nAtaque 2: Placaja (Normal, D6, potencia 2)"
+  "ability": "Nado Rápido",
+  "abilityDesc": "Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Salpicadura",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": []
+   },
+   {
+    "name": "Placaja",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   }
+  ],
+  "color": "pink"
  },
  {
   "id": "130",
@@ -2115,8 +5079,37 @@ window.CARDS = [
    "surf"
   ],
   "canMega": true,
-  "color": "red",
-  "text": "Habilidad: Intimidación — Aplica N-D6 +4 al entrar en combate (solo al inicio, al ser intercambiado o al megaevolucionar)\nCaptura: 7+\nAtaque 1: Hidrobomba (Agua, D8, potencia 3)\nAtaque 2: Colmillo Hielo (Hielo, D8, potencia 2) — Helado 6\nAtaque 3: Hiperrayo (Normal, D6, potencia 4) — Stat. Down"
+  "ability": "Intimidación",
+  "abilityDesc": "Aplica N-D6 +4 al entrar en combate (solo al inicio, al ser intercambiado o al megaevolucionar)",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Hidrobomba",
+    "type": "water",
+    "die": "D8",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Colmillo Hielo",
+    "type": "ice",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "Helado 6"
+    ]
+   },
+   {
+    "name": "Hiperrayo",
+    "type": "normal",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "Stat. Down"
+    ]
+   }
+  ],
+  "color": "red"
  },
  {
   "id": "131",
@@ -2132,8 +5125,37 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "blue",
-  "text": "Habilidad: Caparazón — Bloquea golpes críticos, no se acumula\nCaptura: 6+\nAtaque 1: Canto Helado (Hielo, D6, potencia 2) — Exclamación\nAtaque 2: Rayo Confuso (Fantasma, D6, potencia 0) — Confuso\nAtaque 3: Hidrobomba (Agua, D8, potencia 3)"
+  "ability": "Caparazón",
+  "abilityDesc": "Bloquea golpes críticos, no se acumula",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Canto Helado",
+    "type": "ice",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Exclamación"
+    ]
+   },
+   {
+    "name": "Rayo Confuso",
+    "type": "ghost",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Confuso"
+    ]
+   },
+   {
+    "name": "Hidrobomba",
+    "type": "water",
+    "die": "D8",
+    "power": "3",
+    "effects": []
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "132",
@@ -2145,8 +5167,19 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Flexibilidad — Este Pokemon no puede quedar Paralizado\nCaptura: 6+\nAtaque 1: Transformación (Normal, D6, potencia 0*)"
+  "ability": "Flexibilidad",
+  "abilityDesc": "Este Pokemon no puede quedar Paralizado",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Transformación",
+    "type": "normal",
+    "die": "D6",
+    "power": "0*",
+    "effects": []
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "133",
@@ -2163,8 +5196,28 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "green",
-  "text": "Habilidad: Adaptable — Gana +1 en el total al atacar con movimientos de tipo normal.\nCaptura: 5+\nAtaque 1: Látigo (Normal, D6, potencia 0) — D6 +1\nAtaque 2: Última Baza (Normal, D6, potencia 4*)"
+  "ability": "Adaptable",
+  "abilityDesc": "Gana +1 en el total al atacar con movimientos de tipo normal.",
+  "captura": "5+",
+  "moves": [
+   {
+    "name": "Látigo",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "D6 +1"
+    ]
+   },
+   {
+    "name": "Última Baza",
+    "type": "normal",
+    "die": "D6",
+    "power": "4*",
+    "effects": []
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "134",
@@ -2179,8 +5232,37 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
-  "color": "yellow",
-  "text": "Habilidad: Absorbe Agua — Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.\nCaptura: 7+\nAtaque 1: Ataque Rápido (Normal, D6, potencia 2) — Exclamación\nAtaque 2: Rayo Aurora (Hielo, D8, potencia 2) — N-D6 +6\nAtaque 3: Hidrobomba (Agua, D8, potencia 3)"
+  "ability": "Absorbe Agua",
+  "abilityDesc": "Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.",
+  "captura": "7+",
+  "moves": [
+   {
+    "name": "Ataque Rápido",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Exclamación"
+    ]
+   },
+   {
+    "name": "Rayo Aurora",
+    "type": "ice",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "N-D6 +6"
+    ]
+   },
+   {
+    "name": "Hidrobomba",
+    "type": "water",
+    "die": "D8",
+    "power": "3",
+    "effects": []
+   }
+  ],
+  "color": "yellow"
  },
  {
   "id": "135",
@@ -2222,8 +5304,28 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
-  "color": "green",
-  "text": "Habilidad: Calco — Copia la habilidad del rival al entrar en combate.\nCaptura: 4+\nAtaque 1: Poder Pasado (Roca, D6, potencia 2)\nAtaque 2: Psicorayo (Psíquico, D8, potencia 2) — Confuso 6"
+  "ability": "Calco",
+  "abilityDesc": "Copia la habilidad del rival al entrar en combate.",
+  "captura": "4+",
+  "moves": [
+   {
+    "name": "Poder Pasado",
+    "type": "rock",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Psicorayo",
+    "type": "psychic",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "Confuso 6"
+    ]
+   }
+  ],
+  "color": "green"
  },
  {
   "id": "138",
@@ -2300,8 +5402,40 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
-  "color": "blue",
-  "text": "Habilidad: Sebo — Reduce en -2 la potencia de los ataques de tipo Hielo y Fuego que recibe este Pokemon.\nCaptura: 6+\nAtaque 1: Puño Dinámico (Lucha, D6, potencia 3) — D6 +2, Confuso 1\nAtaque 2: Descanso (Psíquico, D6, potencia 0) — Revivir\nAtaque 3: Gigaimpacto (Normal, D6, potencia 4) — Espera"
+  "ability": "Sebo",
+  "abilityDesc": "Reduce en -2 la potencia de los ataques de tipo Hielo y Fuego que recibe este Pokemon.",
+  "captura": "6+",
+  "moves": [
+   {
+    "name": "Puño Dinámico",
+    "type": "fighting",
+    "die": "D6",
+    "power": "3",
+    "effects": [
+     "D6 +2",
+     "Confuso 1"
+    ]
+   },
+   {
+    "name": "Descanso",
+    "type": "psychic",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Revivir"
+    ]
+   },
+   {
+    "name": "Gigaimpacto",
+    "type": "normal",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "Espera"
+    ]
+   }
+  ],
+  "color": "blue"
  },
  {
   "id": "144",
@@ -2482,3 +5616,815 @@ window.CARDS = [
   ]
  }
 ];
+window.EFFECTS = {
+ "1/2lvl": {
+  "n": "1/2 LVL",
+  "l": "usuario",
+  "t": "",
+  "d": "La Fuerza de Ataque de este movimiento es igual a la mitad del nivel del usuario (redondeado hacia abajo).",
+  "i": "",
+  "c": false,
+  "k": "1/2 LVL"
+ },
+ "1cambio": {
+  "n": "Cambio de Pokemon",
+  "l": "usuario",
+  "t": "",
+  "d": "Cambia tu Pokémon por otro de tu equipo, pero usa el movimiento elegido para esta ronda de combate.",
+  "i": "usuario_cambio_de_pokemon.png",
+  "c": false,
+  "k": "1 CAMBIO"
+ },
+ "1rotacion": {
+  "n": "1 rotación",
+  "l": "",
+  "t": "",
+  "d": "",
+  "i": "",
+  "c": false,
+  "k": "1 rotación"
+ },
+ "3dice+6": {
+  "n": "Doble Ventaja",
+  "l": "usuario",
+  "t": "6",
+  "d": "Doble Ventaja - Tira 2 dados de ataque extra y descarta los dos resultados más bajos.",
+  "i": "usuario_doble_ventaja.png",
+  "c": false,
+  "k": "3Dice +6"
+ },
+ "adddice": {
+  "n": "2d6 +",
+  "l": "usuario",
+  "t": "",
+  "d": "Tira un dado de ataque extra y suma los resultados.",
+  "i": "usuario_2d6.png",
+  "c": false,
+  "k": "Add Dice"
+ },
+ "adddice6+4": {
+  "n": "2d6 +",
+  "l": "usuario",
+  "t": "4",
+  "d": "Tira un dado de ataque extra y suma los resultados.",
+  "i": "usuario_2d6.png",
+  "c": false,
+  "k": "Add Dice6 +4"
+ },
+ "adicional3": {
+  "n": "Adicional 3",
+  "l": "",
+  "t": "",
+  "d": "",
+  "i": "",
+  "c": false,
+  "k": "Adicional 3"
+ },
+ "adicional4": {
+  "n": "Adicional 4",
+  "l": "",
+  "t": "",
+  "d": "",
+  "i": "",
+  "c": false,
+  "k": "Adicional 4"
+ },
+ "adicional6": {
+  "n": "Adicional 6",
+  "l": "",
+  "t": "",
+  "d": "",
+  "i": "",
+  "c": false,
+  "k": "Adicional 6"
+ },
+ "b-3dice": {
+  "n": "Doble Ventaja",
+  "l": "usuario",
+  "t": "",
+  "d": "Doble Ventaja - Tira 2 dados de ataque extra y descarta los dos resultados más bajos.",
+  "i": "usuario_doble_ventaja.png",
+  "c": true,
+  "k": "B-3Dice"
+ },
+ "b-confuso": {
+  "n": "Confuso",
+  "l": "usuario",
+  "t": "",
+  "d": "El Pokemon gana el estado Confuso.",
+  "i": "usuario_confuso.png",
+  "c": true,
+  "k": "B-Confuso"
+ },
+ "b-confuso2": {
+  "n": "Confuso",
+  "l": "usuario",
+  "t": "2",
+  "d": "El Pokemon gana el estado Confuso.",
+  "i": "usuario_confuso.png",
+  "c": true,
+  "k": "B-Confuso 2"
+ },
+ "b-confuso3": {
+  "n": "Confuso",
+  "l": "usuario",
+  "t": "3",
+  "d": "El Pokemon gana el estado Confuso.",
+  "i": "usuario_confuso.png",
+  "c": true,
+  "k": "B-Confuso 3"
+ },
+ "b-d6": {
+  "n": "Ventaja",
+  "l": "usuario",
+  "t": "",
+  "d": "Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.",
+  "i": "usuario_ventaja.png",
+  "c": true,
+  "k": "B-D6"
+ },
+ "b-d6+2": {
+  "n": "Ventaja",
+  "l": "usuario",
+  "t": "2",
+  "d": "Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.",
+  "i": "usuario_ventaja.png",
+  "c": true,
+  "k": "B-D6+2"
+ },
+ "b-d6+3": {
+  "n": "Ventaja",
+  "l": "usuario",
+  "t": "3",
+  "d": "Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.",
+  "i": "usuario_ventaja.png",
+  "c": true,
+  "k": "B-D6 +3"
+ },
+ "b-d6+5": {
+  "n": "Ventaja",
+  "l": "usuario",
+  "t": "5",
+  "d": "Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.",
+  "i": "usuario_ventaja.png",
+  "c": true,
+  "k": "B-D6 +5"
+ },
+ "b-d6+6": {
+  "n": "Ventaja",
+  "l": "usuario",
+  "t": "6",
+  "d": "Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.",
+  "i": "usuario_ventaja.png",
+  "c": true,
+  "k": "B-D6 +6"
+ },
+ "b-ko": {
+  "n": "KO",
+  "l": "usuario",
+  "t": "",
+  "d": "El Pokémon se debilita al final de la ronda.",
+  "i": "usuario_ko.png",
+  "c": true,
+  "k": "B-KO"
+ },
+ "b-ko+3": {
+  "n": "KO",
+  "l": "usuario",
+  "t": "3",
+  "d": "El Pokémon se debilita al final de la ronda.",
+  "i": "usuario_ko.png",
+  "c": true,
+  "k": "B-KO +3"
+ },
+ "b-ko+4": {
+  "n": "KO",
+  "l": "usuario",
+  "t": "4",
+  "d": "El Pokémon se debilita al final de la ronda.",
+  "i": "usuario_ko.png",
+  "c": true,
+  "k": "B-KO +4"
+ },
+ "b-ko+5": {
+  "n": "KO",
+  "l": "usuario",
+  "t": "5",
+  "d": "El Pokémon se debilita al final de la ronda.",
+  "i": "usuario_ko.png",
+  "c": true,
+  "k": "B-KO +5"
+ },
+ "b-ko5": {
+  "n": "KO",
+  "l": "usuario",
+  "t": "5",
+  "d": "El Pokémon se debilita al final de la ronda.",
+  "i": "usuario_ko.png",
+  "c": true,
+  "k": "B-KO 5"
+ },
+ "cartanegra": {
+  "n": "Objeto Bloqueado",
+  "l": "rival",
+  "t": "",
+  "d": "Los Pokémon no pueden hacer uso de su carta adjunta durante el resto del combate o hasta que sean cambiados.",
+  "i": "rival_objeto_bloqueado.png",
+  "c": false,
+  "k": "Carta Negra"
+ },
+ "confuso": {
+  "n": "Confuso",
+  "l": "rival",
+  "t": "",
+  "d": "El Pokémon obtiene el estado Confuso.",
+  "i": "rival_confuso.png",
+  "c": true,
+  "k": "CONFUSO"
+ },
+ "confuso1": {
+  "n": "Confuso",
+  "l": "rival",
+  "t": "1",
+  "d": "El Pokémon obtiene el estado Confuso.",
+  "i": "rival_confuso.png",
+  "c": true,
+  "k": "Confuso 1"
+ },
+ "confuso3": {
+  "n": "Confuso",
+  "l": "rival",
+  "t": "3",
+  "d": "El Pokémon obtiene el estado Confuso.",
+  "i": "rival_confuso.png",
+  "c": true,
+  "k": "Confuso 3"
+ },
+ "confuso4": {
+  "n": "Confuso",
+  "l": "rival",
+  "t": "4",
+  "d": "El Pokémon obtiene el estado Confuso.",
+  "i": "rival_confuso.png",
+  "c": true,
+  "k": "Confuso 4"
+ },
+ "confuso5": {
+  "n": "Confuso",
+  "l": "rival",
+  "t": "5",
+  "d": "El Pokémon obtiene el estado Confuso.",
+  "i": "rival_confuso.png",
+  "c": true,
+  "k": "Confuso 5"
+ },
+ "confuso6": {
+  "n": "Confuso",
+  "l": "rival",
+  "t": "6",
+  "d": "El Pokémon obtiene el estado Confuso.",
+  "i": "rival_confuso.png",
+  "c": true,
+  "k": "Confuso 6"
+ },
+ "corazon": {
+  "n": "Corazón",
+  "l": "usuario",
+  "t": "",
+  "d": "Añade 1/3 de la tirada de Ataque del usuario (redondeando hacia abajo) al total final.",
+  "i": "usuario_corazon.png",
+  "c": true,
+  "k": "Corazón"
+ },
+ "corazones": {
+  "n": "Corazón",
+  "l": "usuario",
+  "t": "",
+  "d": "Añade 1/3 de la tirada de Ataque del usuario (redondeando hacia abajo) al total final.",
+  "i": "usuario_corazon.png",
+  "c": false,
+  "k": "Corazones"
+ },
+ "d+": {
+  "n": "D+",
+  "l": "",
+  "t": "",
+  "d": "",
+  "i": "",
+  "c": false,
+  "k": "D+"
+ },
+ "d+puno": {
+  "n": "D+puño",
+  "l": "",
+  "t": "",
+  "d": "",
+  "i": "",
+  "c": false,
+  "k": "D+puño"
+ },
+ "d4amarillo": {
+  "n": "D4 Amarillo",
+  "l": "usuario",
+  "t": "",
+  "d": "Este movimiento atacará tantas veces como resulte de la primera tirada y tendrá potencia de tanto como salga en una segunda tirada, si sale par es 2 y si sale impar es 1.",
+  "i": "usuario_d4_amarillo.png",
+  "c": true,
+  "k": "D4 Amarillo"
+ },
+ "d6*3": {
+  "n": "D6 * 3",
+  "l": "",
+  "t": "",
+  "d": "",
+  "i": "",
+  "c": false,
+  "k": "D6 * 3"
+ },
+ "d6+1": {
+  "n": "Ventaja",
+  "l": "usuario",
+  "t": "1",
+  "d": "Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.",
+  "i": "usuario_ventaja.png",
+  "c": false,
+  "k": "D6 +1"
+ },
+ "d6+2": {
+  "n": "Ventaja",
+  "l": "usuario",
+  "t": "2",
+  "d": "Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.",
+  "i": "usuario_ventaja.png",
+  "c": false,
+  "k": "D6 +2"
+ },
+ "d6+5": {
+  "n": "Ventaja",
+  "l": "usuario",
+  "t": "5",
+  "d": "Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.",
+  "i": "usuario_ventaja.png",
+  "c": false,
+  "k": "D6 +5"
+ },
+ "d6+6": {
+  "n": "Ventaja",
+  "l": "usuario",
+  "t": "6",
+  "d": "Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.",
+  "i": "usuario_ventaja.png",
+  "c": false,
+  "k": "D6 +6"
+ },
+ "domrido": {
+  "n": "Dormido",
+  "l": "rival",
+  "t": "",
+  "d": "El Pokémon obtiene el estado Dormido.",
+  "i": "rival_dormido.png",
+  "c": true,
+  "k": "Domrido"
+ },
+ "dormido": {
+  "n": "Dormido",
+  "l": "rival",
+  "t": "",
+  "d": "El Pokémon obtiene el estado Dormido.",
+  "i": "rival_dormido.png",
+  "c": true,
+  "k": "Dormido"
+ },
+ "escudo": {
+  "n": "Protección",
+  "l": "usuario",
+  "t": "",
+  "d": "Esta ronda, la Fuerza de Ataque del movimiento del rival pasa a ser 0 y todos los efectos de movimiento que tengan como objetivo a tu Pokémon son ignorados.",
+  "i": "usuario_proteccion.png",
+  "c": false,
+  "k": "Escudo"
+ },
+ "escudoconpicos": {
+  "n": "Escudo con picos",
+  "l": "",
+  "t": "",
+  "d": "",
+  "i": "",
+  "c": false,
+  "k": "Escudo con picos"
+ },
+ "espera": {
+  "n": "Espera",
+  "l": "usuario",
+  "t": "",
+  "d": "No puede ejecutar este movimiento dos turnos seguidos. Necesita, al menos, un turno de descanso.",
+  "i": "usuario_espera.png",
+  "c": true,
+  "k": "Espera"
+ },
+ "exclamacion": {
+  "n": "Prioridad",
+  "l": "usuario",
+  "t": "",
+  "d": "Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.",
+  "i": "usuario_prioridad.png",
+  "c": false,
+  "k": "Exclamación"
+ },
+ "explamacion": {
+  "n": "Prioridad",
+  "l": "usuario",
+  "t": "",
+  "d": "Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.",
+  "i": "usuario_prioridad.png",
+  "c": false,
+  "k": "Explamación"
+ },
+ "helado6": {
+  "n": "Congelado",
+  "l": "rival",
+  "t": "6",
+  "d": "El Pokémon obtiene el estado Congelado.",
+  "i": "rival_congelado.png",
+  "c": true,
+  "k": "Helado 6"
+ },
+ "ignoretype": {
+  "n": "Ignore Type",
+  "l": "usuario",
+  "t": "",
+  "d": "Este movimiento no es efectivo ni débil contra ningún tipo.",
+  "i": "usuario_ignore_type.png",
+  "c": true,
+  "k": "Ignore Type"
+ },
+ "ko5": {
+  "n": "KO",
+  "l": "rival",
+  "t": "5",
+  "d": "El Pokémon se debilita al final de la ronda.",
+  "i": "rival_ko.png",
+  "c": false,
+  "k": "KO 5"
+ },
+ "ko6": {
+  "n": "KO",
+  "l": "rival",
+  "t": "6",
+  "d": "El Pokémon se debilita al final de la ronda.",
+  "i": "rival_ko.png",
+  "c": false,
+  "k": "KO 6"
+ },
+ "n-3dice": {
+  "n": "Doble Desventaja",
+  "l": "rival",
+  "t": "",
+  "d": "Doble desventaja - Tira 2 dados de ataque extra y descarta los dos resultados más altos.",
+  "i": "rival_doble_desventaja.png",
+  "c": true,
+  "k": "N-3Dice"
+ },
+ "n-d6": {
+  "n": "Desventaja",
+  "l": "rival",
+  "t": "",
+  "d": "Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.",
+  "i": "rival_desventaja.png",
+  "c": true,
+  "k": "N-D6"
+ },
+ "n-d6+1": {
+  "n": "Desventaja",
+  "l": "rival",
+  "t": "1",
+  "d": "Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.",
+  "i": "rival_desventaja.png",
+  "c": true,
+  "k": "N-D6 +1"
+ },
+ "n-d6+2": {
+  "n": "Desventaja",
+  "l": "rival",
+  "t": "2",
+  "d": "Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.",
+  "i": "rival_desventaja.png",
+  "c": true,
+  "k": "N-D6 +2"
+ },
+ "n-d6+3": {
+  "n": "Desventaja",
+  "l": "rival",
+  "t": "3",
+  "d": "Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.",
+  "i": "rival_desventaja.png",
+  "c": true,
+  "k": "N-D6 +3"
+ },
+ "n-d6+4": {
+  "n": "Desventaja",
+  "l": "rival",
+  "t": "4",
+  "d": "Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.",
+  "i": "rival_desventaja.png",
+  "c": true,
+  "k": "N-D6 +4"
+ },
+ "n-d6+5": {
+  "n": "Desventaja",
+  "l": "rival",
+  "t": "5",
+  "d": "Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.",
+  "i": "rival_desventaja.png",
+  "c": true,
+  "k": "N-D6 +5"
+ },
+ "n-d6+6": {
+  "n": "Desventaja",
+  "l": "rival",
+  "t": "6",
+  "d": "Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.",
+  "i": "rival_desventaja.png",
+  "c": true,
+  "k": "N-D6 +6"
+ },
+ "n-ko+5": {
+  "n": "KO",
+  "l": "rival",
+  "t": "5",
+  "d": "El Pokémon se debilita al final de la ronda.",
+  "i": "rival_ko.png",
+  "c": true,
+  "k": "N-KO +5"
+ },
+ "n-ko5": {
+  "n": "KO",
+  "l": "rival",
+  "t": "5",
+  "d": "El Pokémon se debilita al final de la ronda.",
+  "i": "rival_ko.png",
+  "c": true,
+  "k": "N-KO 5"
+ },
+ "n-ko6": {
+  "n": "KO",
+  "l": "rival",
+  "t": "6",
+  "d": "El Pokémon se debilita al final de la ronda.",
+  "i": "rival_ko.png",
+  "c": true,
+  "k": "N-KO 6"
+ },
+ "norepite": {
+  "n": "Espera",
+  "l": "usuario",
+  "t": "",
+  "d": "No puede ejecutar este movimiento dos turnos seguidos. Necesita, al menos, un turno de descanso.",
+  "i": "usuario_espera.png",
+  "c": false,
+  "k": "No repite"
+ },
+ "paralisis": {
+  "n": "Paralizado",
+  "l": "rival",
+  "t": "",
+  "d": "El Pokémon obtiene el estado Paralizado.",
+  "i": "rival_paralizado.png",
+  "c": true,
+  "k": "Parálisis"
+ },
+ "paralisis+5": {
+  "n": "Paralizado",
+  "l": "rival",
+  "t": "5",
+  "d": "El Pokémon obtiene el estado Paralizado.",
+  "i": "rival_paralizado.png",
+  "c": true,
+  "k": "Parálisis +5"
+ },
+ "paralisis+6": {
+  "n": "Paralizado",
+  "l": "rival",
+  "t": "6",
+  "d": "El Pokémon obtiene el estado Paralizado.",
+  "i": "rival_paralizado.png",
+  "c": true,
+  "k": "Parálisis +6"
+ },
+ "paralisis2": {
+  "n": "Paralizado",
+  "l": "rival",
+  "t": "2",
+  "d": "El Pokémon obtiene el estado Paralizado.",
+  "i": "rival_paralizado.png",
+  "c": true,
+  "k": "Parálisis 2"
+ },
+ "paralisis4+": {
+  "n": "Paralizado",
+  "l": "rival",
+  "t": "4",
+  "d": "El Pokémon obtiene el estado Paralizado.",
+  "i": "rival_paralizado.png",
+  "c": true,
+  "k": "Parálisis 4+"
+ },
+ "paralisis5": {
+  "n": "Paralizado",
+  "l": "rival",
+  "t": "5",
+  "d": "El Pokémon obtiene el estado Paralizado.",
+  "i": "rival_paralizado.png",
+  "c": true,
+  "k": "Parálisis 5"
+ },
+ "paralisis6": {
+  "n": "Paralizado",
+  "l": "rival",
+  "t": "6",
+  "d": "El Pokémon obtiene el estado Paralizado.",
+  "i": "rival_paralizado.png",
+  "c": true,
+  "k": "Parálisis 6"
+ },
+ "paralizado3": {
+  "n": "Paralizado",
+  "l": "rival",
+  "t": "3",
+  "d": "El Pokémon obtiene el estado Paralizado.",
+  "i": "rival_paralizado.png",
+  "c": true,
+  "k": "Paralizado 3"
+ },
+ "paralizado5": {
+  "n": "Paralizado",
+  "l": "rival",
+  "t": "5",
+  "d": "El Pokémon obtiene el estado Paralizado.",
+  "i": "rival_paralizado.png",
+  "c": true,
+  "k": "Paralizado 5"
+ },
+ "prioridad": {
+  "n": "Prioridad",
+  "l": "usuario",
+  "t": "",
+  "d": "Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.",
+  "i": "usuario_prioridad.png",
+  "c": true,
+  "k": "Prioridad"
+ },
+ "proteccion": {
+  "n": "Protección",
+  "l": "usuario",
+  "t": "",
+  "d": "Esta ronda, la Fuerza de Ataque del movimiento del rival pasa a ser 0 y todos los efectos de movimiento que tengan como objetivo a tu Pokémon son ignorados.",
+  "i": "usuario_proteccion.png",
+  "c": true,
+  "k": "Protección"
+ },
+ "quemado+": {
+  "n": "Quemado",
+  "l": "rival",
+  "t": "",
+  "d": "El Pokémon obtiene el estado Quemado.",
+  "i": "rival_quemado.png",
+  "c": false,
+  "k": "Quemado +"
+ },
+ "quemado3": {
+  "n": "Quemado",
+  "l": "rival",
+  "t": "3",
+  "d": "El Pokémon obtiene el estado Quemado.",
+  "i": "rival_quemado.png",
+  "c": true,
+  "k": "Quemado 3"
+ },
+ "quemado5": {
+  "n": "Quemado",
+  "l": "rival",
+  "t": "5",
+  "d": "El Pokémon obtiene el estado Quemado.",
+  "i": "rival_quemado.png",
+  "c": true,
+  "k": "Quemado 5"
+ },
+ "quemado6": {
+  "n": "Quemado",
+  "l": "rival",
+  "t": "6",
+  "d": "El Pokémon obtiene el estado Quemado.",
+  "i": "rival_quemado.png",
+  "c": true,
+  "k": "Quemado 6"
+ },
+ "recarga": {
+  "n": "Recarga",
+  "l": "usuario",
+  "t": "",
+  "d": "Una vez utilizado, este movimiento no se puede volver a utilizar durante el resto de la batalla o hasta que el Pokemon sea cambiado.",
+  "i": "usuario_recarga.png",
+  "c": true,
+  "k": "Recarga"
+ },
+ "reflejo": {
+  "n": "Rebote",
+  "l": "usuario",
+  "t": "",
+  "d": "Añade la Fuerza de Ataque del movimiento seleccionado del oponente a este movimiento.",
+  "i": "usuario_rebote.png",
+  "c": false,
+  "k": "Reflejo"
+ },
+ "repeticion": {
+  "n": "Repetición",
+  "l": "usuario",
+  "t": "",
+  "d": "La Fuerza de Ataque de este movimiento aumenta en 1 por cada ronda sucesiva en la que se haya utilizado en esta batalla.",
+  "i": "usuario_repeticion.png",
+  "c": true,
+  "k": "Repetición"
+ },
+ "revivir": {
+  "n": "Revivir",
+  "l": "usuario",
+  "t": "",
+  "d": "Revive a un Pokémon del equipo del usuario inmediatamente después de la tirada de efecto. Solo se puede revivir a un Pokémon por combate y equipo.",
+  "i": "usuario_revivir.png",
+  "c": true,
+  "k": "Revivir"
+ },
+ "stat.down": {
+  "n": "Stat. Down",
+  "l": "usuario",
+  "t": "",
+  "d": "A partir del siguiente asalto, el Pokémon gana Desventaja hasta el final de la batalla (o hasta que sea cambiado).",
+  "i": "usuario_stat_down.png",
+  "c": true,
+  "k": "Stat. Down"
+ },
+ "veneno": {
+  "n": "Envenenado",
+  "l": "rival",
+  "t": "",
+  "d": "El Pokémon obtiene el estado Envenenado.",
+  "i": "rival_envenenado.png",
+  "c": true,
+  "k": "Veneno"
+ },
+ "veneno2": {
+  "n": "Envenenado",
+  "l": "rival",
+  "t": "2",
+  "d": "El Pokémon obtiene el estado Envenenado.",
+  "i": "rival_envenenado.png",
+  "c": true,
+  "k": "Veneno 2"
+ },
+ "veneno3": {
+  "n": "Envenenado",
+  "l": "rival",
+  "t": "3",
+  "d": "El Pokémon obtiene el estado Envenenado.",
+  "i": "rival_envenenado.png",
+  "c": true,
+  "k": "Veneno 3"
+ },
+ "veneno5": {
+  "n": "Envenenado",
+  "l": "rival",
+  "t": "5",
+  "d": "El Pokémon obtiene el estado Envenenado.",
+  "i": "rival_envenenado.png",
+  "c": true,
+  "k": "Veneno 5"
+ },
+ "viento": {
+  "n": "Viento",
+  "l": "",
+  "t": "",
+  "d": "",
+  "i": "",
+  "c": false,
+  "k": "Viento"
+ },
+ "vineta": {
+  "n": "Viñeta",
+  "l": "",
+  "t": "",
+  "d": "",
+  "i": "",
+  "c": false,
+  "k": "Viñeta"
+ },
+ "w-confuso2": {
+  "n": "Confuso",
+  "l": "usuario",
+  "t": "2",
+  "d": "El Pokemon gana el estado Confuso.",
+  "i": "usuario_confuso.png",
+  "c": true,
+  "k": "W-Confuso 2"
+ }
+};

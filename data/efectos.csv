@@ -1,0 +1,91 @@
+codigo,nombre,lado,umbral,descripcion,icono,confirmado
+1/2 LVL,1/2 LVL,usuario,,La Fuerza de Ataque de este movimiento es igual a la mitad del nivel del usuario (redondeado hacia abajo).,,no
+1 CAMBIO,Cambio de Pokemon,usuario,,"Cambia tu Pokémon por otro de tu equipo, pero usa el movimiento elegido para esta ronda de combate.",usuario_cambio_de_pokemon.png,no
+1 rotación,1 rotación,,,,,no
+3Dice +6,Doble Ventaja,usuario,6,Doble Ventaja - Tira 2 dados de ataque extra y descarta los dos resultados más bajos.,usuario_doble_ventaja.png,no
+Add Dice,2d6 +,usuario,,Tira un dado de ataque extra y suma los resultados.,usuario_2d6.png,no
+Add Dice6 +4,2d6 +,usuario,4,Tira un dado de ataque extra y suma los resultados.,usuario_2d6.png,no
+Adicional 3,Adicional 3,,,,,no
+Adicional 4,Adicional 4,,,,,no
+Adicional 6,Adicional 6,,,,,no
+B-3Dice,Doble Ventaja,usuario,,Doble Ventaja - Tira 2 dados de ataque extra y descarta los dos resultados más bajos.,usuario_doble_ventaja.png,si
+B-Confuso,Confuso,usuario,,El Pokemon gana el estado Confuso.,usuario_confuso.png,si
+B-Confuso 2,Confuso,usuario,2,El Pokemon gana el estado Confuso.,usuario_confuso.png,si
+B-Confuso 3,Confuso,usuario,3,El Pokemon gana el estado Confuso.,usuario_confuso.png,si
+B-D6,Ventaja,usuario,,Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.,usuario_ventaja.png,si
+B-D6+2,Ventaja,usuario,2,Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.,usuario_ventaja.png,si
+B-D6 +3,Ventaja,usuario,3,Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.,usuario_ventaja.png,si
+B-D6 +5,Ventaja,usuario,5,Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.,usuario_ventaja.png,si
+B-D6 +6,Ventaja,usuario,6,Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.,usuario_ventaja.png,si
+B-KO,KO,usuario,,El Pokémon se debilita al final de la ronda.,usuario_ko.png,si
+B-KO +3,KO,usuario,3,El Pokémon se debilita al final de la ronda.,usuario_ko.png,si
+B-KO +4,KO,usuario,4,El Pokémon se debilita al final de la ronda.,usuario_ko.png,si
+B-KO +5,KO,usuario,5,El Pokémon se debilita al final de la ronda.,usuario_ko.png,si
+B-KO 5,KO,usuario,5,El Pokémon se debilita al final de la ronda.,usuario_ko.png,si
+Carta Negra,Objeto Bloqueado,rival,,Los Pokémon no pueden hacer uso de su carta adjunta durante el resto del combate o hasta que sean cambiados.,rival_objeto_bloqueado.png,no
+CONFUSO,Confuso,rival,,El Pokémon obtiene el estado Confuso.,rival_confuso.png,si
+Confuso 1,Confuso,rival,1,El Pokémon obtiene el estado Confuso.,rival_confuso.png,si
+Confuso 3,Confuso,rival,3,El Pokémon obtiene el estado Confuso.,rival_confuso.png,si
+Confuso 4,Confuso,rival,4,El Pokémon obtiene el estado Confuso.,rival_confuso.png,si
+Confuso 5,Confuso,rival,5,El Pokémon obtiene el estado Confuso.,rival_confuso.png,si
+Confuso 6,Confuso,rival,6,El Pokémon obtiene el estado Confuso.,rival_confuso.png,si
+Corazón,Corazón,usuario,,Añade 1/3 de la tirada de Ataque del usuario (redondeando hacia abajo) al total final.,usuario_corazon.png,si
+Corazones,Corazón,usuario,,Añade 1/3 de la tirada de Ataque del usuario (redondeando hacia abajo) al total final.,usuario_corazon.png,no
+D+,D+,,,,,no
+D+puño,D+puño,,,,,no
+D4 Amarillo,D4 Amarillo,usuario,,"Este movimiento atacará tantas veces como resulte de la primera tirada y tendrá potencia de tanto como salga en una segunda tirada, si sale par es 2 y si sale impar es 1.",usuario_d4_amarillo.png,si
+D6 * 3,D6 * 3,,,,,no
+D6 +1,Ventaja,usuario,1,Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.,usuario_ventaja.png,no
+D6 +2,Ventaja,usuario,2,Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.,usuario_ventaja.png,no
+D6 +5,Ventaja,usuario,5,Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.,usuario_ventaja.png,no
+D6 +6,Ventaja,usuario,6,Ventaja - Tira 1 dado de ataque adicional y descarta el resultado más bajo.,usuario_ventaja.png,no
+Domrido,Dormido,rival,,El Pokémon obtiene el estado Dormido.,rival_dormido.png,si
+Dormido,Dormido,rival,,El Pokémon obtiene el estado Dormido.,rival_dormido.png,si
+Escudo,Protección,usuario,,"Esta ronda, la Fuerza de Ataque del movimiento del rival pasa a ser 0 y todos los efectos de movimiento que tengan como objetivo a tu Pokémon son ignorados.",usuario_proteccion.png,no
+Escudo con picos,Escudo con picos,,,,,no
+Espera,Espera,usuario,,"No puede ejecutar este movimiento dos turnos seguidos. Necesita, al menos, un turno de descanso.",usuario_espera.png,si
+Exclamación,Prioridad,usuario,,Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.,usuario_prioridad.png,no
+Explamación,Prioridad,usuario,,Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.,usuario_prioridad.png,no
+Helado 6,Congelado,rival,6,El Pokémon obtiene el estado Congelado.,rival_congelado.png,si
+Ignore Type,Ignore Type,usuario,,Este movimiento no es efectivo ni débil contra ningún tipo.,usuario_ignore_type.png,si
+KO 5,KO,rival,5,El Pokémon se debilita al final de la ronda.,rival_ko.png,no
+KO 6,KO,rival,6,El Pokémon se debilita al final de la ronda.,rival_ko.png,no
+N-3Dice,Doble Desventaja,rival,,Doble desventaja - Tira 2 dados de ataque extra y descarta los dos resultados más altos.,rival_doble_desventaja.png,si
+N-D6,Desventaja,rival,,Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.,rival_desventaja.png,si
+N-D6 +1,Desventaja,rival,1,Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.,rival_desventaja.png,si
+N-D6 +2,Desventaja,rival,2,Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.,rival_desventaja.png,si
+N-D6 +3,Desventaja,rival,3,Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.,rival_desventaja.png,si
+N-D6 +4,Desventaja,rival,4,Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.,rival_desventaja.png,si
+N-D6 +5,Desventaja,rival,5,Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.,rival_desventaja.png,si
+N-D6 +6,Desventaja,rival,6,Desventaja - Tira 1 dado de ataque adicional y descarta el resultado más alto.,rival_desventaja.png,si
+N-KO +5,KO,rival,5,El Pokémon se debilita al final de la ronda.,rival_ko.png,si
+N-KO 5,KO,rival,5,El Pokémon se debilita al final de la ronda.,rival_ko.png,si
+N-KO 6,KO,rival,6,El Pokémon se debilita al final de la ronda.,rival_ko.png,si
+No repite,Espera,usuario,,"No puede ejecutar este movimiento dos turnos seguidos. Necesita, al menos, un turno de descanso.",usuario_espera.png,no
+Parálisis,Paralizado,rival,,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
+Parálisis +5,Paralizado,rival,5,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
+Parálisis +6,Paralizado,rival,6,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
+Parálisis 2,Paralizado,rival,2,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
+Parálisis 4+,Paralizado,rival,4,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
+Parálisis 5,Paralizado,rival,5,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
+Parálisis 6,Paralizado,rival,6,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
+Paralizado 3,Paralizado,rival,3,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
+Paralizado 5,Paralizado,rival,5,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
+Prioridad,Prioridad,usuario,,Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.,usuario_prioridad.png,si
+Protección,Protección,usuario,,"Esta ronda, la Fuerza de Ataque del movimiento del rival pasa a ser 0 y todos los efectos de movimiento que tengan como objetivo a tu Pokémon son ignorados.",usuario_proteccion.png,si
+Quemado +,Quemado,rival,,El Pokémon obtiene el estado Quemado.,rival_quemado.png,no
+Quemado 3,Quemado,rival,3,El Pokémon obtiene el estado Quemado.,rival_quemado.png,si
+Quemado 5,Quemado,rival,5,El Pokémon obtiene el estado Quemado.,rival_quemado.png,si
+Quemado 6,Quemado,rival,6,El Pokémon obtiene el estado Quemado.,rival_quemado.png,si
+Recarga,Recarga,usuario,,"Una vez utilizado, este movimiento no se puede volver a utilizar durante el resto de la batalla o hasta que el Pokemon sea cambiado.",usuario_recarga.png,si
+Reflejo,Rebote,usuario,,Añade la Fuerza de Ataque del movimiento seleccionado del oponente a este movimiento.,usuario_rebote.png,no
+Repetición,Repetición,usuario,,La Fuerza de Ataque de este movimiento aumenta en 1 por cada ronda sucesiva en la que se haya utilizado en esta batalla.,usuario_repeticion.png,si
+Revivir,Revivir,usuario,,Revive a un Pokémon del equipo del usuario inmediatamente después de la tirada de efecto. Solo se puede revivir a un Pokémon por combate y equipo.,usuario_revivir.png,si
+Stat. Down,Stat. Down,usuario,,"A partir del siguiente asalto, el Pokémon gana Desventaja hasta el final de la batalla (o hasta que sea cambiado).",usuario_stat_down.png,si
+Veneno,Envenenado,rival,,El Pokémon obtiene el estado Envenenado.,rival_envenenado.png,si
+Veneno 2,Envenenado,rival,2,El Pokémon obtiene el estado Envenenado.,rival_envenenado.png,si
+Veneno 3,Envenenado,rival,3,El Pokémon obtiene el estado Envenenado.,rival_envenenado.png,si
+Veneno 5,Envenenado,rival,5,El Pokémon obtiene el estado Envenenado.,rival_envenenado.png,si
+Viento,Viento,,,,,no
+Viñeta,Viñeta,,,,,no
+W-Confuso 2,Confuso,usuario,2,El Pokemon gana el estado Confuso.,usuario_confuso.png,si
