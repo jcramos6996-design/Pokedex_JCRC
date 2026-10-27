@@ -8,7 +8,14 @@ const $ = (s, r = document) => r.querySelector(s);
 const CFG = Object.assign({ imageDir: 'cards/', imageExts: ['webp', 'png', 'jpg', 'jpeg'], regions: null },
   window.CARD_CONFIG || {});
 if (!CFG.imageDir.endsWith('/')) CFG.imageDir += '/';
-const pad = x => String(x).trim().padStart(3, '0');
+// Ids: "025" (carta base) o "025_ash" (variante). El número de Pokédex es la parte numérica.
+const pad = x => {
+  const m = /^(\d+)(?:[_\-\s]*(.+))?$/.exec(String(x).trim().toLowerCase());
+  if (!m) return String(x).trim();
+  const suf = (m[2] || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '');
+  return m[1].padStart(3, '0') + (suf ? '_' + suf : '');
+};
+const dexOf = id => id.split('_')[0];
 const norm = s => String(s == null ? '' : s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
 const flat = s => norm(s).replace(/[^a-z0-9]/g, '');
 const esc = s => String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
@@ -31,6 +38,43 @@ const ES_ALIAS = {
 const DEFAULT_REGIONS = [['kanto', 'Kanto'], ['johto', 'Johto'], ['hoenn', 'Hoenn'], ['sinnoh', 'Sinnoh'],
   ['unova', 'Teselia'], ['kalos', 'Kalos'], ['alola', 'Alola'], ['galar', 'Galar'], ['paldea', 'Paldea'], ['hisui', 'Hisui']];
 
+// Tabla de tipos: ATK[atacante][defensor] = multiplicador (solo los distintos de 1)
+const ATK = {
+  normal: { rock: .5, ghost: 0, steel: .5 },
+  fire: { fire: .5, water: .5, grass: 2, ice: 2, bug: 2, rock: .5, dragon: .5, steel: 2 },
+  water: { fire: 2, water: .5, grass: .5, ground: 2, rock: 2, dragon: .5 },
+  electric: { water: 2, electric: .5, grass: .5, ground: 0, flying: 2, dragon: .5 },
+  grass: { fire: .5, water: 2, grass: .5, poison: .5, ground: 2, flying: .5, bug: .5, rock: 2, dragon: .5, steel: .5 },
+  ice: { fire: .5, water: .5, grass: 2, ice: .5, ground: 2, flying: 2, dragon: 2, steel: .5 },
+  fighting: { normal: 2, ice: 2, poison: .5, flying: .5, psychic: .5, bug: .5, rock: 2, ghost: 0, dark: 2, steel: 2, fairy: .5 },
+  poison: { grass: 2, poison: .5, ground: .5, rock: .5, ghost: .5, steel: 0, fairy: 2 },
+  ground: { fire: 2, electric: 2, grass: .5, poison: 2, flying: 0, bug: .5, rock: 2, steel: 2 },
+  flying: { electric: .5, grass: 2, fighting: 2, bug: 2, rock: .5, steel: .5 },
+  psychic: { fighting: 2, poison: 2, psychic: .5, dark: 0, steel: .5 },
+  bug: { fire: .5, grass: 2, fighting: .5, poison: .5, flying: .5, psychic: 2, ghost: .5, dark: 2, steel: .5, fairy: .5 },
+  rock: { fire: 2, ice: 2, fighting: .5, ground: .5, flying: 2, bug: 2, steel: .5 },
+  ghost: { normal: 0, psychic: 2, ghost: 2, dark: .5 },
+  dragon: { dragon: 2, steel: .5, fairy: 0 },
+  dark: { fighting: .5, psychic: 2, ghost: 2, dark: .5, fairy: .5 },
+  steel: { fire: .5, water: .5, electric: .5, ice: 2, rock: 2, steel: .5, fairy: 2 },
+  fairy: { fire: .5, fighting: 2, poison: .5, dragon: 2, dark: 2, steel: .5 }
+};
+function matchups(types) {
+  const weak = [], res = [], imm = [];
+  Object.keys(ATK).forEach(t => {
+    let m = 1;
+    types.forEach(d => { m *= (ATK[t][d] !== undefined ? ATK[t][d] : 1); });
+    if (m === 0) imm.push(t); else if (m > 1) weak.push([t, m]); else if (m < 1) res.push([t, m]);
+  });
+  weak.sort((a, b) => b[1] - a[1]);
+  res.sort((a, b) => a[1] - b[1]);
+  return { weak, res, imm };
+}
+
+// Diccionario de efectos de ataque (data/efectos.csv): la clave ignora acentos, espacios y mayúsculas
+const EFFECTS = window.EFFECTS || {};
+const effKey = s => String(s == null ? '' : s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '').toLowerCase();
+
 /* ============================================================
    Secciones de filtros
    ============================================================ */
@@ -51,7 +95,7 @@ const SECTIONS = [
     ['dig', 'Excavar'], ['fly', 'Volar'], ['surf', 'Surf'], ['teleport', 'Teletransporte'] ] },
   { key: 'prop', title: 'Propiedades únicas', match: true, tags: [
     ['starter', 'Inicial'], ['regional', 'Regional'], ['formchange', 'Varias formas'], ['fossil', 'Fósil'],
-    ['ultrabeast', 'Ultraente'], ['paradox', 'Paradoja'], ['special', 'Especial'] ] }
+    ['ultrabeast', 'Ultraente'], ['paradox', 'Paradoja'], ['special', 'Especial'], ['variant', 'Variante'] ] }
 ];
 
 /* ============================================================
@@ -60,6 +104,8 @@ const SECTIONS = [
 const CARDS = (window.CARDS || []).map(c => {
   const o = Object.assign({ types: [], regions: [], abilities: [], props: [], evolvesTo: [], forms: [], aliases: [] }, c);
   o.id = pad(o.id);
+  o.dex = dexOf(o.id);
+  o.variant = o.id.includes('_');
   o.types = list(o.types).map(norm);
   o.evolvesTo = list(o.evolvesTo).map(pad);
   o.regions = list(o.regions).map(norm);
@@ -72,21 +118,29 @@ const CARDS = (window.CARDS || []).map(c => {
 
 const byId = new Map(CARDS.map(c => [c.id, c]));
 
+const parents = {};
+CARDS.forEach(c => c.evolvesTo.forEach(t => (parents[t] = parents[t] || []).push(c.id)));
+// Una variante sin enlaces evolutivos propios hereda la línea de su carta base
+CARDS.forEach(c => {
+  c._inherit = c.variant && !c.evolvesTo.length && !(parents[c.id] || []).length && byId.has(c.dex) ? byId.get(c.dex) : null;
+});
+
 // Familias (grupos unidos por evolución)
 const uf = {};
 const find = x => (uf[x] === x ? x : (uf[x] = find(uf[x])));
 CARDS.forEach(c => { uf[c.id] = c.id; });
 CARDS.forEach(c => c.evolvesTo.forEach(t => { if (byId.has(t)) uf[find(t)] = find(c.id); }));
+CARDS.forEach(c => { if (c._inherit) uf[find(c.id)] = find(c._inherit.id); });
 const famMembers = {};
 CARDS.forEach(c => { c._fam = find(c.id); (famMembers[c._fam] = famMembers[c._fam] || []).push(c); });
 
-const parents = {};
-CARDS.forEach(c => c.evolvesTo.forEach(t => (parents[t] = parents[t] || []).push(c.id)));
 const depthMemo = {};
 function depth(id, seen = {}) {
   if (depthMemo[id]) return depthMemo[id];
   if (seen[id]) return 1;
   seen[id] = 1;
+  const c = byId.get(id);
+  if (c && c._inherit) return (depthMemo[id] = depth(c._inherit.id, seen));
   const p = (parents[id] || []).filter(x => byId.has(x));
   return (depthMemo[id] = p.length ? 1 + Math.max(...p.map(x => depth(x, seen))) : 1);
 }
@@ -103,8 +157,9 @@ CARDS.forEach(c => {
   c.props.forEach(x => t.add(x));
   const d = depth(c.id);
   if (d <= 3) t.add('stage' + d);
-  if (c.evolvesTo.length) t.add('canevolve');
-  if (fam.length === 1) t.add('noevo');
+  if (c.variant) t.add('variant');
+  if (c.evolvesTo.length || (c._inherit && c._inherit.evolvesTo.length)) t.add('canevolve');
+  if (fam.filter(m => !m._inherit).length === 1) t.add('noevo');
   if (fam.some(m => m.evolvesTo.length > 1)) t.add('splitevo');
   if (c.mega) t.add('mega');
   if (c.canMega) t.add('canmega');
@@ -113,6 +168,7 @@ CARDS.forEach(c => {
   if (fam.some(m => m.canMega)) t.add('evocanmega');
   if (fam.some(m => m.canGmax)) t.add('evocangmax');
   c._keys = [flat(c.name), ...norm(c.name).split(/[^a-z0-9]+/).filter(Boolean), ...c.aliases.map(flat)];
+  c._words = [c.ability || '', ...list(c.moves).map(m => m.name)].join(' ').split(/\s+/).map(flat).filter(w => w.length > 1);
 });
 const FAMKEYS = {};
 CARDS.forEach(c => { (FAMKEYS[c._fam] = FAMKEYS[c._fam] || []).push(...c._keys); });
@@ -149,11 +205,11 @@ function parseQuery(q) {
 }
 
 function atomMatch(c, a) {
-  if (/^\d+$/.test(a)) return c.id === pad(a);
+  if (/^\d+(_[a-z0-9]+)?$/.test(a)) return a.includes('_') ? c.id === pad(a) : c.dex === pad(a);
   if (TAGSET.has(a)) return c.tags.has(a);
   const f = flat(a);
   if (!f) return true;
-  return FAMKEYS[c._fam].some(k => k.startsWith(f));
+  return FAMKEYS[c._fam].some(k => k.startsWith(f)) || c._words.some(w => w.startsWith(f));
 }
 const termMatch = (c, term) => term.alts.some(and => and.every(a => atomMatch(c, a)));
 
@@ -480,6 +536,90 @@ function step(dir) {
   renderDetail();
 }
 
+function el(tag, cls, html) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html != null) e.innerHTML = html;
+  return e;
+}
+function typeIcon(t) {
+  const img = new Image();
+  img.className = 'ticon'; img.alt = ''; img.src = 'assets/tipos/' + t + '.png';
+  img.onerror = () => { const d = el('span', 'tdot'); d.dataset.type = t; img.replaceWith(d); };
+  return img;
+}
+function section(title) {
+  const sec = el('div', 'dsec');
+  sec.appendChild(el('h3', null, esc(title)));
+  return sec;
+}
+
+// Icono + número rojo de un efecto de ataque (se puede tocar para ver su explicación)
+function effectChip(code, moveName) {
+  const fx = EFFECTS[effKey(code)] || { n: code, l: '', t: '', d: '', i: '', c: false, k: code };
+  const b = el('button', 'fx ' + (fx.l || 'sin'));
+  b.type = 'button';
+  b.dataset.code = code; b.dataset.move = moveName;
+  b.setAttribute('aria-label', fx.n + (fx.t ? ' (' + fx.t + ' o más)' : ''));
+  if (fx.i) {
+    const img = new Image();
+    img.alt = ''; img.src = 'assets/efectos/' + fx.i;
+    img.onerror = () => { img.remove(); b.classList.add('txt'); b.prepend(document.createTextNode(fx.n)); };
+    b.appendChild(img);
+  } else { b.classList.add('txt'); b.textContent = fx.n; }
+  if (fx.t) b.appendChild(el('span', 'thr', esc(fx.t)));
+  return b;
+}
+
+function openEffect(code, moveName) {
+  const fx = EFFECTS[effKey(code)] || { n: code, l: '', t: '', d: '', i: '', c: false, k: code };
+  const body = $('#fxBody');
+  const side = fx.l === 'rival' ? 'Afecta al Pokémon rival' : fx.l === 'usuario' ? 'Afecta al Pokémon que usa el ataque' : '';
+  const cond = !fx.l ? 'Todavía no está documentado cuándo se activa.'
+    : fx.t ? `Se activa si sacas <b>${esc(fx.t)} o más</b> en la tirada de efecto.`
+    : 'Se aplica siempre: no hace falta tirada de efecto.';
+  body.innerHTML = `<div class="fxhead"><div class="fxbig ${esc(fx.l || 'sin')}"></div><div>
+      <h2>${esc(fx.n)}</h2>${side ? `<span class="fxside ${esc(fx.l)}">${side}</span>` : ''}
+      ${moveName ? `<div class="fxmove">En el ataque «${esc(moveName)}»</div>` : ''}</div></div>
+    <dl><dt>Condición</dt><dd>${cond}</dd>
+    <dt>Qué hace</dt><dd>${fx.d ? esc(fx.d) : 'Sin descripción todavía.'}</dd></dl>
+    ${fx.c ? '' : `<p class="fxnote">Descripción provisional (código «${esc(fx.k || code)}»): pendiente de confirmar.</p>`}`;
+  if (fx.i) {
+    const img = new Image(); img.alt = ''; img.src = 'assets/efectos/' + fx.i;
+    $('.fxbig', body).appendChild(img);
+  }
+  $('#fxDlg').showModal();
+}
+
+function matchRow(t, badge, cls) {
+  const li = el('li', 'mrow');
+  li.appendChild(typeIcon(t));
+  li.appendChild(el('span', 'mtype', esc(TYPE_ES[t] || cap(t))));
+  li.appendChild(el('span', 'mbadge ' + cls, badge));
+  return li;
+}
+function matchupsSection(c) {
+  if (!c.types.length) return null;
+  const { weak, res, imm } = matchups(c.types);
+  const outer = el('details', 'mu');
+  outer.appendChild(el('summary', null, 'Fortalezas y debilidades'));
+  const sub = (title, rows) => {
+    const d = el('details', 'musub'); d.open = true;
+    d.appendChild(el('summary', null, `${title} <span class="mcount">${rows.length}</span>`));
+    const ul = el('ul', 'mlist');
+    if (!rows.length) ul.appendChild(el('li', 'mempty', 'Ninguna'));
+    rows.forEach(r => ul.appendChild(r));
+    d.appendChild(ul);
+    return d;
+  };
+  outer.appendChild(sub('Debilidades',
+    weak.map(([t, m]) => matchRow(t, `×${m} <b>+${m}</b>`, 'weak'))));
+  outer.appendChild(sub('Fortalezas',
+    res.map(([t, m]) => matchRow(t, `×${m === .5 ? '½' : '¼'} <b>−${m === .5 ? 2 : 4}</b>`, 'strong'))
+      .concat(imm.map(t => matchRow(t, '<b>Inmune</b>', 'immune')))));
+  return outer;
+}
+
 function renderDetail() {
   const c = cur;
   const i = navList.indexOf(c);
@@ -487,20 +627,22 @@ function renderDetail() {
   dcontent.scrollTop = 0;
   dcontent.innerHTML = '';
 
-  // Imagen principal
-  const artWrap = document.createElement('div');
-  artWrap.className = 'dart';
+  // Imagen principal con flechas a los lados
+  const stage = el('div', 'dstage');
+  const artWrap = el('div', 'dart');
   artWrap.appendChild(artEl(c, null, true));
-  dcontent.appendChild(artWrap);
+  stage.appendChild(el('button', 'navarrow prev', '‹')).dataset.step = -1;
+  stage.appendChild(artWrap);
+  stage.appendChild(el('button', 'navarrow next', '›')).dataset.step = 1;
+  stage.querySelector('.prev').setAttribute('aria-label', 'Pokémon anterior');
+  stage.querySelector('.next').setAttribute('aria-label', 'Pokémon siguiente');
+  dcontent.appendChild(stage);
 
-  // Formas alternativas
+  // Formas alternativas (imágenes de la misma carta)
   if (c.forms.length) {
-    const f = document.createElement('div');
-    f.className = 'forms';
-    const opts = [{ label: 'Base', image: null }, ...c.forms];
-    opts.forEach((o, k) => {
-      const b = document.createElement('button');
-      b.type = 'button'; b.textContent = o.label; if (k === 0) b.classList.add('on');
+    const f = el('div', 'forms');
+    [{ label: 'Base', image: null }, ...c.forms].forEach((o, k) => {
+      const b = el('button', k === 0 ? 'on' : '', esc(o.label)); b.type = 'button';
       b.onclick = () => {
         f.querySelectorAll('button').forEach(x => x.classList.remove('on'));
         b.classList.add('on');
@@ -512,18 +654,71 @@ function renderDetail() {
     dcontent.appendChild(f);
   }
 
-  // Título y tipos
-  const head = document.createElement('div');
-  head.innerHTML = `<div class="dtitle"><h2>${esc(c.name)}</h2><span>#${esc(c.id)}</span></div>
+  // Título, tipos y captura
+  const head = el('div');
+  head.innerHTML = `<div class="dtitle"><h2>${esc(c.name)}</h2><span>#${esc(c.id)}</span>${c.captura ? `<span class="capt">Captura ${esc(c.captura)}</span>` : ''}</div>
     <div class="types">${c.types.map(t => `<span class="tp" data-type="${esc(t)}">${esc(TYPE_ES[t] || cap(t))}</span>`).join('')}</div>`;
   dcontent.appendChild(head);
 
-  // Descripción opcional
+  // Habilidad
+  if (c.ability) {
+    const sec = section('Habilidad');
+    const box = el('div', 'ability');
+    box.appendChild(el('b', null, esc(c.ability)));
+    if (c.abilityDesc) box.appendChild(el('p', null, esc(c.abilityDesc)));
+    sec.appendChild(box);
+    dcontent.appendChild(sec);
+  }
+
+  // Ataques
+  if (c.moves && c.moves.length) {
+    const sec = section('Ataques');
+    const wrap = el('div', 'moves');
+    c.moves.forEach(m => {
+      const row = el('div', 'move');
+      const h = el('div', 'mhead');
+      if (m.type) h.appendChild(typeIcon(m.type));
+      h.appendChild(el('span', 'mname', esc(m.name)));
+      if (m.die) h.appendChild(el('span', 'mdie', esc(m.die)));
+      h.appendChild(el('span', 'mpow', esc(m.power === '' ? '–' : m.power)));
+      row.appendChild(h);
+      if (m.effects.length) {
+        const fx = el('div', 'mfx');
+        m.effects.forEach(code => fx.appendChild(effectChip(code, m.name)));
+        row.appendChild(fx);
+      }
+      wrap.appendChild(row);
+    });
+    sec.appendChild(wrap);
+    sec.appendChild(el('p', 'hint', 'Toca un icono para ver qué hace y cuándo se activa. Número rojo = tirada de efecto mínima.'));
+    dcontent.appendChild(sec);
+  }
+
+  // Fortalezas y debilidades
+  const mu = matchupsSection(c);
+  if (mu) { const sec = el('div', 'dsec'); sec.appendChild(mu); dcontent.appendChild(sec); }
+
+  // Descripción libre opcional
   if (c.text) {
-    const p = document.createElement('div');
-    p.className = 'dsec';
-    p.innerHTML = `<h3>Información</h3><p>${esc(c.text)}</p>`;
+    const p = section('Información');
+    p.appendChild(el('p', null, esc(c.text)));
     dcontent.appendChild(p);
+  }
+
+  // Otras versiones con el mismo número de Pokédex (que no estén ya en la línea evolutiva)
+  const famSet = new Set(famMembers[c._fam]);
+  const sibs = CARDS.filter(m => m.dex === c.dex && m !== c && !famSet.has(m));
+  if (sibs.length) {
+    const sec = section('Otras versiones');
+    const row = el('div', 'evrow');
+    sibs.forEach(m => {
+      const b = el('button', 'evthumb'); b.type = 'button'; b.dataset.go = m.id;
+      b.appendChild(artEl(m));
+      b.appendChild(el('em', null, esc(m.name)));
+      row.appendChild(b);
+    });
+    sec.appendChild(row);
+    dcontent.appendChild(sec);
   }
 
   // Evoluciones
@@ -531,20 +726,15 @@ function renderDetail() {
   if (fam.length > 1) {
     const levels = {};
     fam.forEach(m => (levels[depth(m.id)] = levels[depth(m.id)] || []).push(m));
-    const sec = document.createElement('div');
-    sec.className = 'dsec';
-    sec.innerHTML = '<h3>Evoluciones / formas</h3>';
-    const row = document.createElement('div');
-    row.className = 'evrow';
+    const sec = section('Evoluciones / formas');
+    const row = el('div', 'evrow');
     Object.keys(levels).sort((a, b) => a - b).forEach((lv, k) => {
-      if (k) { const ar = document.createElement('span'); ar.className = 'arrow'; ar.textContent = '›'; row.appendChild(ar); }
-      const col = document.createElement('div');
-      col.className = 'evlvl';
+      if (k) row.appendChild(el('span', 'arrow', '›'));
+      const col = el('div', 'evlvl');
       levels[lv].forEach(m => {
-        const b = document.createElement('button');
-        b.type = 'button'; b.className = 'evthumb' + (m === c ? ' cur' : ''); b.dataset.go = m.id;
+        const b = el('button', 'evthumb' + (m === c ? ' cur' : '')); b.type = 'button'; b.dataset.go = m.id;
         b.appendChild(artEl(m));
-        const em = document.createElement('em'); em.textContent = m.name; b.appendChild(em);
+        b.appendChild(el('em', null, esc(m.name)));
         col.appendChild(b);
       });
       row.appendChild(col);
@@ -554,14 +744,16 @@ function renderDetail() {
   }
 
   // Etiquetas
-  const tsec = document.createElement('div');
-  tsec.className = 'dsec';
-  tsec.innerHTML = '<h3>Etiquetas (toca para buscar)</h3><div class="tags">' +
-    [...c.tags].map(t => `<button type="button" data-tag="${esc(t)}">${esc(t)}</button>`).join('') + '</div>';
+  const tsec = section('Etiquetas (toca para buscar)');
+  tsec.appendChild(el('div', 'tags', [...c.tags].map(t => `<button type="button" data-tag="${esc(t)}">${esc(t)}</button>`).join('')));
   dcontent.appendChild(tsec);
 }
 
 dcontent.addEventListener('click', e => {
+  const st = e.target.closest('[data-step]');
+  if (st) return step(+st.dataset.step);
+  const fxb = e.target.closest('.fx');
+  if (fxb) return openEffect(fxb.dataset.code, fxb.dataset.move);
   const go = e.target.closest('[data-go]');
   if (go) { cur = byId.get(go.dataset.go); navList = filtered.includes(cur) ? filtered : CARDS; return renderDetail(); }
   const tg = e.target.closest('.tags button');
@@ -589,6 +781,7 @@ $('#nextCard').onclick = () => step(1);
 }
 
 document.addEventListener('keydown', e => {
+  if ($('#fxDlg').open || $('#help').open) return;
   if (e.key === 'Escape') {
     if (!$('#zoom').hidden) $('#zoom').hidden = true;
     else if (detailOpen) closeDetail();
@@ -604,6 +797,8 @@ document.addEventListener('keydown', e => {
    ============================================================ */
 $('#helpBtn').onclick = () => $('#help').showModal();
 $('#helpClose').onclick = () => $('#help').close();
+$('#fxClose').onclick = () => $('#fxDlg').close();
+$('#fxDlg').addEventListener('click', e => { if (e.target === $('#fxDlg')) $('#fxDlg').close(); });
 $('#help').addEventListener('click', e => { if (e.target === $('#help')) $('#help').close(); });
 
 // Altura de cabecera para el panel lateral de escritorio
