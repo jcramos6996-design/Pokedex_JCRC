@@ -291,12 +291,7 @@ grid.addEventListener('click', e => {
 const fbody = $('#fbody');
 const tagBtns = [];
 
-function toast(msg) {
-  const t = $('#toast');
-  t.textContent = msg; t.hidden = false;
-  clearTimeout(toast._t);
-  toast._t = setTimeout(() => { t.hidden = true; }, 2200);
-}
+function toast(msg, tipo) { window.showToast(msg, tipo); }
 
 function toggleSel(tag, sec) {
   if (state.neg.has(tag)) { state.neg.delete(tag); return update(); }
@@ -644,7 +639,14 @@ function renderDetail() {
   // Añadir a Mi Equipo
   const addRow = el('div', 'addrow');
   const addBtn = el('button', 'btn primary wide', '＋ Añadir a Mi Equipo'); addBtn.type = 'button';
-  addBtn.onclick = () => { if (window.PMTU.team) window.PMTU.team.add(c.id); };
+  addBtn.onclick = () => {
+    if (!window.PMTU.team) return;
+    const r = window.PMTU.team.add(c.id);
+    if (r === 'team') {
+      addBtn.classList.add('done'); addBtn.textContent = '✔ Añadido a tu equipo';
+      setTimeout(() => { addBtn.classList.remove('done'); addBtn.textContent = '＋ Añadir otro a Mi Equipo'; }, 1600);
+    }
+  };
   addRow.appendChild(addBtn);
   const have = window.PMTU.team ? window.PMTU.team.count(c.id) : 0;
   if (have) addRow.appendChild(el('p', 'hint', 'Ya tienes ' + have + ' en tu equipo o en el PC.'));

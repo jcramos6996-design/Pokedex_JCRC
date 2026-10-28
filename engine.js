@@ -112,6 +112,31 @@ E.abilityRule = name => ABIL[key(name)] || null;
 /* ---------- Efectos: nombre canónico -> tratamiento ---------- */
 const STATUS_FX = ['Quemado', 'Congelado', 'Paralizado', 'Envenenado', 'Dormido', 'Confuso', 'Maldito'];
 
+/* ---------- Estados alterados (según las tarjetas físicas del juego) ----------
+   max   : contadores con los que se debilita (null = sin límite)
+   faces : textos de cada cara de la tarjeta (1 o 2 caras)  */
+E.STATUS_INFO = {
+  par: { key: 'par', abbr: 'PAR', name: 'Paralizado', emoji: '⚡', color: '#e6c229', max: null, faces: [
+    'Al paralizarse, o antes de seleccionar un movimiento, tira un D4. Si sacas 1, da la vuelta al estado.',
+    'No puede seleccionar un movimiento: su tirada de ataque no tiene tipo y su fuerza es 0. Al final del turno, da la vuelta al estado.'] },
+  ven: { key: 'ven', abbr: 'VEN', name: 'Envenenado', emoji: '☠️', color: '#9b4fd8', max: 4, faces: [
+    'Al final del turno, o tras recorrer 3 casillas durante tu turno, añade un contador. Con 4 contadores se debilita. Los envenenados siempre pierden los empates; si ambos están envenenados y empatan, se debilitan ambos.'] },
+  dor: { key: 'dor', abbr: 'DOR', name: 'Dormido', emoji: '💤', color: '#3aa6a6', max: null, faces: [
+    'Tira un D4 y añade tantos contadores como el resultado. Da la vuelta al estado.',
+    'No puede seleccionar un movimiento: su tirada de ataque no tiene tipo y su fuerza es 0. Antes de elegir movimiento, quita un contador. Si no quedan contadores o se debilita, descarta el estado.'] },
+  que: { key: 'que', abbr: 'QUE', name: 'Quemado', emoji: '🔥', color: '#e0561f', max: 4, faces: [
+    'La Fuerza de Ataque de este Pokémon se reduce en 1. Al final de su turno añade un contador. Con 4 contadores se debilita.'] },
+  con: { key: 'con', abbr: 'CON', name: 'Confuso', emoji: '❓', color: '#6d7f95', max: null, faces: [
+    'Si este Pokémon saca un número impar en su tirada de ataque, añade la fuerza del ataque seleccionado a la fuerza de ataque del oponente. Se descarta si sale del combate o se debilita.'] },
+  cgl: { key: 'cgl', abbr: 'CGL', name: 'Congelado', emoji: '❄️', color: '#6fb8ee', max: null, faces: [
+    'No puede seleccionar un movimiento: su tirada de ataque no tiene tipo y su fuerza es 0. Antes de seleccionar movimiento tira un D4: con un 4 se descarta el estado. Se descarta si se debilita.'] },
+  mal: { key: 'mal', abbr: 'MAL', name: 'Maldito', emoji: '👻', color: '#6a5a9a', max: 2, faces: [
+    'Al final del turno añade un contador. Con 2 contadores se debilita. Se descarta si sale del combate o se debilita. Solo un Pokémon por equipo puede estar Maldito en un combate.'] }
+};
+E.STATUS_ORDER = ['par', 'ven', 'dor', 'que', 'con', 'cgl', 'mal'];
+E.statusByName = name => { const k = norm(name); return Object.values(E.STATUS_INFO).find(i => norm(i.name) === k) || null; };
+
+
 /* ============================================================
    Estado del combate
    ============================================================ */
@@ -128,7 +153,7 @@ E.create = (opts) => ({
 });
 
 function newFighter(spec) {
-  return { id: spec.id, level: spec.level, statuses: [], adv: 0, advPerm: 0, cool: {}, spent: {}, last: -1, streak: 0, dead: false };
+  return { id: spec.id, level: spec.level, statuses: (spec.st || []).slice(), adv: 0, advPerm: 0, cool: {}, spent: {}, last: -1, streak: 0, dead: false };
 }
 function setupDuel(S) {
   S.fighters = { A: newFighter(S.picks.A[S.duel]), B: newFighter(S.picks.B[S.duel]) };
@@ -168,7 +193,7 @@ E.apply = (S, side, a, rng) => {
       if (S.phase !== 'pick') return err('No es el momento de elegir');
       const picks = (a.picks || []).slice(0, 3);
       if (picks.length !== 3 || picks.some(p => !DB.card(p.id))) return err('Elige 3 Pokémon');
-      S.picks[side] = picks.map(p => ({ id: p.id, level: Math.max(1, +p.level || 1) }));
+      S.picks[side] = picks.map(p => ({ id: p.id, level: Math.max(1, +p.level || 1), st: (p.st || []).filter(n => E.statusByName(n)) }));
       S.locked[side] = true;
       if (S.locked.A && S.locked.B) { S.phase = 'duel'; S.duel = 0; setupDuel(S); }
       return { ok: true };
@@ -291,7 +316,7 @@ function resolveRound(S, rng) {
     if (me.f.statuses.length) {
       const sum = me.f.statuses.reduce((t, st) => t + (E.STATUS_MOD[norm(st)] || 0), 0);
       if (sum !== 0) add('estado', 'Estado · ' + me.f.statuses.join(', '), sum);
-      me.f.statuses.forEach(st => { if (!(norm(st) in E.STATUS_MOD)) notes.push('Estado ' + st + ': aplica su regla a mano (ajuste manual).'); });
+      me.f.statuses.forEach(st => { if (!(norm(st) in E.STATUS_MOD)) { const si = E.statusByName(st); notes.push(st + ' (a mano): ' + (si ? si.faces.join(' · Cara 2: ') : 'aplica su regla')); } });
     }
     if (S.adj[s]) add('manual', 'Ajuste manual', S.adj[s]);
 
@@ -304,7 +329,14 @@ function resolveRound(S, rng) {
 
   // Ganador de la ronda
   let winner = null;
+  let tieBreak = '';
   if (out.A.total > out.B.total) winner = 'A'; else if (out.B.total > out.A.total) winner = 'B';
+  else {
+    const pa = S.fighters.A.statuses.includes('Envenenado'), pb = S.fighters.B.statuses.includes('Envenenado');
+    if (pa && !pb) { winner = 'B'; tieBreak = 'Empate: el envenenado pierde'; }
+    else if (pb && !pa) { winner = 'A'; tieBreak = 'Empate: el envenenado pierde'; }
+    else if (pa && pb) { out.A.notes.push('Ambos envenenados y empatados: los dos se debilitan (regla de Envenenado).'); }
+  }
   if (winner) S.rw[winner]++;
 
   // Efectos (se resuelven tras comparar totales; no dependen de quién gane)
@@ -361,7 +393,7 @@ function resolveRound(S, rng) {
   });
 
   S.result = {
-    round: S.round, winner, tie: !winner, A: out.A, B: out.B, effects,
+    round: S.round, winner, tie: !winner, tieBreak, A: out.A, B: out.B, effects,
     rw: { A: S.rw.A, B: S.rw.B }, dead: { A: S.fighters.A.dead, B: S.fighters.B.dead },
     statuses: { A: S.fighters.A.statuses.slice(), B: S.fighters.B.statuses.slice() }
   };
@@ -426,6 +458,16 @@ E.typePreview = (moveType, defTypes) => {
   if (!moveType) return null;
   const m = E.mult(moveType, defTypes);
   return m === 0 ? { mult: 0, mod: 0, label: 'Inmune' } : m > 1 ? { mult: m, mod: m, label: '+' + m } : m < 1 ? { mult: m, mod: -(1 / m), label: '−' + (1 / m) } : { mult: 1, mod: 0, label: '±0' };
+};
+
+/* Desglose de la efectividad de un tipo de ataque contra los tipos del defensor (para el "ticket") */
+E.explainType = (moveType, defTypes) => {
+  const parts = (defTypes || []).map(d => { const v = ATK[moveType] && ATK[moveType][d]; return { def: d, m: v === undefined ? 1 : v }; });
+  const mult = parts.reduce((t, x) => t * x.m, 1);
+  const mod = mult === 0 ? 0 : mult > 1 ? mult : mult < 1 ? -(1 / mult) : 0;
+  const label = mult === 0 ? 'Inmune' : mult >= 4 ? 'Superefectivo' : mult > 1 ? 'Eficaz' : mult === 1 ? 'Normal' : mult <= .25 ? 'Muy poco eficaz' : 'Poco eficaz';
+  const txt = mult === 0 ? '×0' : mult >= 1 ? '×' + mult : mult === .5 ? '×½' : '×¼';
+  return { parts, mult, mod, label, txt };
 };
 
 if (typeof module !== 'undefined' && module.exports) module.exports = E;

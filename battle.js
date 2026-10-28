@@ -35,13 +35,7 @@ function persist() {
 }
 
 /* ---------- Pantalla completa de combate ---------- */
-async function lockScreen(on) {
-  try {
-    if (on && 'wakeLock' in navigator) wake = await navigator.wakeLock.request('screen');
-    else if (!on && wake) { await wake.release(); wake = null; }
-  } catch (_) {}
-}
-document.addEventListener('visibilitychange', () => { if (M && document.visibilityState === 'visible') lockScreen(true); });
+const lockScreen = on => { if (on) window.PMTU_WAKE.request(); };   // el bloqueo lo gestiona ui.js
 
 function openOverlay() {
   $('#battle').hidden = false;
@@ -51,7 +45,6 @@ function openOverlay() {
 function closeOverlay() {
   $('#battle').hidden = true;
   document.body.classList.remove('noscroll');
-  lockScreen(false);
 }
 async function leave(ask) {
   if (ask) {
@@ -362,7 +355,7 @@ function viewPick(body, V, side) {
     const b = el('button', 'pickitem'); b.type = 'button'; b.disabled = used || !addable;
     b.appendChild(thumbCard(cardOf(t.id), true));
     b.appendChild(el('em', null, esc(t.name) + ' · Nv ' + t.level));
-    b.onclick = () => { sel.push({ id: t.id, level: t.level, uid: t.uid, src: 'team' }); render(); };
+    b.onclick = () => { sel.push({ id: t.id, level: t.level, uid: t.uid, src: 'team', st: t.st || [] }); render(); };
     grid.appendChild(b);
   });
   sec.appendChild(grid); w.appendChild(sec);
@@ -372,7 +365,7 @@ function viewPick(body, V, side) {
   w.appendChild(dex);
 
   const ok = el('button', 'btn primary wide big', '🔒 Confirmar en secreto (' + sel.length + '/3)'); ok.disabled = sel.length !== 3;
-  ok.onclick = () => dispatch({ type: 'lock', picks: sel.map(p => ({ id: p.id, level: p.level })) });
+  ok.onclick = () => dispatch({ type: 'lock', picks: sel.map(p => ({ id: p.id, level: p.level, st: p.st || [] })) });
   w.appendChild(ok);
   body.appendChild(w);
 }
@@ -388,7 +381,9 @@ function slotRow(p, i, ctl) {
     const m = el('button', 'ibtn', '−'), pl = el('button', 'ibtn', '＋'); m.onclick = () => ctl.lv(-1); pl.onclick = () => ctl.lv(1);
     lv.append(m, el('span', 'lvnum', 'Nivel <b>' + p.level + '</b>'), pl);
   } else lv.appendChild(el('span', 'lvnum', 'Nivel <b>' + p.level + '</b>'));
-  info.appendChild(lv); r.appendChild(info);
+  info.appendChild(lv);
+  if (p.st && p.st.length) info.appendChild(el('div', 'fst', p.st.map(n => `<span class="stp">${esc(n)}</span>`).join('')));
+  r.appendChild(info);
   if (ctl) {
     const a = el('div', 'tact');
     [['▲', 'Subir', ctl.up], ['▼', 'Bajar', ctl.down], ['✕', 'Quitar', ctl.del]].forEach(([t, l, f]) => { const b = el('button', 'ibtn', t); b.setAttribute('aria-label', l); b.onclick = f; a.appendChild(b); });
@@ -499,7 +494,7 @@ function viewRoll(w, V, side) {
     if (M.mode !== 'local') w.appendChild(el('div', 'bwait', `<div class="spin"></div><p>Esperando a que ${esc(nameOf(V, o))} tire su dado…</p>`));
     return;
   }
-  if (adv !== 0) w.appendChild(el('p', 'advnote ' + (adv > 0 ? 'good' : 'bad'), adv > 0 ? `Ventaja: tira ${n} dados y cuenta el mayor.` : `Desventaja: tira ${n} dados y cuenta el menor.`));
+  w.appendChild(ticketPre(V, side, mv));
   for (let i = 0; i < n; i++) tray.appendChild(el('div', 'die ghost', '?'));
   w.appendChild(tray);
 
@@ -536,21 +531,75 @@ function viewRoll(w, V, side) {
   w.appendChild(go);
 }
 
+
+/* ============================================================
+   "Ticket" de cálculo: el árbitro enseña siempre de dónde sale cada número
+   ============================================================ */
+const tname = t => (P.TYPE_ES && P.TYPE_ES[t]) || t;
+function typeChips(types) {
+  const s = el('span', 'tk-types');
+  types.forEach(t => { const c = el('span', 'tk-type'); c.appendChild(P.typeIcon(t)); c.appendChild(document.createTextNode(tname(t))); s.appendChild(c); });
+  return s;
+}
+// [Icono Fuego] Charizard  VS  [Icono Bicho/Planta] Parasect
+function tkMatchup(atkName, moveType, defName, defTypes) {
+  const d = el('div', 'tk-match');
+  const a = el('div', 'tk-side'); if (moveType) a.appendChild(typeChips([moveType])); a.appendChild(el('b', null, esc(atkName)));
+  const b = el('div', 'tk-side'); b.appendChild(typeChips(defTypes)); b.appendChild(el('b', null, esc(defName)));
+  d.append(a, el('div', 'tk-vs', 'VS'), b);
+  return d;
+}
+// Efectividad: ×4 (Superefectivo)   Fuego vs Planta ×2 · Fuego vs Bicho ×2
+function tkEffect(moveType, defTypes) {
+  const x = E.explainType(moveType, defTypes);
+  const cls = x.mult === 0 ? 'imm' : x.mult > 1 ? 'up' : x.mult < 1 ? 'down' : 'norm';
+  const d = el('div', 'tk-eff ' + cls);
+  d.appendChild(el('div', 'tk-effmain', `<span>Efectividad</span><b>${x.txt} · ${x.label}</b>`));
+  if (x.parts.length) d.appendChild(el('div', 'tk-calc', x.parts.map(p => `${esc(tname(moveType))} vs ${esc(tname(p.def))} ${p.m === 0 ? '×0' : p.m >= 1 ? '×' + p.m : p.m === .5 ? '×½' : '×¼'}`).join(' · ')));
+  d.appendChild(el('div', 'tk-mod', x.mult === 0 ? 'Inmune: según las reglas de la sala, el ataque falla' : 'Modificador al total: <b>' + sgn(x.mod) + '</b>'));
+  return d;
+}
+function tkRow(label, val, note, cls) {
+  return el('div', 'tk-row ' + (cls || ''), `<span class="l">${esc(label)}${note ? `<small>${esc(note)}</small>` : ''}</span><i></i><b>${esc(String(val))}</b>`);
+}
+
+// Antes de tirar: qué dados y qué cuentas llevas hechas
+function ticketPre(V, side, mv) {
+  const o = other(side), f = V.fighters[side], c = cardOf(f.id), oc = cardOf(V.fighters[o].id);
+  const adv = clamp(f.adv + f.advPerm, -2, 2), n = 1 + Math.abs(adv), pw = E.power(mv.power);
+  const t = el('div', 'ticket');
+  t.appendChild(el('div', 'tk-head', '🧾 Cálculo de tu ataque<small>Antes de tirar</small>'));
+  t.appendChild(tkMatchup(c.name, mv.type, oc.name, oc.types));
+  if (mv.type && pw !== 0) t.appendChild(tkEffect(mv.type, oc.types));
+  const known = el('div', 'tk-rows');
+  known.appendChild(tkRow('Nivel de ' + c.name, f.level));
+  known.appendChild(tkRow('Potencia · ' + mv.name, pw === null ? '*' : pw, pw === null ? 'potencia especial: ajuste manual' : ''));
+  if (mv.type && pw !== 0) { const x = E.explainType(mv.type, oc.types); known.appendChild(tkRow('Tipo', x.mult === 0 ? '0' : sgn(x.mod), x.txt + ' ' + x.label.toLowerCase())); }
+  known.appendChild(tkRow('Dado ' + (mv.die || 'D6'), '?', 'lo sabrás al tirar'));
+  f.statuses.forEach(st => { const m = E.STATUS_MOD[E.key(st)]; if (m) known.appendChild(tkRow('Estado · ' + st, sgn(m))); });
+  if (c.ability) known.appendChild(tkRow('Habilidad · ' + c.ability, '±', 'se comprueba tras tirar'));
+  t.appendChild(known);
+  const dice = n === 1 ? `1 dado ${esc(mv.die || 'D6')}` : `${n} dados ${esc(mv.die || 'D6')}`;
+  const why = adv > 0 ? `Ventaja${adv > 1 ? ' doble' : ''}: cuenta el mayor` : adv < 0 ? `Desventaja${adv < -1 ? ' doble' : ''}: cuenta el menor` : 'sin Ventaja ni Desventaja';
+  t.appendChild(el('div', 'tk-final', `<span>→ Tiras</span><b>${dice}</b><small>${why}</small>`));
+  return t;
+}
+
 /* ---------- Resultado de la ronda ---------- */
 function sideCard(V, s, mine) {
-  const R = V.result[s], f = V.fighters[s], c = cardOf(f.id);
-  const d = el('div', 'rcard ' + (V.result.winner === s ? 'win' : V.result.winner ? 'lose' : 'tie'));
-  d.appendChild(el('div', 'rhead', `<b>${esc(c.name)}</b><span>${esc(nameOf(V, s))}${mine ? ' (tú)' : ''}</span><em>${esc(R.move)}</em>`));
-  const t = el('table', 'rows');
-  R.rows.forEach((r, i) => {
+  const R = V.result[s], f = V.fighters[s], c = cardOf(f.id), o = other(s), oc = cardOf(V.fighters[o].id);
+  const mv = E.movesOf(c)[R.moveIdx], pw = E.power(mv.power);
+  const d = el('div', 'ticket res ' + (V.result.winner === s ? 'win' : V.result.winner ? 'lose' : 'tie'));
+  d.appendChild(el('div', 'tk-head', `🧾 ${esc(c.name)} · ${esc(nameOf(V, s))}${mine ? ' (tú)' : ''}<small>usa ${esc(R.move)}</small>`));
+  d.appendChild(tkMatchup(c.name, mv.type, oc.name, oc.types));
+  if (mv.type && pw !== 0) d.appendChild(tkEffect(mv.type, oc.types));
+  const rows = el('div', 'tk-rows');
+  R.rows.forEach(r => {
     const plain = ['nivel', 'potencia', 'dado'].includes(r.k);
-    const tr = el('tr', r.v < 0 ? 'neg' : r.v > 0 && !plain ? 'plus' : '');
-    tr.appendChild(el('td', null, esc(r.label) + (r.note ? `<small>${esc(r.note)}</small>` : '')));
-    tr.appendChild(el('td', 'v', plain ? String(r.v) : sgn(r.v)));
-    t.appendChild(tr);
+    rows.appendChild(tkRow(r.label, plain ? r.v : sgn(r.v), r.note, r.v < 0 ? 'neg' : r.v > 0 && !plain ? 'plus' : ''));
   });
-  d.appendChild(t);
-  d.appendChild(el('div', 'total', `<span>Total</span><b>${R.total}</b>`));
+  d.appendChild(rows);
+  d.appendChild(el('div', 'tk-final', `<span>→ Total de ${esc(c.name)}</span><b>${R.total}</b>`));
   return d;
 }
 function fxText(V, it) {
@@ -561,7 +610,8 @@ function fxText(V, it) {
 function viewResult(w, V, side) {
   const o = other(side), R = V.result;
   const banner = R.winner ? `¡Ronda para ${esc(fightName(V, R.winner))}!` : 'Empate: nadie suma ronda';
-  w.appendChild(el('div', 'banner ' + (R.winner === side ? 'win' : R.winner ? 'lose' : 'tie'), banner + `<small>${R.winner ? esc(nameOf(V, R.winner)) : ''}</small>`));
+  const sub = R.tieBreak ? R.tieBreak : (R.winner ? nameOf(V, R.winner) : '');
+  w.appendChild(el('div', 'banner ' + (R.winner === side ? 'win' : R.winner ? 'lose' : 'tie'), banner + `<small>${esc(sub)}</small>`));
   w.appendChild(sideCard(V, side, true));
   w.appendChild(sideCard(V, o, false));
   if (R.effects.length) {

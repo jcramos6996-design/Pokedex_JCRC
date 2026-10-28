@@ -125,3 +125,10 @@ escribir en español (`agua`, `fuego`, `planta`…).
 - Reglas implementadas en `engine.js` (Total = Nivel + Potencia + Dado ± Tipo + Habilidad − Quemado ± ajuste manual). Ahí se cambian: Quemado, inmunidades, habilidades automáticas (tabla `ABIL`).
 - La conexión online usa PeerJS (carga desde unpkg y usa su servidor público solo para que los móviles se encuentren). Los efectos sin regla automática salen como "resuélvelo a mano" con un ajuste manual al total.
 - Archivos nuevos: `engine.js`, `team.js`, `net.js`, `battle.js`.
+
+## Fase 3: comodidad de uso
+
+- **Pantalla siempre activa** (`ui.js`): usa la Wake Lock API mientras la app está visible y la vuelve a pedir al volver a abrirla. Botón 🔆/🌙 en las cabeceras para desactivarla. Si el navegador no la soporta, avisa una vez.
+- **Avisos** (`showToast(mensaje, tipo)` con tipo `ok`, `error` o `info`): salen sobre el menú inferior y se van solos a los 3 s. El icono de Mi Equipo hace una animación al añadir.
+- **Estados alterados** en cada Pokémon del equipo: PAR, VEN, DOR, QUE, CON, CGL (Congelado) y MAL (Maldito), con los contadores y caras de las tarjetas físicas. Se guardan por Pokémon en el móvil. Al guardar en el PC se quitan. Los estados del equipo pasan al combate al elegirlos.
+- **Ticket de cálculo** en el combate: enfrentamiento de tipos, efectividad, desglose y total, antes de tirar y en el resultado de cada ronda.

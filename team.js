@@ -5,6 +5,7 @@
 (function () {
 'use strict';
 const P = window.PMTU;
+const E = window.PMTU_ENGINE;
 const $ = (s, r = document) => r.querySelector(s);
 const { el, esc } = P;
 
@@ -52,6 +53,7 @@ function updateCounters() {
   $('#tcount').textContent = S.team.length + '/' + MAX_TEAM;
   $('#pccount').textContent = S.pc.length;
   const n = S.team.filter(readyToEvolve).length;
+  const nc = $('#navCount'); nc.textContent = S.team.length; nc.hidden = !S.team.length;
   const nb = $('#navBadge');
   nb.textContent = n; nb.hidden = !n;
   document.querySelectorAll('.subtabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
@@ -78,16 +80,26 @@ function confirmDlg(title, text, okLabel, danger) {
 }
 
 /* ---------- Añadir al equipo ---------- */
+function bump() {
+  ['.bottomnav [data-view=team] .ni', '#navCount'].forEach(q => {
+    const n = $(q); if (!n) return;
+    n.classList.remove('bump'); void n.offsetWidth; n.classList.add('bump');
+  });
+  if (navigator.vibrate) navigator.vibrate(30);
+}
+// Devuelve 'team' si entró al equipo, o 'full' si hay que elegir qué hacer
 function add(id) {
   const c = P.byId.get(id);
-  if (!c) return;
+  if (!c) return null;
   if (S.team.length < MAX_TEAM) {
-    S.team.push(mk(id)); save(); updateCounters();
-    P.toast(c.name + ' se une a tu equipo (' + S.team.length + '/' + MAX_TEAM + ')');
+    S.team.push(mk(id)); save(); updateCounters(); bump();
+    P.toast(c.name + ' se une a tu equipo (' + S.team.length + '/' + MAX_TEAM + ')', 'ok');
     if (view === 'team') renderTeamView();
-    return;
+    return 'team';
   }
+  P.toast('Equipo lleno: máximo ' + MAX_TEAM, 'error');
   fullDialog(id);
+  return 'full';
 }
 
 function pickFromTeam(title, onPick, back) {
@@ -117,12 +129,12 @@ function fullDialog(id) {
     };
     opt('Guardarlo en el PC', 'Se queda en tu PC y tu equipo no cambia.', () => {
       S.pc.push(mk(id)); save(); updateCounters(); close();
-      P.toast(c.name + ' guardado en el PC'); if (view === 'team') renderTeamView();
+      P.toast(c.name + ' guardado en el PC', 'ok'); bump(); if (view === 'team') renderTeamView();
     });
     opt('Mandar uno de mi equipo al PC', 'Eliges cuál se va al PC y entra ' + c.name + '.', () => {
       pickFromTeam('¿Cuál va al PC?', e => {
         S.team.splice(S.team.indexOf(e), 1); S.pc.push(e); S.team.push(mk(id)); save(); updateCounters();
-        P.toast(cardOf(e).name + ' va al PC y entra ' + c.name); if (view === 'team') renderTeamView();
+        P.toast(cardOf(e).name + ' va al PC y entra ' + c.name, 'ok'); bump(); if (view === 'team') renderTeamView();
       }, () => fullDialog(id));
     });
     opt('Liberar uno de mi equipo', 'Eliges cuál se libera para siempre y entra ' + c.name + '.', () => {
@@ -130,7 +142,7 @@ function fullDialog(id) {
         const ok = await confirmDlg('Liberar a ' + cardOf(e).name, 'Se liberará definitivamente. Esta acción no se puede deshacer.', 'Liberar', true);
         if (!ok) return fullDialog(id);
         S.team.splice(S.team.indexOf(e), 1); S.team.push(mk(id)); save(); updateCounters();
-        P.toast(cardOf(e).name + ' liberado. Entra ' + c.name); if (view === 'team') renderTeamView();
+        P.toast(cardOf(e).name + ' liberado. Entra ' + c.name, 'info'); bump(); if (view === 'team') renderTeamView();
       }, () => fullDialog(id));
     }, 'danger');
     const cancel = el('button', 'btn wide', 'Cancelar'); cancel.onclick = close; body.appendChild(cancel);
@@ -144,7 +156,7 @@ function changeLevel(e, d) {
   e.extra = Math.max(0, Math.min(Math.max(0, maxExtra), e.extra + d));
   save();
   if (!was && readyToEvolve(e)) {
-    P.toast('¡' + cardOf(e).name + ' puede evolucionar!');
+    P.toast('¡' + cardOf(e).name + ' puede evolucionar!', 'ok');
     if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
   }
   renderTeamView();
@@ -158,16 +170,92 @@ function move(i, d) {
 async function release(list, e) {
   const ok = await confirmDlg('Liberar a ' + cardOf(e).name, 'Se liberará definitivamente. Esta acción no se puede deshacer.', 'Liberar', true);
   if (!ok) return;
-  list.splice(list.indexOf(e), 1); save(); renderTeamView();
+  list.splice(list.indexOf(e), 1); save(); P.toast(cardOf(e).name + ' liberado', 'info'); renderTeamView();
 }
 function toPC(e) {
-  S.team.splice(S.team.indexOf(e), 1); S.pc.push(e); save();
-  P.toast(cardOf(e).name + ' guardado en el PC'); renderTeamView();
+  S.team.splice(S.team.indexOf(e), 1); e.st = {}; S.pc.push(e); save();     // en el PC se recupera de los estados
+  P.toast(cardOf(e).name + ' guardado en el PC', 'ok'); renderTeamView();
 }
 function fromPC(e) {
-  if (S.team.length >= MAX_TEAM) { P.toast('Tu equipo está completo: libera o guarda a uno primero'); return; }
+  if (S.team.length >= MAX_TEAM) { P.toast('Equipo lleno: máximo ' + MAX_TEAM + '. Libera o guarda a uno primero', 'error'); return; }
   S.pc.splice(S.pc.indexOf(e), 1); S.team.push(e); save();
-  P.toast(cardOf(e).name + ' vuelve a tu equipo'); renderTeamView();
+  P.toast(cardOf(e).name + ' vuelve a tu equipo', 'ok'); bump(); renderTeamView();
+}
+
+
+/* ---------- Estados alterados (los "tokens" de las tarjetas físicas) ----------
+   e.st = { que: {n: contadores}, par: {n: cara 1|2}, dor: {n: contadores, f: cara 1|2}, ... }
+   Que exista la clave = el estado está puesto. Se guarda con el Pokémon. */
+const SI = E.STATUS_INFO;
+const stNames = e => E.STATUS_ORDER.filter(k => e.st && e.st[k]).map(k => SI[k].name);
+function toggleStatus(e, k) {
+  e.st = e.st || {};
+  if (e.st[k]) { delete e.st[k]; P.toast(SI[k].name + ' quitado a ' + cardOf(e).name, 'info'); }
+  else {
+    if (k === 'mal' && S.team.some(o => o !== e && o.st && o.st.mal)) { P.toast('Solo un Pokémon por equipo puede estar Maldito', 'error'); return; }
+    e.st[k] = { n: SI[k].max != null || k === 'dor' ? 0 : 1, f: 1 };
+    if (k === 'par') e.st[k].n = 1;
+    P.toast(cardOf(e).name + ' está ' + SI[k].name, 'info');
+    if (navigator.vibrate) navigator.vibrate(25);
+  }
+  save(); renderTeamView();
+}
+function statusBar(e) {
+  const bar = el('div', 'stbar');
+  E.STATUS_ORDER.forEach(k => {
+    const on = !!(e.st && e.st[k]);
+    const b = el('button', 'stchip' + (on ? ' on' : ''), SI[k].abbr); b.type = 'button';
+    b.style.setProperty('--sc', SI[k].color);
+    b.setAttribute('aria-pressed', on); b.setAttribute('aria-label', SI[k].name);
+    b.title = SI[k].name;
+    b.onclick = () => toggleStatus(e, k);
+    bar.appendChild(b);
+  });
+  return bar;
+}
+function statusDetail(e) {
+  const keys = E.STATUS_ORDER.filter(k => e.st && e.st[k]);
+  if (!keys.length) return null;
+  const wrap = el('div', 'stdetail');
+  keys.forEach(k => {
+    const i = SI[k], v = e.st[k], two = i.faces.length > 1;
+    const face = two ? (k === 'par' ? v.n : v.f) : 1;
+    const box = el('div', 'stbox'); box.style.setProperty('--sc', i.color);
+    const head = el('div', 'sthead', `<b>${i.emoji} ${esc(i.name)}</b>`);
+    const x = el('button', 'ibtn', '✕'); x.type = 'button'; x.setAttribute('aria-label', 'Quitar ' + i.name); x.onclick = () => toggleStatus(e, k);
+    head.appendChild(x); box.appendChild(head);
+    const ctl = el('div', 'stctl');
+    if (two) {
+      const seg = el('div', 'seg');
+      [1, 2].forEach(n => {
+        const b = el('button', n === face ? 'on' : '', 'Cara ' + n); b.type = 'button';
+        b.onclick = () => { if (k === 'par') v.n = n; else v.f = n; save(); renderTeamView(); };
+        seg.appendChild(b);
+      });
+      ctl.appendChild(seg);
+    }
+    if (i.max != null || k === 'dor') {
+      const cnt = el('div', 'cnt');
+      const m = el('button', 'ibtn', '−'), p = el('button', 'ibtn', '＋'); m.type = p.type = 'button';
+      m.disabled = v.n <= 0; p.disabled = i.max != null && v.n >= i.max;
+      m.onclick = () => { v.n = Math.max(0, v.n - 1); save(); renderTeamView(); };
+      p.onclick = () => {
+        v.n++; save(); renderTeamView();
+        if (i.max != null && v.n >= i.max) P.toast(cardOf(e).name + ' se debilita (' + i.name + ' ' + v.n + '/' + i.max + ')', 'error');
+      };
+      const dots = el('span', 'dots');
+      const total = i.max != null ? i.max : Math.max(4, v.n);
+      for (let n = 0; n < total; n++) dots.appendChild(el('i', n < v.n ? 'on' : ''));
+      cnt.append(el('small', null, 'Contadores'), m, dots, p);
+      ctl.appendChild(cnt);
+      if (i.max != null && v.n >= i.max) ctl.appendChild(el('div', 'faintnote', '¡Se debilita!'));
+      if (k === 'dor' && face === 2 && v.n === 0) ctl.appendChild(el('div', 'faintnote ok', 'Sin contadores: descarta el estado'));
+    }
+    box.appendChild(ctl);
+    box.appendChild(el('p', 'strule', esc(i.faces[face - 1])));
+    wrap.appendChild(box);
+  });
+  return wrap;
 }
 
 /* ---------- Pantalla Mi Equipo ---------- */
@@ -191,7 +279,7 @@ function iconBtn(txt, label, fn, dis, cls) {
 
 function teamRow(e, i) {
   const c = cardOf(e), lv = levelOf(e), ready = readyToEvolve(e);
-  const row = el('div', 'trow' + (ready ? ' ready' : ''));
+  const row = el('div', 'trow' + (ready ? ' ready' : '') + (stNames(e).length ? ' hasst' : ''));
   row.appendChild(thumb(e));
   const info = el('div', 'tinfo');
   const name = el('div', 'tname', `<b>${esc(c.name)}</b> <span>#${esc(c.id)}</span>`);
@@ -224,6 +312,9 @@ function teamRow(e, i) {
     iconBtn('💾', 'Guardar en el PC', () => toPC(e)),
     iconBtn('🕊️', 'Liberar', () => release(S.team, e), false, 'danger'));
   row.appendChild(act);
+  const sb = el('div', 'strow'); sb.appendChild(statusBar(e));
+  const det = statusDetail(e); if (det) sb.appendChild(det);
+  row.appendChild(sb);
   return row;
 }
 
@@ -308,7 +399,7 @@ function playEvolution(e, to) {
   const stop = el('button', 'btn', '¡Detener!'); stop.type = 'button'; btns.appendChild(stop);
   let finished = false;
   const close = () => { timers.forEach(clearTimeout); ov.hidden = true; ov.innerHTML = ''; document.body.classList.remove('noscroll'); };
-  stop.onclick = () => { if (finished) return; close(); P.toast(from.name + ' deja de evolucionar'); };
+  stop.onclick = () => { if (finished) return; close(); P.toast(from.name + ' deja de evolucionar', 'info'); };
 
   text.textContent = '¿Qué? ¡' + from.name + ' está evolucionando!';
   ov.classList.add('p1');
@@ -334,7 +425,7 @@ function playEvolution(e, to) {
 P.team = {
   add,
   count: id => S.team.filter(e => e.id === id).length + S.pc.filter(e => e.id === id).length,
-  list: () => S.team.map(e => ({ uid: e.uid, id: e.id, level: levelOf(e), name: cardOf(e).name })),
+  list: () => S.team.map(e => ({ uid: e.uid, id: e.id, level: levelOf(e), name: cardOf(e).name, st: stNames(e) })),
   name: () => S.name || '',
   setName: n => { S.name = String(n || '').slice(0, 20); save(); },
   show: (v, t) => { if (t) tab = t; showView(v || 'team'); },
