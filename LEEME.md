@@ -117,3 +117,11 @@ También funciona abriendo `index.html` directamente en el navegador del ordenad
 
 Los botones de filtro: toca = activar, mantén pulsado = excluir. Los tipos se pueden
 escribir en español (`agua`, `fuego`, `planta`…).
+
+## Mi Equipo y Combate (novedades)
+
+- **Mi Equipo** (pestaña inferior): equipo de 6, PC, niveles (nivel base de la carta + los que ganes), aviso y cinemática de evolución. Se guarda en el propio móvil, así que equipo y PC son individuales de cada jugador. Si borras los datos del navegador se pierde.
+- **Combate** (dentro de Mi Equipo): crear sala (código de 5 letras), unirse con código/enlace, o un solo móvil. Elección secreta de 3 Pokémon (de tu equipo o del Pokédex para líderes), 3 duelos al mejor de 3 rondas.
+- Reglas implementadas en `engine.js` (Total = Nivel + Potencia + Dado ± Tipo + Habilidad − Quemado ± ajuste manual). Ahí se cambian: Quemado, inmunidades, habilidades automáticas (tabla `ABIL`).
+- La conexión online usa PeerJS (carga desde unpkg y usa su servidor público solo para que los móviles se encuentren). Los efectos sin regla automática salen como "resuélvelo a mano" con un ajuste manual al total.
+- Archivos nuevos: `engine.js`, `team.js`, `net.js`, `battle.js`.

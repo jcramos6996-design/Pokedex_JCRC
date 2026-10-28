@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#b3212a">
 <title>Pokédex de Cartas · Maestro Entrenador</title>
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -50,6 +50,40 @@
   </section>
 </main>
 
+<!-- Mi Equipo -->
+<section id="viewTeam" class="team" hidden>
+  <header class="teamtop">
+    <h1>Mi Equipo</h1>
+    <div class="subtabs" role="tablist">
+      <button data-tab="team" class="on" role="tab">Equipo <span id="tcount" class="pill">0/6</span></button>
+      <button data-tab="pc" role="tab">PC <span id="pccount" class="pill">0</span></button>
+      <button data-tab="battle" role="tab">Combate</button>
+    </div>
+  </header>
+  <div id="teamBody" class="teambody"></div>
+</section>
+
+<nav class="bottomnav" aria-label="Secciones">
+  <button data-view="dex" class="on"><span class="ni">📖</span>Pokédex</button>
+  <button data-view="team"><span class="ni">🎒</span>Mi Equipo<span id="navBadge" class="nbadge" hidden>0</span></button>
+</nav>
+
+<!-- Combate -->
+<div id="battle" class="battle" hidden>
+  <div class="bbar">
+    <button id="bExit" class="btn">✕ Salir</button>
+    <div class="btitle" id="bTitle"></div>
+    <span id="bConn" class="bconn"></span>
+  </div>
+  <div id="bBody" class="bbody"></div>
+</div>
+
+<!-- Evolución -->
+<div id="evo" class="evo" hidden></div>
+
+<!-- Diálogos de equipo -->
+<dialog id="teamDlg"><div id="teamDlgBody"></div></dialog>
+
 <!-- Detalle de carta -->
 <div id="detail" class="modal" hidden>
   <div class="backdrop" data-close></div>
@@ -91,7 +125,11 @@
 
 <div id="toast" class="toast" role="status" hidden></div>
 
-<script src="data/cards.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="engine.js?v=4"></script>
+<script src="data/cards.js?v=4"></script>
+<script src="app.js?v=4"></script>
+<script src="team.js?v=4"></script>
+<script src="net.js?v=4"></script>
+<script src="battle.js?v=4"></script>
 </body>
 </html>
