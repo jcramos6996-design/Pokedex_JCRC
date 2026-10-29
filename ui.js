@@ -13,6 +13,7 @@ const ICON = { ok: '✔', error: '⚠', info: 'ℹ' };
 let box = null, timer = null, hideT = null;
 function showToast(msg, tipo) {
   tipo = ICON[tipo] ? tipo : 'info';
+  if (tipo === 'error' && window.AudioManager) window.AudioManager.play('error');
   if (!box) {
     box = document.getElementById('toast') || document.body.appendChild(document.createElement('div'));
     box.id = 'toast';

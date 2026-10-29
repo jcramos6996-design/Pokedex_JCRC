@@ -486,7 +486,10 @@ function openDetail(id) {
   renderDetail();
   if (!detailOpen) {
     detailOpen = true;
+    clearTimeout(modal._t);
     modal.hidden = false;
+    void modal.offsetWidth;
+    modal.classList.add('show');
     document.body.classList.add('noscroll');
     try { history.pushState({ detail: 1 }, ''); } catch (_) {}
   }
@@ -494,7 +497,9 @@ function openDetail(id) {
 function hideDetail() {
   if (!detailOpen) return;
   detailOpen = false;
-  modal.hidden = true;
+  modal.classList.remove('show');
+  clearTimeout(modal._t);
+  modal._t = setTimeout(() => { if (!detailOpen) modal.hidden = true; }, 260);
   $('#zoom').hidden = true;
   document.body.classList.remove('noscroll');
 }
@@ -638,11 +643,12 @@ function renderDetail() {
 
   // Añadir a Mi Equipo
   const addRow = el('div', 'addrow');
-  const addBtn = el('button', 'btn primary wide', '＋ Añadir a Mi Equipo'); addBtn.type = 'button';
+  const addBtn = el('button', 'btn primary wide', '＋ Añadir a Mi Equipo'); addBtn.type = 'button'; addBtn.dataset.nosound = '1';
   addBtn.onclick = () => {
     if (!window.PMTU.team) return;
     const r = window.PMTU.team.add(c.id);
     if (r === 'team') {
+      if (window.PMTU.fx) window.PMTU.fx.catchAnim(stage);
       addBtn.classList.add('done'); addBtn.textContent = '✔ Añadido a tu equipo';
       setTimeout(() => { addBtn.classList.remove('done'); addBtn.textContent = '＋ Añadir otro a Mi Equipo'; }, 1600);
     }
@@ -651,6 +657,9 @@ function renderDetail() {
   const have = window.PMTU.team ? window.PMTU.team.count(c.id) : 0;
   if (have) addRow.appendChild(el('p', 'hint', 'Ya tienes ' + have + ' en tu equipo o en el PC.'));
   dcontent.appendChild(addRow);
+
+  // Captura (calculadora)
+  if (window.PMTU.catchSection) dcontent.appendChild(window.PMTU.catchSection(c, () => addBtn.click()));
 
   // Habilidad
   if (c.ability) {

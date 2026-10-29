@@ -47,7 +47,9 @@ function showView(v) {
   window.scrollTo(0, 0);
 }
 document.querySelectorAll('.bottomnav button').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
-document.querySelectorAll('.subtabs button').forEach(b => b.addEventListener('click', () => { tab = b.dataset.tab; renderTeamView(); }));
+document.querySelectorAll('.subtabs button').forEach(b => b.addEventListener('click', () => {
+  tab = b.dataset.tab; const tb = $('#teamBody'); tb.dataset.swap = 1; renderTeamView(); setTimeout(() => delete tb.dataset.swap, 400);
+}));
 
 function updateCounters() {
   $('#tcount').textContent = S.team.length + '/' + MAX_TEAM;
@@ -93,6 +95,7 @@ function add(id) {
   if (!c) return null;
   if (S.team.length < MAX_TEAM) {
     S.team.push(mk(id)); save(); updateCounters(); bump();
+    if (window.AudioManager) AudioManager.play('capture');
     P.toast(c.name + ' se une a tu equipo (' + S.team.length + '/' + MAX_TEAM + ')', 'ok');
     if (view === 'team') renderTeamView();
     return 'team';
@@ -403,6 +406,7 @@ function playEvolution(e, to) {
 
   text.textContent = '¿Qué? ¡' + from.name + ' está evolucionando!';
   ov.classList.add('p1');
+  if (window.AudioManager) AudioManager.play('evolve');
   at(1800, () => { ov.classList.add('p2'); });
   at(4800, () => { ov.classList.add('p3'); stop.disabled = true; });          // destello
   at(5300, () => {                                                         // se consuma la evolución

@@ -132,3 +132,9 @@ escribir en español (`agua`, `fuego`, `planta`…).
 - **Avisos** (`showToast(mensaje, tipo)` con tipo `ok`, `error` o `info`): salen sobre el menú inferior y se van solos a los 3 s. El icono de Mi Equipo hace una animación al añadir.
 - **Estados alterados** en cada Pokémon del equipo: PAR, VEN, DOR, QUE, CON, CGL (Congelado) y MAL (Maldito), con los contadores y caras de las tarjetas físicas. Se guardan por Pokémon en el móvil. Al guardar en el PC se quitan. Los estados del equipo pasan al combate al elegirlos.
 - **Ticket de cálculo** en el combate: enfrentamiento de tipos, efectividad, desglose y total, antes de tirar y en el resultado de cada ronda.
+
+## Fase 4: sonido, captura y animaciones
+
+- **Sonido** (`audio.js`, `AudioManager`): todo sintetizado con Web Audio, sin archivos. Botón 🔔/🎵/🔇 en las cabeceras: solo efectos (por defecto), música y efectos, silencio. Se guarda en el móvil. Suena un clic en filtros, pestañas y botones, un error al intentar un 7.º Pokémon y un sonido de captura al añadir.
+- **Poké Ball** al añadir a Mi Equipo: animación CSS (cae, 3 oscilaciones, se cierra y desaparece), sincronizada con el sonido.
+- **Calculadora de captura** (`captura.js`): en cada ficha, eliges la bola y sale el número que hay que sacar. El dato es la columna `captura` del CSV/Excel ("4+" = número con Poké Ball). Los modificadores de bola (Super −1, Ultra −2, Master automática) están al inicio de `captura.js`: ajústalos a vuestras reglas.

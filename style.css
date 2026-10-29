@@ -499,3 +499,98 @@ body.inteam .toast{bottom:calc(76px + env(safe-area-inset-bottom))}
 @media (prefers-reduced-motion:reduce){.ticket,.bump{animation:none!important}}
 .ncount{position:absolute;top:6px;left:calc(50% + 10px);min-width:20px;height:20px;border-radius:99px;background:var(--blue);color:#fff;font-size:.72rem;font-weight:700;display:grid;place-items:center;padding:0 5px}
 .ncount:not([hidden])~.nbadge{left:calc(50% + 34px)}
+
+/* ============================================================
+   Fase 4: transiciones suaves, Poké Ball de captura, calculadora
+   ============================================================ */
+:root{--ease:cubic-bezier(.2,.8,.2,1)}
+
+/* ---------- Modal de detalle: aparece/desaparece con opacity + translateY ---------- */
+.modal .backdrop{opacity:0;transition:opacity .25s ease}
+.modal .panel{animation:none;opacity:0;transform:translateY(28px);transition:opacity .25s ease,transform .32s var(--ease)}
+.modal.show .backdrop{opacity:1}
+.modal.show .panel{opacity:1;transform:none}
+
+/* ---------- Diálogos ---------- */
+dialog[open]{animation:dlgIn .28s var(--ease)}
+dialog[open]::backdrop{animation:fadeIn .25s ease}
+@keyframes dlgIn{from{opacity:0;transform:translateY(24px) scale(.98)}}
+@keyframes fadeIn{from{opacity:0}}
+
+/* ---------- Cambio de pestañas (barra inferior y subpestañas) ---------- */
+.layout:not([hidden]),.team:not([hidden]){animation:viewIn .3s var(--ease)}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px)}}
+.teambody[data-swap]>*{animation:viewIn .28s var(--ease) both}
+.battle:not([hidden]),.evo:not([hidden]){animation:viewIn .3s var(--ease)}
+.bottomnav button{transition:background .2s ease,color .2s ease}
+.bottomnav .ni{transition:transform .25s var(--ease)}
+.bottomnav button.on .ni{transform:translateY(-3px) scale(1.12)}
+.subtabs button{transition:background .2s ease,color .2s ease}
+.activechips .chip,.tagbtn{transition:background .15s ease,transform .1s ease}
+.tagbtn:active,.btn:active,.ballbtn:active{transform:scale(.96)}
+
+/* ---------- Botón de sonido ---------- */
+.musicbtn,[data-music]{margin-left:auto}
+[data-music]+.wakebtn{margin-left:0}
+[data-music][data-state=off]{opacity:.7}
+.bbar [data-music]{margin-left:0}
+
+/* ---------- Poké Ball de captura ---------- */
+.dstage{position:relative}
+.pball{position:absolute;left:50%;top:50%;width:92px;height:92px;margin:-46px 0 0 -46px;z-index:6;pointer-events:none;
+  border-radius:50%;border:5px solid #1b1b1f;opacity:0;
+  background:linear-gradient(#e63946 0 44%,#1b1b1f 44% 56%,#f4f4f4 56%);
+  box-shadow:inset -8px -8px 14px #0000002e,inset 6px 6px 10px #ffffff40,0 10px 22px #0009;
+  animation:pbMain 2.8s linear forwards;transform-origin:50% 90%}
+/* botón central */
+.pball::before{content:"";position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;
+  background:#f4f4f4;border:5px solid #1b1b1f;animation:pbBtn 2.8s linear forwards}
+.pb-ring{position:absolute;inset:-6px;border-radius:50%;border:4px solid #fff;opacity:0;animation:pbRing 2.8s ease-out forwards}
+.pb-spark{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50%;opacity:0;
+  box-shadow:0 -60px 0 #ffe066,52px -30px 0 #fff,52px 30px 0 #ffe066,0 60px 0 #fff,-52px 30px 0 #ffe066,-52px -30px 0 #fff;
+  animation:pbSpark 2.8s ease-out forwards}
+/* 0-16 % cae y rebota · 20-62 % tres oscilaciones · 68 % se cierra · 80-100 % desaparece */
+@keyframes pbMain{
+  0%{opacity:0;transform:translateY(-140px) scale(.3) rotate(0)}
+  8%{opacity:1}
+  16%{opacity:1;transform:translateY(0) scale(1) rotate(0);animation-timing-function:ease-out}
+  19%{transform:translateY(-14px) scale(1)}
+  22%{transform:translateY(0) rotate(0)}
+  26%{transform:rotate(-26deg)}  30%{transform:rotate(22deg)}  34%{transform:rotate(-8deg)}  37%{transform:rotate(0)}
+  43%{transform:rotate(-26deg)}  47%{transform:rotate(22deg)}  51%{transform:rotate(-8deg)}  54%{transform:rotate(0)}
+  59%{transform:rotate(-26deg)}  63%{transform:rotate(22deg)}  67%{transform:rotate(0)}
+  68%{opacity:1;transform:scale(1)}
+  72%{opacity:1;transform:scale(1.12)}
+  78%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:translateY(-16px) scale(.6)}}
+@keyframes pbBtn{0%,66%{background:#f4f4f4;box-shadow:none}
+  68%{background:#ff5252;box-shadow:0 0 14px 6px #ff5252}
+  80%{background:#ff5252;box-shadow:0 0 14px 6px #ff5252}
+  100%{background:#f4f4f4;box-shadow:none}}
+@keyframes pbRing{0%,67%{opacity:0;transform:scale(1)}68%{opacity:.9}100%{opacity:0;transform:scale(1.9)}}
+@keyframes pbSpark{0%,68%{opacity:0;transform:scale(.3)}72%{opacity:1}100%{opacity:0;transform:scale(1.5) rotate(40deg)}}
+/* el Pokémon entra en la bola y vuelve al final */
+.dart.absorbed{animation:absorb 2.8s ease-in-out}
+@keyframes absorb{0%,6%{opacity:1;transform:none;filter:none}
+  14%{opacity:1;transform:scale(.2);filter:brightness(4) saturate(0)}
+  16%,80%{opacity:0;transform:scale(.1)}
+  100%{opacity:1;transform:none;filter:none}}
+
+/* ---------- Calculadora de captura ---------- */
+.ballpick{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media (min-width:420px){.ballpick{grid-template-columns:repeat(4,1fr)}}
+.ballbtn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;border-radius:12px;background:var(--panel);
+  border:2px solid transparent;font-size:.8rem;transition:border-color .15s,background .15s,transform .1s}
+.ballbtn.on{border-color:var(--blue);background:#1d2c4a}
+.ballico{width:34px;height:34px;border-radius:50%;border:3px solid #1b1b1f;
+  background:linear-gradient(var(--b1) 0 44%,#1b1b1f 44% 56%,var(--b2) 56%);box-shadow:inset -3px -3px 6px #0003}
+.catchout{margin-top:10px}
+.catchres{margin-top:10px;border-radius:var(--r);background:var(--panel);padding:14px;text-align:center;border:1px dashed var(--line)}
+.cr-line{font-size:.85rem;color:var(--muted)}.cr-line b{color:var(--text)}
+.cr-lbl{margin-top:8px;font-size:.9rem}
+.cr-big{font-size:4.2rem;font-weight:900;line-height:1;margin:6px 0;color:#ffd84a;text-shadow:0 3px 0 #0006}
+.cr-big span{display:block;font-size:.95rem;font-weight:600;color:var(--text);text-shadow:none;margin-top:4px}
+.cr-big.auto{font-size:2rem;color:#c9a5ff}.cr-big.hard{color:#ff8d92}
+.cr-sub{font-size:.8rem;color:var(--muted);margin-bottom:10px}
+.catchres .btn{margin-top:6px}
+.catchres.auto{border-color:#7b3fc4}
