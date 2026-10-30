@@ -28,7 +28,7 @@ const store = {
   clear() { try { localStorage.removeItem(SAVE); } catch (_) {} }
 };
 function persist() {
-  if (!M) return;
+  if (!M || M.wild) return;
   if (M.mode === 'host') store.set({ mode: 'host', code: M.code, S: M.S });
   else if (M.mode === 'local') store.set({ mode: 'local', S: M.S });
   else if (M.mode === 'guest') store.set({ mode: 'guest', code: M.code, name: M.name });
@@ -59,8 +59,9 @@ async function leave(ask) {
     if (!ok) return;
   }
   if (M && M.link) M.link.close();
+  const cb = M && M.wild ? M.onDone : null, res = M && M.wild ? wildResult(M.S) : null;
   M = null; store.clear(); closeOverlay();
-  P.team.refresh();
+  if (cb) cb(res); else P.team.refresh();
 }
 $('#bExit').addEventListener('click', () => leave(!(M && M.S && M.S.phase === 'done')));
 
@@ -164,6 +165,22 @@ function startLocal(n1, n2) {
   M.cur = localCur();
   openOverlay(); persist(); render();
 }
+/* ---------- Combate contra un Pokémon salvaje (antes de lanzar la bola) ---------- */
+function wildResult(S) {
+  if (S.phase !== 'done') return null;                       // si sales antes de terminar, no cuenta como combate
+  const wl = S.opts.wild.level;
+  const fought = S.picks.A.slice(0, S.duels.length);
+  return { won: E.matchWinner(S) === 'A', rounds: S.log.length, higher: fought.some(p => p.level > wl) };
+}
+function startWild(wildId, onDone) {
+  const c = cardOf(wildId);
+  const S = E.create({ wild: { id: wildId, level: c.level || 1 } });
+  E.apply(S, 'A', { type: 'hello', name: P.team.name() || 'Tú' });
+  E.apply(S, 'B', { type: 'hello', name: c.name + ' salvaje' });
+  S.phase = 'pick';
+  M = newM({ mode: 'local', wild: true, S, onDone });
+  openOverlay(); render();
+}
 function resume(s) {
   if (s.mode === 'host') startHost('', s.code, s.S);
   else if (s.mode === 'guest') startGuest(s.code, s.name);
@@ -172,6 +189,7 @@ function resume(s) {
 
 /* ---------- Enviar acciones ---------- */
 function localCur() {
+  if (M.wild) return 'A';
   const S = M.S, pa = E.pending(S, 'A'), pb = E.pending(S, 'B');
   if (pa && !pb) return 'A';
   if (pb && !pa) return 'B';
@@ -186,10 +204,11 @@ function dispatch(a) {
   const r = E.apply(M.S, side, a);
   if (!r.ok) { P.toast(r.err); return; }
   if (M.mode === 'local') M.cur = localCur();
-  sync();
+  autoPlay(); sync();
 }
+function autoPlay() { if (M && M.wild) for (let i = 0; i < 4; i++) E.autoWild(M.S); }
 function ackBoth() {
-  if (M.mode === 'local') { E.apply(M.S, 'A', { type: 'ack' }); E.apply(M.S, 'B', { type: 'ack' }); M.cur = localCur(); sync(); }
+  if (M.mode === 'local') { E.apply(M.S, 'A', { type: 'ack' }); E.apply(M.S, 'B', { type: 'ack' }); M.cur = localCur(); autoPlay(); sync(); }
   else dispatch({ type: 'ack' });
 }
 function rematch() {
@@ -208,14 +227,14 @@ function connBadge() {
   const c = $('#bConn');
   if (!M) { c.textContent = ''; return; }
   const m = { wait: ['🟡', M.mode === 'host' ? 'Esperando rival' : 'Conectando'], up: ['🟢', 'Conectado'], down: ['🔴', M.mode === 'host' ? 'Rival desconectado' : 'Reconectando…'], error: ['🔴', 'Sin conexión'] }[M.status];
-  c.textContent = M.mode === 'local' ? '📱 1 móvil' : (m ? m[0] + ' ' + m[1] : '');
+  c.textContent = M.wild ? '🌿' : M.mode === 'local' ? '📱 1 móvil' : (m ? m[0] + ' ' + m[1] : '');
 }
 
 function render() {
   if (!M) return;
   const body = $('#bBody');
   connBadge();
-  $('#bTitle').textContent = M.mode === 'local' ? 'Combate · un móvil' : 'Combate · sala ' + M.code;
+  $('#bTitle').textContent = M.wild ? 'Combate salvaje' : M.mode === 'local' ? 'Combate · un móvil' : 'Combate · sala ' + M.code;
   let side, V;
   if (M.mode === 'guest') {
     side = 'B'; V = M.V;
@@ -234,7 +253,7 @@ function render() {
   body.innerHTML = '';
   const scroll = body.scrollTop;
   const secret = V.phase === 'pick' || (V.phase === 'duel' && V.step === 'choose');
-  if (M.mode === 'local' && secret && M.covered !== side) { viewCover(body, V, side); return; }
+  if (M.mode === 'local' && !M.wild && secret && M.covered !== side) { viewCover(body, V, side); return; }
   if (!secret) M.covered = null;
 
   if (V.phase === 'lobby') viewLobby(body, V, side);
@@ -315,10 +334,12 @@ function openDexPicker(onPick) {
 function viewPick(body, V, side) {
   const o = other(side), w = el('div', 'bpick');
   const myLocked = V.locked[side];
+  const wild = !!V.opts.wild, MAXP = wild ? 6 : 3;
   const oppLine = el('div', 'oppline ' + (V.locked[o] ? 'ok' : ''), V.locked[o] ? `✔ ${esc(nameOf(V, o))} ya ha elegido` : `⏳ ${esc(nameOf(V, o))} está eligiendo…`);
   if (M.mode === 'local') oppLine.hidden = true;
-  w.appendChild(el('h2', null, myLocked ? 'Equipo confirmado' : 'Elige tus 3 Pokémon'));
-  w.appendChild(el('p', 'hint', 'Es en secreto: tu rival no verá tu elección hasta que los dos confirméis. El 1.º lucha en el duelo 1, el 2.º en el duelo 2 y el 3.º en el duelo 3.'));
+  w.appendChild(el('h2', null, myLocked ? 'Equipo confirmado' : wild ? `Elige quién lucha contra ${esc(fightWildName(V))}` : 'Elige tus 3 Pokémon'));
+  if (wild) w.appendChild(el('p', 'hint', 'Elige de 1 a 6 Pokémon de tu equipo, en orden. El 1.º se enfrenta al salvaje en un duelo al mejor de 3 rondas; si pierde, entra el siguiente. En cuanto uno gane un duelo, venciste: +2 a tu tirada de captura.'));
+  else w.appendChild(el('p', 'hint', 'Es en secreto: tu rival no verá tu elección hasta que los dos confirméis. El 1.º lucha en el duelo 1, el 2.º en el duelo 2 y el 3.º en el duelo 3.'));
   w.appendChild(oppLine);
 
   if (myLocked) {
@@ -333,8 +354,9 @@ function viewPick(body, V, side) {
 
   const sel = M.pickBy[side];
   const slots = el('div', 'slots');
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < MAXP; i++) {
     const p = sel[i];
+    if (wild && !p && i > sel.length) break;
     if (p) slots.appendChild(slotRow(p, i, {
       up: () => { if (i > 0) { [sel[i - 1], sel[i]] = [sel[i], sel[i - 1]]; render(); } },
       down: () => { if (i < sel.length - 1) { [sel[i + 1], sel[i]] = [sel[i], sel[i + 1]]; render(); } },
@@ -345,7 +367,7 @@ function viewPick(body, V, side) {
   }
   w.appendChild(slots);
 
-  const addable = sel.length < 3;
+  const addable = sel.length < MAXP;
   const team = P.team.list();
   const sec = el('div', 'bsec'); sec.appendChild(el('h3', null, M.mode === 'local' ? 'Equipo guardado en este móvil' : 'De Mi Equipo'));
   if (!team.length) sec.appendChild(el('p', 'hint', 'Tu equipo está vacío. Añade Pokémon desde la Pokédex o elige del Pokédex abajo.'));
@@ -360,11 +382,11 @@ function viewPick(body, V, side) {
   });
   sec.appendChild(grid); w.appendChild(sec);
 
-  const dex = el('button', 'btn wide', '📖 Elegir del Pokédex (líder de gimnasio)'); dex.disabled = !addable;
+  const dex = el('button', 'btn wide', '📖 Elegir del Pokédex (líder de gimnasio)'); dex.disabled = !addable; dex.hidden = wild;
   dex.onclick = () => openDexPicker(c => { sel.push({ id: c.id, level: c.level || 1, src: 'dex' }); render(); });
   w.appendChild(dex);
 
-  const ok = el('button', 'btn primary wide big', '🔒 Confirmar en secreto (' + sel.length + '/3)'); ok.disabled = sel.length !== 3;
+  const ok = el('button', 'btn primary wide big', wild ? '⚔️ ¡A luchar! (' + sel.length + ')' : '🔒 Confirmar en secreto (' + sel.length + '/3)'); ok.disabled = wild ? sel.length < 1 : sel.length !== 3;
   ok.onclick = () => dispatch({ type: 'lock', picks: sel.map(p => ({ id: p.id, level: p.level, st: p.st || [] })) });
   w.appendChild(ok);
   body.appendChild(w);
@@ -420,7 +442,7 @@ function scoreBar(V, side) {
   const dots = s => [0, 1].map(i => `<i class="${V.duelWins[s] > i ? 'on' : ''}"></i>`).join('');
   const rd = s => [0, 1].map(i => `<i class="${V.rw[s] > i ? 'on' : ''}"></i>`).join('');
   return el('div', 'score', `
-    <div class="sc"><span>Duelo ${V.duel + 1} de 3</span><div class="pts"><em>${esc(nameOf(V, side))}</em>${dots(side)}<em>${esc(nameOf(V, o))}</em>${dots(o)}</div></div>
+    <div class="sc"><span>Duelo ${V.duel + 1} de ${(V.picks.A || []).length || 3}</span><div class="pts"><em>${esc(nameOf(V, side))}</em>${dots(side)}<em>${esc(nameOf(V, o))}</em>${dots(o)}</div></div>
     <div class="sc"><span>Ronda ${V.round}</span><div class="pts rnd"><em>${esc(fightName(V, side))}</em>${rd(side)}<em>${esc(fightName(V, o))}</em>${rd(o)}</div></div>`);
 }
 
@@ -648,7 +670,7 @@ function viewDuelEnd(w, V, side) {
   w.appendChild(el('div', 'banner ' + (d.winner === side ? 'win' : 'lose'),
     `¡${esc(fightName(V, d.winner))} gana el duelo ${V.duel + 1}!<small>${esc(nameOf(V, d.winner))} · rondas ${d.rw[side]}–${d.rw[o]}${d.ko ? ' · KO' : ''}</small>`));
   w.appendChild(el('div', 'bigscore', `<div><em>${esc(nameOf(V, side))}</em><b>${V.duelWins[side]}</b></div><span>duelos</span><div><em>${esc(nameOf(V, o))}</em><b>${V.duelWins[o]}</b></div>`));
-  const over = V.duelWins.A >= 2 || V.duelWins.B >= 2 || V.duel >= 2;
+  const over = E.matchOver(V);
   if (!over && V.picks.A && V.picks.B) {
     const n = V.duel + 1, a = cardOf(V.picks[side][n].id), b = cardOf(V.picks[o][n].id);
     w.appendChild(el('p', 'hint', `Siguiente duelo: ${esc(a.name)} contra ${esc(b.name)}.`));
@@ -657,8 +679,23 @@ function viewDuelEnd(w, V, side) {
 }
 
 /* ---------- Final ---------- */
+const fightWildName = V => { const c = cardOf(V.opts.wild.id); return c ? c.name : 'el salvaje'; };
 function viewDone(body, V, side) {
   const o = other(side), win = E.matchWinner(V), w = el('div', 'bdone');
+  if (V.opts.wild) {
+    const r = wildResult(V);
+    w.appendChild(el('div', 'banner big ' + (r.won ? 'win' : 'lose'),
+      r.won ? `¡Has vencido a ${esc(fightWildName(V))}!<small>+2 a tu tirada de captura</small>` : `${esc(fightWildName(V))} ha resistido<small>Sin bonificación, pero aún puedes lanzar la bola</small>`));
+    const l = el('div', 'bsec'); l.appendChild(el('h3', null, 'Duelos'));
+    V.duels.forEach((d, i) => {
+      const a = cardOf(d.ids.A);
+      l.appendChild(el('div', 'duelrow ' + (d.winner === 'A' ? 'win' : 'lose'), `<span>${i + 1}</span><b>${esc(a.name)}</b><em>${d.rw.A}–${d.rw.B}</em><b>${esc(cardOf(d.ids.B).name)}</b><i>${d.winner === 'A' ? '✔' : '✘'}</i>`));
+    });
+    w.appendChild(l);
+    const x = el('button', 'btn primary wide big', 'Volver a la captura'); x.onclick = () => leave(false); w.appendChild(x);
+    body.appendChild(w);
+    return;
+  }
   w.appendChild(el('div', 'banner big ' + (win === side ? 'win' : win ? 'lose' : 'tie'),
     win ? `¡Gana ${esc(nameOf(V, win))}!<small>${V.duelWins.A}–${V.duelWins.B} en duelos</small>` : 'Combate empatado'));
   const l = el('div', 'bsec'); l.appendChild(el('h3', null, 'Duelos'));
@@ -677,7 +714,7 @@ function viewDone(body, V, side) {
 }
 
 /* ---------- API y arranque ---------- */
-P.battle = { menu };
+P.battle = { menu, wild: startWild };
 const sala = N.normCode(new URLSearchParams(location.search).get('sala'));
 if (sala) { joinPrefill = sala; P.team.show('team', 'battle'); }
 })();

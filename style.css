@@ -326,7 +326,7 @@ body.inteam .toast{bottom:calc(76px + env(safe-area-inset-bottom))}
 .evo-btns{position:relative;display:flex;gap:10px;min-height:48px}
 
 /* ---------- Combate ---------- */
-.battle{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column}
+.battle{position:fixed;inset:0;z-index:70;background:var(--bg);display:flex;flex-direction:column}
 .bbar{display:flex;align-items:center;gap:8px;padding:calc(8px + env(safe-area-inset-top)) 10px 8px;background:linear-gradient(var(--red),var(--red-d))}
 .btitle{flex:1;text-align:center;font-weight:700}
 .bconn{font-size:.8rem;min-width:70px;text-align:right}
@@ -594,3 +594,22 @@ dialog[open]::backdrop{animation:fadeIn .25s ease}
 .cr-sub{font-size:.8rem;color:var(--muted);margin-bottom:10px}
 .catchres .btn{margin-top:6px}
 .catchres.auto{border-color:#7b3fc4}
+
+/* ---------- Captura: bolas, combate previo y ticket ---------- */
+.ballpick{grid-template-columns:repeat(3,1fr)}
+@media (min-width:420px){.ballpick{grid-template-columns:repeat(4,1fr)}}
+.ballbtn{font-size:.72rem;line-height:1.15;text-align:center;padding:8px 2px}
+.ballico{width:30px;height:30px}
+.fightbox{background:var(--panel);border-radius:var(--r);padding:10px 12px;margin-bottom:12px}
+.fightbox .hint{padding:0 0 8px}
+.seg.wide{display:flex;width:100%}.seg.wide button{flex:1}
+.fightbox .chk{margin:8px 0 0;font-size:.88rem}
+.fightbox .btn{margin-top:10px}
+.catchout .chk{margin:10px 0;font-size:.9rem}
+.ticket.cap{margin-top:12px}
+.ticket.cap .tk-final b{font-size:2.2rem;text-align:right}
+.ticket.cap .tk-final b.hard{color:#ff8d92}
+.ticket.cap .tk-final span{flex:1 1 100%}
+.tk-note{margin:10px 0 0;font-size:.8rem;color:var(--ink2)}
+.ticket.cap .btn{margin-top:12px;background:var(--ink);color:#fff}
+.ticket.cap .tk-row.plus b{color:#168a48}

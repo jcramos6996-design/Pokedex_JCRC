@@ -191,6 +191,15 @@ E.apply = (S, side, a, rng) => {
       return { ok: true };
     case 'lock': {
       if (S.phase !== 'pick') return err('No es el momento de elegir');
+      if (S.opts.wild) {                       // combate contra un Pokémon salvaje: 1 contra n de tu equipo
+        if (side !== 'A') return err('Solo juega el entrenador');
+        const ps = (a.picks || []).slice(0, 6);
+        if (!ps.length || ps.some(p => !DB.card(p.id))) return err('Elige al menos 1 Pokémon');
+        S.picks.A = ps.map(p => ({ id: p.id, level: Math.max(1, +p.level || 1), st: (p.st || []).filter(n => E.statusByName(n)) }));
+        S.picks.B = ps.map(() => ({ id: S.opts.wild.id, level: Math.max(1, +S.opts.wild.level || 1), st: [] }));
+        S.locked.A = S.locked.B = true; S.phase = 'duel'; S.duel = 0; setupDuel(S);
+        return { ok: true };
+      }
       const picks = (a.picks || []).slice(0, 3);
       if (picks.length !== 3 || picks.some(p => !DB.card(p.id))) return err('Elige 3 Pokémon');
       S.picks[side] = picks.map(p => ({ id: p.id, level: Math.max(1, +p.level || 1), st: (p.st || []).filter(n => E.statusByName(n)) }));
@@ -425,13 +434,30 @@ function advance(S) {
       S.result = null; S.ack = { A: false, B: false };
     }
   } else if (S.step === 'duelEnd') {
-    const decided = S.duelWins.A >= E.MAX_DUEL_WIN || S.duelWins.B >= E.MAX_DUEL_WIN || S.duel >= 2;
+    const decided = E.matchOver(S);
     if (decided) { S.phase = 'done'; S.step = 'done'; S.ack = { A: false, B: false }; }
     else { S.duel++; setupDuel(S); }
   }
 }
 
-E.matchWinner = S => (S.duelWins.A > S.duelWins.B ? 'A' : S.duelWins.B > S.duelWins.A ? 'B' : null);
+/* ¿Se acabó el combate completo? (en el salvaje: cuando uno de tus Pokémon gana un duelo, o ya han peleado todos) */
+E.matchOver = S => S.opts.wild
+  ? (S.duelWins.A >= 1 || S.duel >= (S.picks.A ? S.picks.A.length : 1) - 1)
+  : (S.duelWins.A >= E.MAX_DUEL_WIN || S.duelWins.B >= E.MAX_DUEL_WIN || S.duel >= 2);
+E.matchWinner = S => S.opts.wild ? (S.duelWins.A >= 1 ? 'A' : 'B')
+  : (S.duelWins.A > S.duelWins.B ? 'A' : S.duelWins.B > S.duelWins.A ? 'B' : null);
+
+/* Salvaje: el lado B lo juega la app (ataque al azar, tira solo y confirma solo) */
+E.autoWild = (S, rng) => {
+  rng = rng || Math.random;
+  if (!S.opts.wild || S.phase !== 'duel') return;
+  if (S.step === 'choose' && S.choice.B === null) {
+    const ok = E.availableMoves(S, 'B').filter(x => x.ok);
+    E.apply(S, 'B', { type: 'choose', idx: ok[Math.floor(rng() * ok.length)].i }, rng);
+  }
+  if (S.step === 'roll' && !S.rolls.B) E.apply(S, 'B', { type: 'roll', adj: 0 }, rng);
+  if ((S.step === 'result' || S.step === 'duelEnd') && !S.ack.B) E.apply(S, 'B', { type: 'ack' }, rng);
+};
 
 /* ¿Debe actuar este lado ahora? (sirve para "esperando al rival…" y para el modo de un solo móvil) */
 E.pending = (S, s) => {
