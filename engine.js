@@ -141,7 +141,7 @@ E.statusByName = name => { const k = norm(name); return Object.values(E.STATUS_I
    Estado del combate
    ============================================================ */
 E.create = (opts) => ({
-  v: 1, phase: 'lobby',                       // lobby -> pick -> duel -> done
+  v: 1, size: 3, need: 2, phase: 'lobby',                       // lobby -> pick -> duel -> done
   names: { A: '', B: '' }, joined: { A: false, B: false },
   opts: Object.assign({ immune: 'falla' }, opts || {}),
   picks: { A: null, B: null }, locked: { A: false, B: false },
@@ -197,14 +197,18 @@ E.apply = (S, side, a, rng) => {
         if (!ps.length || ps.some(p => !DB.card(p.id))) return err('Elige al menos 1 Pokémon');
         S.picks.A = ps.map(p => ({ id: p.id, level: Math.max(1, +p.level || 1), st: (p.st || []).filter(n => E.statusByName(n)) }));
         S.picks.B = ps.map(() => ({ id: S.opts.wild.id, level: Math.max(1, +S.opts.wild.level || 1), st: [] }));
-        S.locked.A = S.locked.B = true; S.phase = 'duel'; S.duel = 0; setupDuel(S);
+        S.locked.A = S.locked.B = true; S.size = ps.length; S.need = 1; S.phase = 'duel'; S.duel = 0; setupDuel(S);
         return { ok: true };
       }
       const picks = (a.picks || []).slice(0, 3);
-      if (picks.length !== 3 || picks.some(p => !DB.card(p.id))) return err('Elige 3 Pokémon');
+      if (picks.length < 1 || picks.length > 3 || picks.some(p => !DB.card(p.id))) return err('Elige de 1 a 3 Pokémon');
       S.picks[side] = picks.map(p => ({ id: p.id, level: Math.max(1, +p.level || 1), st: (p.st || []).filter(n => E.statusByName(n)) }));
       S.locked[side] = true;
-      if (S.locked.A && S.locked.B) { S.phase = 'duel'; S.duel = 0; setupDuel(S); }
+      if (S.locked.A && S.locked.B) {
+        S.size = Math.min(S.picks.A.length, S.picks.B.length);      // se juegan tantos duelos como Pokémon lleve el que menos lleva
+        S.need = Math.floor(S.size / 2) + 1;                         // duelos para ganar (1→1, 2→2, 3→2)
+        S.phase = 'duel'; S.duel = 0; setupDuel(S);
+      }
       return { ok: true };
     }
     case 'unlock':
@@ -443,7 +447,7 @@ function advance(S) {
 /* ¿Se acabó el combate completo? (en el salvaje: cuando uno de tus Pokémon gana un duelo, o ya han peleado todos) */
 E.matchOver = S => S.opts.wild
   ? (S.duelWins.A >= 1 || S.duel >= (S.picks.A ? S.picks.A.length : 1) - 1)
-  : (S.duelWins.A >= E.MAX_DUEL_WIN || S.duelWins.B >= E.MAX_DUEL_WIN || S.duel >= 2);
+  : (S.duelWins.A >= (S.need || E.MAX_DUEL_WIN) || S.duelWins.B >= (S.need || E.MAX_DUEL_WIN) || S.duel >= (S.size || 3) - 1);
 E.matchWinner = S => S.opts.wild ? (S.duelWins.A >= 1 ? 'A' : 'B')
   : (S.duelWins.A > S.duelWins.B ? 'A' : S.duelWins.B > S.duelWins.A ? 'B' : null);
 

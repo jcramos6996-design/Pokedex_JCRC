@@ -138,3 +138,16 @@ escribir en español (`agua`, `fuego`, `planta`…).
 - **Sonido** (`audio.js`, `AudioManager`): todo sintetizado con Web Audio, sin archivos. Botón 🔔/🎵/🔇 en las cabeceras: solo efectos (por defecto), música y efectos, silencio. Se guarda en el móvil. Suena un clic en filtros, pestañas y botones, un error al intentar un 7.º Pokémon y un sonido de captura al añadir.
 - **Poké Ball** al añadir a Mi Equipo: animación CSS (cae, 3 oscilaciones, se cierra y desaparece), sincronizada con el sonido.
 - **Calculadora de captura** (`captura.js`): en cada ficha, eliges la bola y sale el número que hay que sacar. El dato es la columna `captura` del CSV/Excel ("4+" = número con Poké Ball). Los modificadores de bola (Super −1, Ultra −2, Master automática) están al inicio de `captura.js`: ajústalos a vuestras reglas.
+
+## Captura con las cartas de bola
+
+- Las 19 cartas de captura están en la tabla `BALLS` de `captura.js` (bonus, condiciones, notas). Fórmula: tirada + bonus de la bola + 2 si vences al Pokémon antes ≥ número de captura. Se muestra el cálculo paso a paso.
+- Combate previo ("Luchar contra X con mi equipo"): 1 Pokémon salvaje contra 1 a 6 de tu equipo, en orden. Cada duelo es al mejor de 3 rondas. En cuanto uno gana un duelo, has vencido (+2). El salvaje lo juega la app (ataque al azar y tira solo).
+
+## Release 4.1
+
+- **Debilitado**: botón ❤️/💔 en cada Pokémon del equipo. Se pone en gris, no se puede elegir para combatir y pierde sus estados alterados. Se guarda en el móvil.
+- **Centro Pokémon**: botón en la cabecera de Mi Equipo (con confirmación). Cura estados y Debilitado de todo el equipo y del PC, con melodía propia.
+- **Combate flexible**: de 1 a 3 Pokémon por entrenador. Se juegan tantos duelos como Pokémon lleve el que menos lleva (1 duelo: gana quien lo gane; 2 duelos: hay que ganar los 2, si no es empate; 3 duelos: gana quien gane 2).
+- **Identificadores únicos** por Pokémon (`uid`): dos iguales no se mezclan. Al evolucionar se conservan estados y Debilitado.
+- **Pantalla activa**: se vuelve a pedir al volver a la app (`visibilitychange` y `pageshow`). **Audio**: toda llamada que el navegador pueda bloquear está protegida.

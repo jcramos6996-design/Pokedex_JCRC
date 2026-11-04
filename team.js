@@ -19,8 +19,15 @@ try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.
 S.team = (S.team || []).filter(e => P.byId.has(e.id));
 S.pc = (S.pc || []).filter(e => P.byId.has(e.id));
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (_) {} };
-const uid = () => Math.random().toString(36).slice(2, 9);
-const mk = id => ({ uid: uid(), id, extra: 0 });
+/* Cada Pokémon del equipo/PC es una INSTANCIA con su propio identificador único (uid):
+   dos Pidgey iguales no se confunden en pantalla ni se borran a la vez. */
+let seq = 0;
+const uid = () => Date.now().toString(36) + '-' + (++seq).toString(36) + Math.random().toString(36).slice(2, 5);
+const mk = id => ({ uid: uid(), id, extra: 0, fainted: false });
+(function fixIds() {                                  // guardados antiguos: sin uid o con uid repetido
+  const seen = new Set();
+  S.team.concat(S.pc).forEach(e => { if (!e.uid || seen.has(e.uid)) e.uid = uid(); seen.add(e.uid); e.fainted = !!e.fainted; });
+})();
 
 /* ---------- Datos de una entrada ---------- */
 const cardOf = e => P.byId.get(e.id);
@@ -192,6 +199,7 @@ function fromPC(e) {
 const SI = E.STATUS_INFO;
 const stNames = e => E.STATUS_ORDER.filter(k => e.st && e.st[k]).map(k => SI[k].name);
 function toggleStatus(e, k) {
+  if (e.fainted) return;
   e.st = e.st || {};
   if (e.st[k]) { delete e.st[k]; P.toast(SI[k].name + ' quitado a ' + cardOf(e).name, 'info'); }
   else {
@@ -203,6 +211,29 @@ function toggleStatus(e, k) {
   }
   save(); renderTeamView();
 }
+function toggleFaint(e) {
+  e.fainted = !e.fainted;
+  if (e.fainted) {
+    e.st = {};                                        // al debilitarse se descartan los estados (según las tarjetas)
+    P.toast(cardOf(e).name + ' se ha debilitado', 'error');
+  } else P.toast(cardOf(e).name + ' vuelve a estar en forma', 'ok');
+  save(); renderTeamView();
+}
+function healAll() {
+  const all = S.team.concat(S.pc);
+  const sick = all.filter(e => e.fainted || stNames(e).length);
+  if (!sick.length) { P.toast('Tu equipo ya está en perfecto estado', 'info'); return; }
+  confirmDlg('Centro Pokémon', 'Se curarán todos tus Pokémon: se quitan los estados alterados y el estado Debilitado.', 'Curar a todos', false).then(ok => {
+    if (!ok) return;
+    all.forEach(e => { e.st = {}; e.fainted = false; });
+    save(); renderTeamView();
+    if (window.AudioManager) AudioManager.play('heal');
+    P.toast('¡Tus Pokémon están como nuevos!', 'ok');
+    document.querySelectorAll('#teamBody .trow').forEach(r => { r.classList.remove('healed'); void r.offsetWidth; r.classList.add('healed'); });
+    bump();
+  });
+}
+$('#healBtn').addEventListener('click', healAll);
 function statusBar(e) {
   const bar = el('div', 'stbar');
   E.STATUS_ORDER.forEach(k => {
@@ -211,6 +242,7 @@ function statusBar(e) {
     b.style.setProperty('--sc', SI[k].color);
     b.setAttribute('aria-pressed', on); b.setAttribute('aria-label', SI[k].name);
     b.title = SI[k].name;
+    b.disabled = !!e.fainted;
     b.onclick = () => toggleStatus(e, k);
     bar.appendChild(b);
   });
@@ -282,7 +314,7 @@ function iconBtn(txt, label, fn, dis, cls) {
 
 function teamRow(e, i) {
   const c = cardOf(e), lv = levelOf(e), ready = readyToEvolve(e);
-  const row = el('div', 'trow' + (ready ? ' ready' : '') + (stNames(e).length ? ' hasst' : ''));
+  const row = el('div', 'trow' + (ready ? ' ready' : '') + (stNames(e).length ? ' hasst' : '') + (e.fainted ? ' ko' : ''));
   row.appendChild(thumb(e));
   const info = el('div', 'tinfo');
   const name = el('div', 'tname', `<b>${esc(c.name)}</b> <span>#${esc(c.id)}</span>`);
@@ -315,7 +347,11 @@ function teamRow(e, i) {
     iconBtn('💾', 'Guardar en el PC', () => toPC(e)),
     iconBtn('🕊️', 'Liberar', () => release(S.team, e), false, 'danger'));
   row.appendChild(act);
-  const sb = el('div', 'strow'); sb.appendChild(statusBar(e));
+  const sb = el('div', 'strow');
+  const kb = el('button', 'kobtn' + (e.fainted ? ' on' : ''), e.fainted ? '💔 Debilitado · toca para reanimar' : '❤️ En forma · toca si se debilita'); kb.type = 'button';
+  kb.setAttribute('aria-pressed', !!e.fainted); kb.onclick = () => toggleFaint(e);
+  sb.appendChild(kb);
+  sb.appendChild(statusBar(e));
   const det = statusDetail(e); if (det) sb.appendChild(det);
   row.appendChild(sb);
   return row;
@@ -429,7 +465,7 @@ function playEvolution(e, to) {
 P.team = {
   add,
   count: id => S.team.filter(e => e.id === id).length + S.pc.filter(e => e.id === id).length,
-  list: () => S.team.map(e => ({ uid: e.uid, id: e.id, level: levelOf(e), name: cardOf(e).name, st: stNames(e) })),
+  list: () => S.team.map(e => ({ uid: e.uid, id: e.id, level: levelOf(e), name: cardOf(e).name, st: stNames(e), fainted: !!e.fainted })),
   name: () => S.name || '',
   setName: n => { S.name = String(n || '').slice(0, 20); save(); },
   show: (v, t) => { if (t) tab = t; showView(v || 'team'); },

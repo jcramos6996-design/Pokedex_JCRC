@@ -74,7 +74,7 @@ function menu(body) {
   const name = P.team.name();
   body.appendChild(el('div', 'bmenu', `
     <h2>Combate contra entrenador</h2>
-    <p class="hint">3 contra 3. Cada duelo entre dos Pokémon es al mejor de 3 rondas. Gana el combate quien gane 2 duelos. La app hace las cuentas; tú solo eliges y tiras.</p>
+    <p class="hint">Hasta 3 contra 3. Cada duelo entre dos Pokémon es al mejor de 3 rondas. Gana el combate quien gane 2 duelos. La app hace las cuentas; tú solo eliges y tiras.</p>
     <label class="field">Tu nombre<input id="bName" maxlength="20" placeholder="Ash" value="${esc(name)}" autocomplete="off"></label>
     <div class="bcard"><h3>Crear sala</h3><p>Tú serás el anfitrión. Te sale un código para que tu rival lo escriba en su móvil.</p><button class="btn primary wide" id="bHost">Crear sala</button></div>
     <div class="bcard"><h3>Unirme a una sala</h3><p>Escribe el código que te da tu rival.</p>
@@ -334,12 +334,12 @@ function openDexPicker(onPick) {
 function viewPick(body, V, side) {
   const o = other(side), w = el('div', 'bpick');
   const myLocked = V.locked[side];
-  const wild = !!V.opts.wild, MAXP = wild ? 6 : 3;
+  const wild = !!V.opts.wild, MAXP = wild ? 6 : 3;     // normal: de 1 a 3; salvaje: de 1 a 6
   const oppLine = el('div', 'oppline ' + (V.locked[o] ? 'ok' : ''), V.locked[o] ? `✔ ${esc(nameOf(V, o))} ya ha elegido` : `⏳ ${esc(nameOf(V, o))} está eligiendo…`);
   if (M.mode === 'local') oppLine.hidden = true;
-  w.appendChild(el('h2', null, myLocked ? 'Equipo confirmado' : wild ? `Elige quién lucha contra ${esc(fightWildName(V))}` : 'Elige tus 3 Pokémon'));
+  w.appendChild(el('h2', null, myLocked ? 'Equipo confirmado' : wild ? `Elige quién lucha contra ${esc(fightWildName(V))}` : 'Elige de 1 a 3 Pokémon'));
   if (wild) w.appendChild(el('p', 'hint', 'Elige de 1 a 6 Pokémon de tu equipo, en orden. El 1.º se enfrenta al salvaje en un duelo al mejor de 3 rondas; si pierde, entra el siguiente. En cuanto uno gane un duelo, venciste: +2 a tu tirada de captura.'));
-  else w.appendChild(el('p', 'hint', 'Es en secreto: tu rival no verá tu elección hasta que los dos confirméis. El 1.º lucha en el duelo 1, el 2.º en el duelo 2 y el 3.º en el duelo 3.'));
+  else w.appendChild(el('p', 'hint', 'Es en secreto: tu rival no verá tu elección hasta que los dos confirméis. El 1.º lucha en el duelo 1, el 2.º en el duelo 2 y el 3.º en el duelo 3. Puedes llevar solo 1 o 2: se juegan tantos duelos como Pokémon lleve el que menos lleve.'));
   w.appendChild(oppLine);
 
   if (myLocked) {
@@ -356,7 +356,7 @@ function viewPick(body, V, side) {
   const slots = el('div', 'slots');
   for (let i = 0; i < MAXP; i++) {
     const p = sel[i];
-    if (wild && !p && i > sel.length) break;
+    if (!p && i > sel.length) break;
     if (p) slots.appendChild(slotRow(p, i, {
       up: () => { if (i > 0) { [sel[i - 1], sel[i]] = [sel[i], sel[i - 1]]; render(); } },
       down: () => { if (i < sel.length - 1) { [sel[i + 1], sel[i]] = [sel[i], sel[i + 1]]; render(); } },
@@ -374,9 +374,9 @@ function viewPick(body, V, side) {
   const grid = el('div', 'pickgrid');
   team.forEach(t => {
     const used = sel.some(p => p.uid === t.uid);
-    const b = el('button', 'pickitem'); b.type = 'button'; b.disabled = used || !addable;
+    const b = el('button', 'pickitem'); b.type = 'button'; b.disabled = used || !addable || t.fainted;
     b.appendChild(thumbCard(cardOf(t.id), true));
-    b.appendChild(el('em', null, esc(t.name) + ' · Nv ' + t.level));
+    b.appendChild(el('em', null, esc(t.name) + ' · ' + (t.fainted ? 'Debilitado' : 'Nv ' + t.level)));
     b.onclick = () => { sel.push({ id: t.id, level: t.level, uid: t.uid, src: 'team', st: t.st || [] }); render(); };
     grid.appendChild(b);
   });
@@ -386,7 +386,7 @@ function viewPick(body, V, side) {
   dex.onclick = () => openDexPicker(c => { sel.push({ id: c.id, level: c.level || 1, src: 'dex' }); render(); });
   w.appendChild(dex);
 
-  const ok = el('button', 'btn primary wide big', wild ? '⚔️ ¡A luchar! (' + sel.length + ')' : '🔒 Confirmar en secreto (' + sel.length + '/3)'); ok.disabled = wild ? sel.length < 1 : sel.length !== 3;
+  const ok = el('button', 'btn primary wide big', wild ? '⚔️ ¡A luchar! (' + sel.length + ')' : '🔒 Confirmar en secreto (' + sel.length + ')'); ok.disabled = sel.length < 1;
   ok.onclick = () => dispatch({ type: 'lock', picks: sel.map(p => ({ id: p.id, level: p.level, st: p.st || [] })) });
   w.appendChild(ok);
   body.appendChild(w);
@@ -439,10 +439,11 @@ function fighterPanel(V, s, mine) {
 
 function scoreBar(V, side) {
   const o = other(side);
-  const dots = s => [0, 1].map(i => `<i class="${V.duelWins[s] > i ? 'on' : ''}"></i>`).join('');
+  const nd = V.opts.wild ? 1 : (V.need || 2);
+  const dots = s => Array.from({ length: nd }, (_, i) => `<i class="${V.duelWins[s] > i ? 'on' : ''}"></i>`).join('');
   const rd = s => [0, 1].map(i => `<i class="${V.rw[s] > i ? 'on' : ''}"></i>`).join('');
   return el('div', 'score', `
-    <div class="sc"><span>Duelo ${V.duel + 1} de ${(V.picks.A || []).length || 3}</span><div class="pts"><em>${esc(nameOf(V, side))}</em>${dots(side)}<em>${esc(nameOf(V, o))}</em>${dots(o)}</div></div>
+    <div class="sc"><span>Duelo ${V.duel + 1} de ${V.size || 3}</span><div class="pts"><em>${esc(nameOf(V, side))}</em>${dots(side)}<em>${esc(nameOf(V, o))}</em>${dots(o)}</div></div>
     <div class="sc"><span>Ronda ${V.round}</span><div class="pts rnd"><em>${esc(fightName(V, side))}</em>${rd(side)}<em>${esc(fightName(V, o))}</em>${rd(o)}</div></div>`);
 }
 

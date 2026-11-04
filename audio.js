@@ -24,6 +24,8 @@ try { const v = localStorage.getItem(KEY); if (MODES.includes(v)) mode = v; } ca
 let ctx = null, master = null, sfxG = null, bgmG = null;
 const hz = m => 440 * Math.pow(2, (m - 69) / 12);
 
+/* resume()/suspend() devuelven promesas: si el navegador bloquea el audio no debe romperse nada */
+const safe = p => { try { if (p && typeof p.catch === 'function') p.catch(() => {}); } catch (_) {} };
 function ensure() {
   if (ctx) return ctx;
   const AC = window.AudioContext || window.webkitAudioContext;
@@ -68,14 +70,24 @@ const SFX = {
       tone(f / 2, s, i === 6 ? 0.45 : 0.12, { type: 'triangle', vol: 0.12 });
     });
   },
+  // Centro Pokémon (melodía propia): campanitas ascendentes y acorde final
+  heal: t => {
+    [659, 784, 988, 1319, 988, 1319, 1568].forEach((f, i) => {
+      const s = t + i * 0.16;
+      tone(f, s, i === 6 ? 0.9 : 0.2, { type: 'triangle', vol: 0.14 });
+      tone(f * 2, s, 0.12, { type: 'sine', vol: 0.05 });
+    });
+    [523, 659, 784].forEach(f => tone(f, t + 1.15, 1.0, { type: 'triangle', vol: 0.08 }));
+  },
+  faint: t => { tone(440, t, 0.5, { type: 'sawtooth', vol: 0.08, slide: 110 }); },
   evolve: t => { for (let i = 0; i < 14; i++) tone(400 + i * 70, t + i * 0.12, 0.14, { type: 'triangle', vol: 0.1 }); tone(1046, t + 1.8, 0.7, { type: 'square', vol: 0.08 }); }
 };
 
 function play(name) {
   if (mode === 'off' || !SFX[name]) return;
   const c = ensure(); if (!c) return;
-  if (c.state === 'suspended') c.resume();
-  SFX[name](c.currentTime + 0.01);
+  if (c.state === 'suspended') safe(c.resume());
+  try { SFX[name](c.currentTime + 0.01); } catch (_) {}
 }
 
 /* ---------- Música de fondo: bucle sencillo (La menor – Fa – Do – Sol) ---------- */
@@ -99,7 +111,7 @@ function sched() {
 }
 function startBgm() {
   const c = ensure(); if (!c || timer) return;
-  if (c.state === 'suspended') c.resume();
+  if (c.state === 'suspended') safe(c.resume());
   bgmG.gain.cancelScheduledValues(c.currentTime);
   bgmG.gain.setValueAtTime(bgmG.gain.value, c.currentTime);
   bgmG.gain.linearRampToValueAtTime(0.9, c.currentTime + 1.2);       // entrada suave
@@ -131,14 +143,14 @@ const cycle = () => setMode(MODES[(MODES.indexOf(mode) + 1) % MODES.length]);
 /* Desbloqueo con el primer toque (política de autoplay de los navegadores) */
 function unlock() {
   const c = ensure(); if (!c) return;
-  if (c.state === 'suspended') c.resume();
+  if (c.state === 'suspended') safe(c.resume());
   if (mode === 'full') startBgm();
 }
 ['pointerdown', 'touchend', 'keydown'].forEach(ev => document.addEventListener(ev, unlock, { passive: true }));
 document.addEventListener('visibilitychange', () => {
   if (!ctx) return;
-  if (document.visibilityState === 'hidden') { ctx.suspend(); }
-  else { ctx.resume(); if (mode === 'full' && !timer) startBgm(); }
+  if (document.visibilityState === 'hidden') { safe(ctx.suspend()); }
+  else { safe(ctx.resume()); if (mode === 'full' && !timer) startBgm(); }
 });
 
 /* "Clic" al pulsar filtros, pestañas y botones */
@@ -151,5 +163,14 @@ document.addEventListener('click', e => {
 document.addEventListener('click', e => { if (e.target.closest('[data-music]')) cycle(); });
 window.addEventListener('DOMContentLoaded', paint);
 
-window.AudioManager = { play, setMode, cycle, unlock, get mode() { return mode; } };
+/* Para archivos de sonido (.mp3/.ogg) si algún día se usan: nunca lanza errores si el navegador bloquea el audio */
+function playFile(url, vol) {
+  if (mode === 'off') return Promise.resolve(false);
+  try {
+    const au = new Audio(url); au.volume = vol == null ? 0.8 : vol;
+    const p = au.play();
+    return p && p.then ? p.then(() => true).catch(() => false) : Promise.resolve(true);
+  } catch (_) { return Promise.resolve(false); }
+}
+window.AudioManager = { playFile, play, setMode, cycle, unlock, get mode() { return mode; } };
 })();

@@ -79,7 +79,15 @@ function toggle() {
   if (want) { request().then(() => { if (state === 'on') showToast('Pantalla siempre encendida', 'ok'); }); }
   else { release(); showToast('La pantalla podrá apagarse sola', 'info'); }
 }
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') request(); });
+/* Al volver a la app se pide de nuevo SIEMPRE (iOS destruye el bloqueo al minimizar, a veces sin avisar) */
+function reacquire() {
+  if (document.visibilityState !== 'visible') return;
+  const old = sentinel; sentinel = null;
+  try { if (old && !old.released) old.release().catch(() => {}); } catch (_) {}
+  request();
+}
+document.addEventListener('visibilitychange', reacquire);
+window.addEventListener('pageshow', reacquire);
 // Algunos navegadores solo conceden el bloqueo tras un toque del usuario
 ['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, () => request(), { passive: true }));
 document.addEventListener('click', e => { if (e.target.closest('[data-wake]')) toggle(); });
