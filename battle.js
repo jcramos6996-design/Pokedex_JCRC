@@ -681,8 +681,15 @@ function viewDuelEnd(w, V, side) {
 
 /* ---------- Final ---------- */
 const fightWildName = V => { const c = cardOf(V.opts.wild.id); return c ? c.name : 'el salvaje'; };
+function recordOnce(V, side, win) {
+  if (!M || M.recorded || !P.trainer) return;
+  M.recorded = true;
+  if (V.opts.wild) { const r = wildResult(V); if (r) P.trainer.battle({ kind: 'wild', won: r.won }); }
+  else if (M.mode !== 'local') P.trainer.battle({ kind: 'trainer', won: win === side, tie: win == null });
+}
 function viewDone(body, V, side) {
   const o = other(side), win = E.matchWinner(V), w = el('div', 'bdone');
+  recordOnce(V, side, win);
   if (V.opts.wild) {
     const r = wildResult(V);
     w.appendChild(el('div', 'banner big ' + (r.won ? 'win' : 'lose'),

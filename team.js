@@ -23,7 +23,7 @@ const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch
    dos Pidgey iguales no se confunden en pantalla ni se borran a la vez. */
 let seq = 0;
 const uid = () => Date.now().toString(36) + '-' + (++seq).toString(36) + Math.random().toString(36).slice(2, 5);
-const mk = id => ({ uid: uid(), id, extra: 0, fainted: false });
+const mk = id => { if (P.trainer) P.trainer.caught(id); return { uid: uid(), id, extra: 0, fainted: false }; };
 (function fixIds() {                                  // guardados antiguos: sin uid o con uid repetido
   const seen = new Set();
   S.team.concat(S.pc).forEach(e => { if (!e.uid || seen.has(e.uid)) e.uid = uid(); seen.add(e.uid); e.fainted = !!e.fainted; });
@@ -44,13 +44,15 @@ const readyToEvolve = e => {
 let view = 'dex', tab = 'team';
 function showView(v) {
   view = v;
-  const dex = v === 'dex';
+  const dex = v === 'dex', tr = v === 'trainer';
   $('#top').hidden = !dex;
   $('.layout').hidden = !dex;
-  $('#viewTeam').hidden = dex;
+  $('#viewTeam').hidden = v !== 'team';
+  $('#viewTrainer').hidden = !tr;
   document.body.classList.toggle('inteam', !dex);
   document.querySelectorAll('.bottomnav button').forEach(b => b.classList.toggle('on', b.dataset.view === v));
-  if (!dex) renderTeamView();
+  if (v === 'team') renderTeamView();
+  if (tr && P.trainer) P.trainer.render();
   window.scrollTo(0, 0);
 }
 document.querySelectorAll('.bottomnav button').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
@@ -448,6 +450,7 @@ function playEvolution(e, to) {
   at(5300, () => {                                                         // se consuma la evolución
     finished = true;
     const lv = levelOf(e);
+    if (P.trainer) P.trainer.evolved(from.id, to.id);
     e.id = to.id; e.extra = Math.max(0, lv - baseLevel(to));
     save(); updateCounters();
     ov.classList.add('p4');

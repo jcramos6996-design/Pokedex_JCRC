@@ -206,7 +206,7 @@ function catchSection(c, onCaught) {
     if (b.note && !b.auto) h += `<p class="tk-note">ℹ️ ${esc(b.note)}</p>`;
     box.innerHTML = h;
     const caught = el('button', 'btn wide', '✔ ¡Capturado! Añadir a Mi Equipo'); caught.type = 'button'; caught.dataset.nosound = '1';
-    caught.onclick = () => onCaught && onCaught();
+    caught.onclick = () => { if (P.trainer) P.trainer.captured(c.id, b.id); if (onCaught) onCaught(); };
     box.appendChild(caught);
   }
 

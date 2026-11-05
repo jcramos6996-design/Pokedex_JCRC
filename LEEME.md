@@ -151,3 +151,13 @@ escribir en español (`agua`, `fuego`, `planta`…).
 - **Combate flexible**: de 1 a 3 Pokémon por entrenador. Se juegan tantos duelos como Pokémon lleve el que menos lleva (1 duelo: gana quien lo gane; 2 duelos: hay que ganar los 2, si no es empate; 3 duelos: gana quien gane 2).
 - **Identificadores únicos** por Pokémon (`uid`): dos iguales no se mezclan. Al evolucionar se conservan estados y Debilitado.
 - **Pantalla activa**: se vuelve a pedir al volver a la app (`visibilitychange` y `pageshow`). **Audio**: toda llamada que el navegador pueda bloquear está protegida.
+
+## Fondo
+
+El fondo de hexágonos está en `assets/fondo.jpg` (escritorio) y `assets/fondo-movil.jpg` (móvil vertical). Se aplica en `style.css`, al final, en el bloque "Fondo de hexágonos". Para cambiarlo, sustituye esas dos imágenes.
+
+## Tarjeta de Entrenador (pestaña 🪪)
+
+- `trainer.js` + `data/trainer.js`. Perfil (nombre, foto o icono, ID, rango), Pokédex personal (por región y tipo, qué te falta), medallas y Liga, ciudades visitadas y dónde estás, estadísticas de combate y capturas, logros, notas, guardar la tarjeta como imagen y copia de seguridad (descargar / restaurar).
+- Se rellena sola: cada Pokémon que entra en tu equipo cuenta en la Pokédex, "capturado" cuenta como captura, evolucionar suma evolución y los combates en línea y contra salvajes suman victorias/derrotas. Medallas y ciudades se marcan a mano.
+- Regiones, gimnasios y ciudades (Kanto y Johto de ejemplo) se cambian en `data/trainer.js`.

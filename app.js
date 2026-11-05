@@ -482,6 +482,7 @@ function openDetail(id) {
   const c = byId.get(id);
   if (!c) return;
   cur = c;
+  if (window.PMTU.trainer) window.PMTU.trainer.seen(id);
   navList = filtered.includes(c) ? filtered : CARDS;
   renderDetail();
   if (!detailOpen) {

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#b3212a">
 <title>Pokédex de Cartas · Maestro Entrenador</title>
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 
@@ -67,9 +67,19 @@
   <div id="teamBody" class="teambody"></div>
 </section>
 
+<!-- Tarjeta de entrenador -->
+<section id="viewTrainer" class="team" hidden>
+  <header class="teamtop">
+    <div class="tt"><h1>Entrenador</h1><button class="wakebtn" data-music type="button">🔔</button>
+    <button class="wakebtn" data-wake type="button">🌙</button></div>
+  </header>
+  <div id="trainerBody" class="teambody trainerbody"></div>
+</section>
+
 <nav class="bottomnav" aria-label="Secciones">
   <button data-view="dex" class="on"><span class="ni">📖</span>Pokédex</button>
   <button data-view="team"><span class="ni">🎒</span>Mi Equipo<span id="navCount" class="ncount" hidden>0</span><span id="navBadge" class="nbadge" hidden>0</span></button>
+  <button data-view="trainer"><span class="ni">🪪</span>Entrenador</button>
 </nav>
 
 <!-- Combate -->
@@ -131,14 +141,16 @@
 
 <div id="toast" class="toast" role="status" hidden></div>
 
-<script src="audio.js?v=7"></script>
-<script src="ui.js?v=7"></script>
-<script src="engine.js?v=7"></script>
-<script src="data/cards.js?v=7"></script>
-<script src="app.js?v=7"></script>
-<script src="captura.js?v=7"></script>
-<script src="team.js?v=7"></script>
-<script src="net.js?v=7"></script>
-<script src="battle.js?v=7"></script>
+<script src="audio.js?v=8"></script>
+<script src="ui.js?v=8"></script>
+<script src="engine.js?v=8"></script>
+<script src="data/cards.js?v=8"></script>
+<script src="data/trainer.js?v=8"></script>
+<script src="app.js?v=8"></script>
+<script src="captura.js?v=8"></script>
+<script src="team.js?v=8"></script>
+<script src="trainer.js?v=8"></script>
+<script src="net.js?v=8"></script>
+<script src="battle.js?v=8"></script>
 </body>
 </html>
