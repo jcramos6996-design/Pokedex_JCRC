@@ -15,6 +15,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 1,
+  "evoLevel": 3,
   "ability": "Espesura",
   "abilityDesc": "Gana +1 al total si usas un movimiento de tipo Planta y el resultado del dado de combate fue 2 o menos",
   "captura": "3+",
@@ -52,6 +54,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Espesura",
   "abilityDesc": "Gana +1 al total si usas un movimiento de tipo Planta y el resultado del dado de combate fue 2 o menos",
   "captura": "5+",
@@ -89,6 +93,7 @@ window.CARDS = [
    "kanto"
   ],
   "canMega": true,
+  "level": 5,
   "ability": "Espesura",
   "abilityDesc": "Gana +1 al total si usas un movimiento de tipo Planta y el resultado del dado de combate fue 2 o menos",
   "captura": "7+",
@@ -137,6 +142,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 1,
+  "evoLevel": 3,
   "ability": "Mar Llamas",
   "abilityDesc": "Gana +1 al total si usas un movimiento de tipo fuego y el resultado del dado de combate fue 2 o menos",
   "captura": "3+",
@@ -175,6 +182,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Mar Llamas",
   "abilityDesc": "Gana +1 al total si usas un movimiento de tipo fuego y el resultado del dado de combate fue 2 o menos",
   "captura": "5+",
@@ -216,6 +225,7 @@ window.CARDS = [
    "fly"
   ],
   "canMega": true,
+  "level": 5,
   "ability": "Mar Llamas",
   "abilityDesc": "Gana +1 al total si usas un movimiento de tipo fuego y el resultado del dado de combate fue 2 o menos",
   "captura": "7+",
@@ -264,6 +274,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 1,
+  "evoLevel": 3,
   "ability": "Torrente",
   "abilityDesc": "Gana +1 al total si usas un movimiento de tipo agua y el resultado del dado de combate fue 2 o menos",
   "captura": "3+",
@@ -303,6 +315,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Torrente",
   "abilityDesc": "Gana +1 al total si usas un movimiento de tipo agua y el resultado del dado de combate fue 2 o menos",
   "captura": "5+",
@@ -342,6 +356,7 @@ window.CARDS = [
    "surf"
   ],
   "canMega": true,
+  "level": 5,
   "ability": "Torrente",
   "abilityDesc": "Gana +1 al total si usas un movimiento de tipo agua y el resultado del dado de combate fue 2 o menos",
   "captura": "7+",
@@ -389,6 +404,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 1,
+  "evoLevel": 2,
   "ability": "Polvo Escudo",
   "abilityDesc": "Inmune a N-D6 de movimientos",
   "captura": "3+",
@@ -418,6 +435,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 3,
   "ability": "Mudar",
   "abilityDesc": "Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.",
   "captura": "4+",
@@ -445,6 +464,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
   "ability": "Ojo Compuesto",
   "abilityDesc": "Si sacas 1 en el dado de combate, puedes repetir tirada con un D4",
   "captura": "5+",
@@ -494,6 +514,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 1,
+  "evoLevel": 2,
   "ability": "Polvo Escudo",
   "abilityDesc": "Inmune a N-D6 de movimientos",
   "captura": "3+",
@@ -524,6 +546,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 3,
   "ability": "Mudar",
   "abilityDesc": "Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.",
   "captura": "4+",
@@ -552,6 +576,7 @@ window.CARDS = [
    "kanto"
   ],
   "canMega": true,
+  "level": 3,
   "ability": "Enjambre",
   "abilityDesc": "Gana +1 al total si usas un movimiento de tipo Bicho y el resultado del dado de combate fue 2 o menos",
   "captura": "5+",
@@ -604,6 +629,8 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
+  "level": 1,
+  "evoLevel": 3,
   "ability": "Vista Lince",
   "abilityDesc": "Siempre acierta sus ataques",
   "captura": "3+",
@@ -644,6 +671,8 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Vista Lince",
   "abilityDesc": "Siempre acierta sus ataques",
   "captura": "5+",
@@ -682,6 +711,7 @@ window.CARDS = [
    "fly"
   ],
   "canMega": true,
+  "level": 5,
   "ability": "Vista Lince",
   "abilityDesc": "Siempre acierta sus ataques",
   "captura": "7+",
@@ -729,6 +759,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 1,
+  "evoLevel": 3,
   "ability": "Agallas",
   "abilityDesc": "Si el Pokemon sufre algún estado, su ataque se incrementa en +2",
   "captura": "3+",
@@ -764,6 +796,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
   "ability": "Agallas",
   "abilityDesc": "Si el Pokemon sufre algún estado, su ataque se incrementa en +2",
   "captura": "5+",
@@ -804,6 +837,8 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
+  "level": 1,
+  "evoLevel": 3,
   "ability": "Vista Lince",
   "abilityDesc": "Siempre acierta sus ataques",
   "captura": "3+",
@@ -841,6 +876,7 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
+  "level": 3,
   "ability": "Vista Lince",
   "abilityDesc": "Siempre acierta sus ataques",
   "captura": "5+",
@@ -877,6 +913,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 1,
+  "evoLevel": 3,
   "ability": "Mudar",
   "abilityDesc": "Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.",
   "captura": "3+",
@@ -912,6 +950,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
   "ability": "Mudar",
   "abilityDesc": "Si sufre algún estado. Al final de cada turno tira un dado y si saca 4 o más, cura el estado.",
   "captura": "5+",
@@ -950,6 +989,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Electricidad Estática",
   "abilityDesc": "Al final de cada ronda lanza un dada de efecto Parálisis +5",
   "captura": "5+",
@@ -985,6 +1026,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 5,
   "ability": "Electricidad Estática",
   "abilityDesc": "Al final de cada ronda lanza un dada de efecto Parálisis +5",
   "captura": "7+",
@@ -1030,6 +1072,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 1,
+  "evoLevel": 3,
   "ability": "Velo Arena",
   "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
   "captura": "3+",
@@ -1063,6 +1107,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
   "ability": "Velo Arena",
   "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
   "captura": "5+",
@@ -1100,6 +1145,8 @@ window.CARDS = [
   "aliases": [
    "nidoran"
   ],
+  "level": 1,
+  "evoLevel": 3,
   "ability": "Punto Tóxico",
   "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
   "captura": "3+",
@@ -1138,6 +1185,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Punto Tóxico",
   "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
   "captura": "5+",
@@ -1175,6 +1224,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 5,
   "ability": "Punto Tóxico",
   "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
   "captura": "7+",
@@ -1225,6 +1275,8 @@ window.CARDS = [
   "aliases": [
    "nidoran"
   ],
+  "level": 1,
+  "evoLevel": 3,
   "ability": "Punto Tóxico",
   "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
   "captura": "3+",
@@ -1263,6 +1315,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Punto Tóxico",
   "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
   "captura": "5+",
@@ -1299,6 +1353,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 5,
   "ability": "Punto Tóxico",
   "abilityDesc": "Si es atacado, tira un dado, si sale 4 o más el atacante queda envenenado",
   "captura": "7+",
@@ -1347,6 +1402,8 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Gran Encanto",
   "abilityDesc": "Cuando este Pokemon es atacado por otro, el atacante tira un dado y si el resultado es 5 o 6, queda confuso",
   "captura": "4+",
@@ -1385,6 +1442,7 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
+  "level": 4,
   "ability": "Gran Encanto",
   "abilityDesc": "Cuando este Pokemon es atacado por otro, el atacante tira un dado y si el resultado es 5 o 6, queda confuso",
   "captura": "5+",
@@ -1421,6 +1479,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Absorbe Fuego",
   "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
   "captura": "4+",
@@ -1456,6 +1516,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Absorbe Fuego",
   "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
   "captura": "6+",
@@ -1527,6 +1588,8 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
+  "level": 1,
+  "evoLevel": 3,
   "ability": "Fuerza Mental",
   "abilityDesc": "Inmune a N-DY y  a la habilidad de Intimidación.",
   "captura": "3+",
@@ -1569,6 +1632,8 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Fuerza Mental",
   "abilityDesc": "Inmune a N-DY y  a la habilidad de Intimidación.",
   "captura": "5+",
@@ -1608,6 +1673,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 3,
   "ability": "Clorofila",
   "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
   "captura": "4+",
@@ -1647,6 +1714,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 4,
   "ability": "Clorofila",
   "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
   "captura": "4+",
@@ -1683,6 +1752,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Clorofila",
   "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
   "captura": "6+",
@@ -1729,6 +1799,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 3,
   "ability": "Efecto Espora",
   "abilityDesc": "Al terminar la ronda de batalla lanza un D6, si sale 6=Duerme, 3=Paraliza, 1=Envenena al Pokemon rival",
   "captura": "4+",
@@ -1763,6 +1835,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
   "ability": "Efecto Espora",
   "abilityDesc": "Al terminar la ronda de batalla lanza un D6, si sale 6=Duerme, 3=Paraliza, 1=Envenena al Pokemon rival",
   "captura": "5+",
@@ -1810,6 +1883,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 4,
   "ability": "Ojo Compuesto",
   "abilityDesc": "Si sacas 1 en el dado de combate, puedes repetir tirada con un D4",
   "captura": "5+",
@@ -1846,6 +1921,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Ojo Compuesto",
   "abilityDesc": "Si sacas 1 en el dado de combate, puedes repetir tirada con un D4",
   "captura": "6+",
@@ -1895,6 +1971,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Velo Arena",
   "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
   "captura": "4+",
@@ -1928,6 +2006,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Velo Arena",
   "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
   "captura": "6+",
@@ -1964,6 +2043,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Experto",
   "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
   "captura": "4+",
@@ -1999,6 +2080,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Experto",
   "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
   "captura": "6+",
@@ -2040,6 +2122,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 2,
+  "evoLevel": 5,
   "ability": "Humedad",
   "abilityDesc": "Ningun Pokemon en combate puede usar Autodestrucción ni Explosión. Si el Pokemon es sacado a combatir el turno en que uno de estos movimientos es elegido, este fallará.",
   "captura": "4+",
@@ -2085,6 +2169,7 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 5,
   "ability": "Humedad",
   "abilityDesc": "Ningun Pokemon en combate puede usar Autodestrucción ni Explosión. Si el Pokemon es sacado a combatir el turno en que uno de estos movimientos es elegido, este fallará.",
   "captura": "7+",
@@ -2128,6 +2213,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Espíritu Vital",
   "abilityDesc": "Este Pokemon no puede quedar Dormido",
   "captura": "4+",
@@ -2162,6 +2249,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
+  "evoLevel": 6,
   "ability": "Espíritu Vital",
   "abilityDesc": "Este Pokemon no puede quedar Dormido",
   "captura": "6+",
@@ -2209,6 +2298,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Absorbe Fuego",
   "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
   "captura": "4+",
@@ -2244,6 +2335,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 5,
   "ability": "Absorbe Fuego",
   "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
   "captura": "6+",
@@ -2286,6 +2378,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Absorbe Agua",
   "abilityDesc": "Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.",
   "captura": "4+",
@@ -2325,6 +2419,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 4,
+  "evoLevel": 6,
   "ability": "Absorbe Agua",
   "abilityDesc": "Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.",
   "captura": "6+",
@@ -2362,6 +2458,7 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 6,
   "ability": "Absorbe Agua",
   "abilityDesc": "Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.",
   "captura": "7+",
@@ -2413,6 +2510,8 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
+  "level": 2,
+  "evoLevel": 3,
   "ability": "Sincronía",
   "abilityDesc": "Contagia el envenenamiento, las quemaduras o la parálisis al Pokémon que le cause ese estado.",
   "captura": "4+",
@@ -2443,6 +2542,8 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Sincronía",
   "abilityDesc": "Contagia el envenenamiento, las quemaduras o la parálisis al Pokémon que le cause ese estado.",
   "captura": "5+",
@@ -2482,6 +2583,7 @@ window.CARDS = [
    "teleport"
   ],
   "canMega": true,
+  "level": 5,
   "ability": "Sincronía",
   "abilityDesc": "Contagia el envenenamiento, las quemaduras o la parálisis al Pokémon que le cause ese estado.",
   "captura": "7+",
@@ -2530,6 +2632,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Agallas",
   "abilityDesc": "Si el Pokemon sufre algún estado, su ataque se incrementa en +2",
   "captura": "4+",
@@ -2566,6 +2670,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
+  "evoLevel": 6,
   "ability": "Agallas",
   "abilityDesc": "Si el Pokemon sufre algún estado, su ataque se incrementa en +2",
   "captura": "6+",
@@ -2599,6 +2705,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 5,
   "ability": "Agallas",
   "abilityDesc": "Si el Pokemon sufre algún estado, su ataque se incrementa en +2",
   "captura": "7+",
@@ -2648,6 +2755,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 3,
   "ability": "Clorofila",
   "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
   "captura": "4+",
@@ -2685,6 +2794,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Clorofila",
   "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
   "captura": "5+",
@@ -2722,6 +2833,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 5,
   "ability": "Clorofila",
   "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
   "captura": "7+",
@@ -2773,6 +2885,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 2,
+  "evoLevel": 5,
   "ability": "Cuerpo Puro",
   "abilityDesc": "Inmune a N-D6 de movimientos o habilidades de otro pokemon.",
   "captura": "4+",
@@ -2812,6 +2926,7 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 5,
   "ability": "Cuerpo Puro",
   "abilityDesc": "Inmune a N-D6 de movimientos o habilidades de otro pokemon.",
   "captura": "7+",
@@ -2858,6 +2973,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 1,
+  "evoLevel": 4,
   "ability": "Robustez",
   "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
   "captura": "3+",
@@ -2895,6 +3012,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
+  "evoLevel": 6,
   "ability": "Robustez",
   "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
   "captura": "6+",
@@ -2932,6 +3051,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 6,
   "ability": "Robustez",
   "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
   "captura": "7+",
@@ -2978,6 +3098,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
+  "evoLevel": 6,
   "ability": "Absorbe Fuego",
   "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
   "captura": "5+",
@@ -3013,6 +3135,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 6,
   "ability": "Absorbe Fuego",
   "abilityDesc": "Gana +1 al total, si recibe un ataque de tipo fuego y el resultado en el dado de combate fue 2 o menos",
   "captura": "7+",
@@ -3065,6 +3188,8 @@ window.CARDS = [
    "surf",
    "teleport"
   ],
+  "level": 2,
+  "evoLevel": 5,
   "ability": "Ritmo Propio",
   "abilityDesc": "Inmune al estado Confuso y la habilidad Intimidación",
   "captura": "4+",
@@ -3111,6 +3236,7 @@ window.CARDS = [
    "teleport"
   ],
   "canMega": true,
+  "level": 5,
   "ability": "Ritmo Propio",
   "abilityDesc": "Inmune al estado Confuso y la habilidad Intimidación",
   "captura": "7+",
@@ -3159,6 +3285,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Robustez",
   "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
   "captura": "4+",
@@ -3195,6 +3323,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
+  "evoLevel": 6,
   "ability": "Robustez",
   "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
   "captura": "6+",
@@ -3243,6 +3373,7 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
+  "level": 3,
   "ability": "Vista Lince",
   "abilityDesc": "Siempre acierta sus ataques",
   "captura": "5+",
@@ -3283,6 +3414,8 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
+  "level": 3,
+  "evoLevel": 4,
   "ability": "Madrugar",
   "abilityDesc": "Si este Pokemon se duerme, tardará la mitad de turnos en despertarse.",
   "captura": "5+",
@@ -3320,6 +3453,7 @@ window.CARDS = [
   "abilities": [
    "fly"
   ],
+  "level": 4,
   "ability": "Madrugar",
   "abilityDesc": "Si este Pokemon se duerme, tardará la mitad de turnos en despertarse.",
   "captura": "6+",
@@ -3352,6 +3486,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Hidratación",
   "abilityDesc": "Si la carta Lluvia está en el campo de batalla, es inmune a cualquier estado.",
   "captura": "5+",
@@ -3398,6 +3534,7 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 5,
   "ability": "Hidratación",
   "abilityDesc": "Si la carta Lluvia está en el campo de batalla, es inmune a cualquier estado.",
   "captura": "7+",
@@ -3445,6 +3582,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Hedor",
   "abilityDesc": "Si es atacado, el atacante recibe N-D6 (Desventaja)",
   "captura": "5+",
@@ -3480,6 +3619,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 5,
   "ability": "Hedor",
   "abilityDesc": "Si es atacado, el atacante recibe N-D6 (Desventaja)",
   "captura": "7+",
@@ -3529,6 +3669,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Caparazón",
   "abilityDesc": "Bloquea golpes críticos, no se acumula",
   "captura": "4+",
@@ -3566,6 +3708,7 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 4,
   "ability": "Caparazón",
   "abilityDesc": "Bloquea golpes críticos, no se acumula",
   "captura": "6+",
@@ -3612,6 +3755,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 4,
   "ability": "Levitación",
   "abilityDesc": "Inmune a ataques de tipo Tierra",
   "captura": "4+",
@@ -3642,6 +3787,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
+  "evoLevel": 6,
   "ability": "Levitación",
   "abilityDesc": "Inmune a ataques de tipo Tierra",
   "captura": "6+",
@@ -3677,6 +3824,7 @@ window.CARDS = [
    "kanto"
   ],
   "canMega": true,
+  "level": 6,
   "ability": "Levitación",
   "abilityDesc": "Inmune a ataques de tipo Tierra",
   "captura": "7+",
@@ -3723,6 +3871,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Robustez",
   "abilityDesc": "Inmune a los efectos de movimientos \"KO\". Si es derrotado en la primera ronda de un combate, aguanta una ronda mas.",
   "captura": "4+",
@@ -3764,6 +3914,8 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Insomnio",
   "abilityDesc": "Este Pokemon no puede quedar Dormido",
   "captura": "4+",
@@ -3800,6 +3952,7 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
+  "level": 4,
   "ability": "Insomnio",
   "abilityDesc": "Este Pokemon no puede quedar Dormido",
   "captura": "6+",
@@ -3850,6 +4003,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 2,
+  "evoLevel": 5,
   "ability": "Corte Fuerte",
   "abilityDesc": "Inmune a N-D6 de movimientos o habilidades de otro pokemon.",
   "captura": "4+",
@@ -3893,6 +4048,7 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 5,
   "ability": "Corte Fuerte",
   "abilityDesc": "Inmune a N-D6 de movimientos o habilidades de otro pokemon.",
   "captura": "7+",
@@ -3940,6 +4096,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Detonación",
   "abilityDesc": "Cuando es debilitado sin usar Autodest. Lanza el efecto KO +6",
   "captura": "4+",
@@ -3975,6 +4133,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Detonación",
   "abilityDesc": "Cuando es debilitado sin usar Autodest. Lanza el efecto KO +6",
   "captura": "6+",
@@ -4023,6 +4182,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Clorofila",
   "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
   "captura": "5+",
@@ -4059,6 +4220,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 5,
   "ability": "Clorofila",
   "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
   "captura": "5+",
@@ -4104,6 +4266,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 4,
   "ability": "Velo Arena",
   "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
   "captura": "4+",
@@ -4137,6 +4301,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Velo Arena",
   "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
   "captura": "6+",
@@ -4181,6 +4346,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Flexibilidad",
   "abilityDesc": "Este Pokemon no puede quedar Paralizado",
   "captura": "6+",
@@ -4214,6 +4380,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Vista Lince",
   "abilityDesc": "Siempre acierta sus ataques",
   "captura": "6+",
@@ -4250,6 +4417,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Ritmo Propio",
   "abilityDesc": "Inmune al estado Confuso y la habilidad Intimidación",
   "captura": "6+",
@@ -4297,6 +4465,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Gas Reactivo",
   "abilityDesc": "Mientras esté en el terreno de combate, anula las habilidades de los demás Pokemon activos",
   "captura": "5+",
@@ -4332,6 +4502,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 5,
   "ability": "Gas Reactivo",
   "abilityDesc": "Mientras esté en el terreno de combate, anula las habilidades de los demás Pokemon activos",
   "captura": "6+",
@@ -4381,6 +4552,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
+  "evoLevel": 5,
   "ability": "Velo Arena",
   "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
   "captura": "6+",
@@ -4418,6 +4591,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 5,
+  "evoLevel": 7,
   "ability": "Velo Arena",
   "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
   "captura": "7+",
@@ -4461,6 +4636,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
+  "evoLevel": 5,
   "ability": "Cura Natural",
   "abilityDesc": "Se cura cualquier estado al salir de la batalla",
   "captura": "6+",
@@ -4506,6 +4683,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 4,
   "ability": "Clorofila",
   "abilityDesc": "Gana +1 D6 si la carta de \"Dia Soleado\" está en el campo de batalla.",
   "captura": "5+",
@@ -4541,6 +4720,7 @@ window.CARDS = [
    "kanto"
   ],
   "canMega": true,
+  "level": 4,
   "ability": "Intrépido",
   "abilityDesc": "Alcanza a Pokémon de tipo Fantasma con movimientos de tipo Normal o Lucha. Además, no sufre los efectos de Intimidación.",
   "captura": "6+",
@@ -4589,6 +4769,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Nado Rápido",
   "abilityDesc": "Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.",
   "captura": "4+",
@@ -4628,6 +4810,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 4,
+  "evoLevel": 6,
   "ability": "Francotirador",
   "abilityDesc": "Gana +2 de fuerza adicional si consigues el resultado mas alto en el dado de combate",
   "captura": "6+",
@@ -4678,6 +4862,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 2,
+  "evoLevel": 5,
   "ability": "Nado Rápido",
   "abilityDesc": "Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.",
   "captura": "4+",
@@ -4721,6 +4907,7 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 5,
   "ability": "Nado Rápido",
   "abilityDesc": "Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.",
   "captura": "7+",
@@ -4769,6 +4956,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 2,
+  "evoLevel": 5,
   "ability": "Cura Natural",
   "abilityDesc": "Se cura cualquier estado al salir de la batalla",
   "captura": "4+",
@@ -4818,6 +5007,7 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 5,
   "ability": "Cura Natural",
   "abilityDesc": "Se cura cualquier estado al salir de la batalla",
   "captura": "7+",
@@ -4864,6 +5054,7 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
+  "level": 3,
   "ability": "Filtro",
   "abilityDesc": "Mitiga el daño que le infligen los movimientos supereficaces, en lugar de +4 hacen +2",
   "captura": "5+",
@@ -4901,6 +5092,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
+  "evoLevel": 6,
   "ability": "Experto",
   "abilityDesc": "Gana +2 al total, si el resultado del dado de combate fue 2 o menos",
   "captura": "6+",
@@ -4946,6 +5139,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "captura": "6+",
   "color": "yellow"
  },
@@ -4995,6 +5189,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Intimidación",
   "abilityDesc": "Aplica N-D6 +4 al entrar en combate (solo al inicio, al ser intercambiado o al megaevolucionar)",
   "captura": "6+",
@@ -5043,6 +5238,8 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 2,
+  "evoLevel": 6,
   "ability": "Nado Rápido",
   "abilityDesc": "Gana +1 D6 si la carta de \"Lluvia\" está en el campo de batalla.",
   "captura": "4+",
@@ -5079,6 +5276,7 @@ window.CARDS = [
    "surf"
   ],
   "canMega": true,
+  "level": 6,
   "ability": "Intimidación",
   "abilityDesc": "Aplica N-D6 +4 al entrar en combate (solo al inicio, al ser intercambiado o al megaevolucionar)",
   "captura": "7+",
@@ -5125,6 +5323,7 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 4,
   "ability": "Caparazón",
   "abilityDesc": "Bloquea golpes críticos, no se acumula",
   "captura": "6+",
@@ -5167,6 +5366,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Flexibilidad",
   "abilityDesc": "Este Pokemon no puede quedar Paralizado",
   "captura": "6+",
@@ -5196,6 +5396,8 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 3,
+  "evoLevel": 5,
   "ability": "Adaptable",
   "abilityDesc": "Gana +1 en el total al atacar con movimientos de tipo normal.",
   "captura": "5+",
@@ -5232,6 +5434,7 @@ window.CARDS = [
   "abilities": [
    "surf"
   ],
+  "level": 5,
   "ability": "Absorbe Agua",
   "abilityDesc": "Inmune a movimientos tipo agua y sus efectos negativos. Si recibe ataque tipo agua gana + 2 en la tirada.",
   "captura": "7+",
@@ -5304,6 +5507,8 @@ window.CARDS = [
   "abilities": [
    "teleport"
   ],
+  "level": 2,
+  "evoLevel": 4,
   "ability": "Calco",
   "abilityDesc": "Copia la habilidad del rival al entrar en combate.",
   "captura": "4+",
@@ -5402,6 +5607,7 @@ window.CARDS = [
   "regions": [
    "kanto"
   ],
+  "level": 4,
   "ability": "Sebo",
   "abilityDesc": "Reduce en -2 la potencia de los ataques de tipo Hielo y Fuego que recibe este Pokemon.",
   "captura": "6+",
