@@ -170,3 +170,10 @@ El fondo de hexágonos está en `assets/fondo.jpg` (escritorio) y `assets/fondo-
 - Equipamiento: se equipa a un Pokémon (se ve en Mi Equipo). En combate: Vitamina, Telescopio y Roca del Rey son automáticos; Garra Afilada, Garra Rápida, Mineral Evolutivo y Lupa tienen casilla al elegir ataque; Poción Máxima, Baya, Repartir Exp y Huevo Suerte tienen botones en Mi Equipo/Mochila. Restos y Baya (repetir dado) y Amuleto son recordatorios.
 - Permanentes: Poké Flauta ofrece tirar el D4 cuando un Pokémon se duerme.
 - Se guarda en `pmtu.bag.v1` y entra en la copia de seguridad.
+
+## Prioridad (regla actualizada)
+Un ataque con Prioridad (símbolo o Garra Rápida) gana los empates del total final y anula los efectos del movimiento rival esa ronda. Si los dos usan Prioridad, se anulan entre sí y la ronda es normal. Está en `engine.js` (resolveRound) y descrita en `data/efectos.csv`.
+
+## Tipos y medallas con imagen
+- Etiquetas de tipo (`assets/tipos_pill/<tipo>.png`, 18 tipos): se ven en la ficha de la carta, Mi Equipo, combate y fortalezas/debilidades. Los iconos pequeños de los ataques siguen igual.
+- Medallas de Kanto (`assets/medallas/<id>.png`): en la tarjeta de entrenador, la lista de medallas y la imagen PNG de la tarjeta. Las de Johto siguen con emoji hasta que haya imágenes (mismo nombre que su id, p. ej. `cefiro.png`, y añadir el id en MEDAL_IMG de trainer.js, y cambiar la condición de región).

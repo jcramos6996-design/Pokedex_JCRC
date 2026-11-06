@@ -307,7 +307,7 @@ function statusDetail(e) {
 /* ---------- Pantalla Mi Equipo ---------- */
 function typeIcons(c) {
   const d = el('span', 'ticons');
-  c.types.forEach(t => d.appendChild(P.typeIcon(t)));
+  c.types.forEach(t => d.appendChild(P.typeBadge(t, 'sm')));
   return d;
 }
 function thumb(e) {

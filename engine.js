@@ -380,7 +380,7 @@ function resolveRound(S, rng) {
     if (me.f.item === 'vitamina') add('objeto', 'Objeto · Vitamina', 1, '+1 al total');
     if (me.use.includes('garra_afilada')) notes.push('Garra Afilada: el dado de este ataque sube de tamaño esta ronda.');
     if (me.use.includes('lupa')) notes.push(me.nat > me.roll.kept ? 'Lupa: +1 a la tirada para activar efectos (sacaste ' + me.roll.kept + ' → cuenta ' + me.nat + ').' : 'Lupa: no se puede usar con movimientos KO.');
-    if (me.use.includes('garra_rapida')) notes.push('Garra Rápida: Prioridad esta ronda (ignora los efectos del rival).');
+    if (me.use.includes('garra_rapida')) notes.push('Garra Rápida: Prioridad esta ronda (gana empates y anula los efectos del rival; si el rival también tiene Prioridad, se anulan).');
     if (me.use.includes('mineral_evolutivo')) notes.push('Mineral Evolutivo: el rival tira con Desventaja esta ronda.');
     if (me.f.item === 'restos' || me.f.item === 'baya') notes.push((me.f.item === 'restos' ? 'Restos: una vez por combate puedes repetir el dado de ataque (resta 1 al total con el ajuste manual).' : 'Baya: puedes descartarla para repetir el dado de ataque o quitar un estado.'));
 
@@ -399,10 +399,13 @@ function resolveRound(S, rng) {
     out[s] = { rows, total, miss, notes, move: me.mv.name, moveIdx: me.idx, roll: r };
   });
 
+  // Prioridad: si solo uno la tiene, anula los efectos del rival; si la tienen los dos, se anulan entre sí
+  const prioOnly = s => info[s].has('Prioridad') && !info[other(s)].has('Prioridad');
   // Ganador de la ronda
   let winner = null;
   let tieBreak = '';
   if (out.A.total > out.B.total) winner = 'A'; else if (out.B.total > out.A.total) winner = 'B';
+  else if (prioOnly('A') !== prioOnly('B')) { winner = prioOnly('A') ? 'A' : 'B'; tieBreak = 'Empate: gana el ataque con Prioridad'; }
   else {
     const pa = S.fighters.A.statuses.includes('Envenenado'), pb = S.fighters.B.statuses.includes('Envenenado');
     if (pa && !pb) { winner = 'B'; tieBreak = 'Empate: el envenenado pierde'; }
@@ -422,8 +425,8 @@ function resolveRound(S, rng) {
       const toOpp = e.lado === 'rival';
       const target = toOpp ? fo : fm;
       const tInfo = toOpp ? op : me;
-      const ignored = toOpp && (op.has('Protección') || op.has('Prioridad'));
-      if (ignored) { item.outcome = 'ignorado'; item.text = 'El rival lo ignora (' + (op.has('Protección') ? 'Protección' : 'Prioridad') + ')'; effects.push(item); return; }
+      const ignored = (toOpp && op.has('Protección')) || prioOnly(other(s));
+      if (ignored) { item.outcome = 'ignorado'; item.text = 'El rival lo anula (' + (toOpp && op.has('Protección') ? 'Protección' : 'Prioridad: su ataque es más rápido') + ')'; effects.push(item); return; }
       const n = e.name;
       if (STATUS_FX.includes(n)) {
         const rule = tInfo.abil;

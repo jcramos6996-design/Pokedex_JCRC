@@ -307,7 +307,7 @@ function thumbCard(c, small) {
   const d = el('div', 'bthumb' + (small ? ' s' : ''));
   d.appendChild(P.artEl(c)); return d;
 }
-function typesRow(c) { const s = el('span', 'ticons'); c.types.forEach(t => s.appendChild(P.typeIcon(t))); return s; }
+function typesRow(c) { const s = el('span', 'ticons'); c.types.forEach(t => s.appendChild(P.typeBadge(t, 'sm'))); return s; }
 
 function openDexPicker(onPick) {
   const dlg = $('#teamDlg'), body = $('#teamDlgBody');

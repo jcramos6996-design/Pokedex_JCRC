@@ -198,7 +198,7 @@ function heroCard() {
   card.appendChild(body);
   // medallas en miniatura de la región elegida
   const reg = regionOf(S.region), strip = el('div', 'idmedals');
-  if (reg) reg.gyms.forEach(g => strip.appendChild(el('span', 'mini' + (S.badges[reg.id + ':' + g.id] ? ' on' : ''), g.icon)));
+  if (reg) reg.gyms.forEach(g => strip.appendChild(el('span', 'mini' + (S.badges[reg.id + ':' + g.id] ? ' on' : '') + (medalSrc(reg, g) ? ' img' : ''), medalHTML(reg, g))));
   card.appendChild(strip);
   const here = S.where && cityName(S.where);
   const chips = el('div', 'idchips');
@@ -276,7 +276,7 @@ function badgesSection() {
   reg.gyms.forEach(g => {
     const k = reg.id + ':' + g.id, on = !!S.badges[k];
     const b = el('button', 'medal' + (on ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', on);
-    b.innerHTML = `<span class="mi">${g.icon}</span><b>${esc(g.medal)}</b><small>${esc(g.leader)} · ${esc(g.city)}</small><em>${on ? '✔ ' + esc(S.badges[k]) : 'Sin conseguir'}</em>`;
+    b.innerHTML = `<span class="mi${medalSrc(reg, g) ? ' img' : ''}">${medalHTML(reg, g)}</span><b>${esc(g.medal)}</b><small>${esc(g.leader)} · ${esc(g.city)}</small><em>${on ? '✔ ' + esc(S.badges[k]) : 'Sin conseguir'}</em>`;
     b.onclick = () => {
       if (on) delete S.badges[k]; else { S.badges[k] = today(); P.toast('🏅 ' + g.medal + ' conseguida', 'ok'); if (window.AudioManager) AudioManager.play('capture'); }
       save(); checkAch(); render();
@@ -386,6 +386,11 @@ function backupSection() {
   return s;
 }
 
+/* ---------- Imágenes de medalla (assets/medallas/<id>.png; solo Kanto por ahora) ---------- */
+const MEDAL_IMG = ['roca', 'cascada', 'trueno', 'arcoiris', 'alma', 'pantano', 'volcan', 'tierra'];
+const medalSrc = (reg, g) => (reg.id === 'kanto' && MEDAL_IMG.includes(g.id)) ? 'assets/medallas/' + g.id + '.png' : null;
+const medalHTML = (reg, g) => { const s = medalSrc(reg, g); return s ? `<img src="${s}" alt="" loading="lazy">` : g.icon; };
+
 /* ---------- Tarjeta como imagen (canvas) ---------- */
 function saveCardImage() {
   const W = 900, H = 560, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
@@ -396,13 +401,21 @@ function saveCardImage() {
   g.fillStyle = '#ffffff22'; g.fillRect(0, 90, W, 6);
   g.fillStyle = '#fff'; g.font = '700 28px system-ui,sans-serif'; g.fillText('TARJETA DE ENTRENADOR', 40, 62);
   g.font = '400 22px system-ui,sans-serif'; g.textAlign = 'right'; g.fillText('Maestro Entrenador', W - 40, 62); g.textAlign = 'left';
-  const finish = () => {
+  const medalImgs = {};
+  const finish = () => {                                      // carga las imágenes de medalla y luego pinta
+    const todo = reg ? reg.gyms.filter(gm => medalSrc(reg, gm)) : [];
+    let n = todo.length; if (!n) return finish0();
+    const one = () => { if (--n === 0) finish0(); };
+    todo.forEach(gm => { const im = new Image(); im.onload = () => { medalImgs[gm.id] = im; one(); }; im.onerror = one; im.src = medalSrc(reg, gm); });
+  };
+  const finish0 = () => {
     g.fillStyle = '#fff'; g.font = '800 56px system-ui,sans-serif'; g.fillText((P.team.name() || 'Entrenador').slice(0, 16), 290, 190);
     g.font = '600 30px system-ui,sans-serif'; g.fillText(rk.icon + ' ' + rk.name, 290, 240);
     g.font = '400 22px system-ui,sans-serif'; g.fillStyle = '#ffd9db'; g.fillText('ID Nº ' + S.tid + ' · desde ' + fmtDate(S.since), 290, 282);
     // medallas
     if (reg) reg.gyms.forEach((gm, i) => {
       const on = !!S.badges[reg.id + ':' + gm.id], x = 60 + i * 100, y = 380;
+      if (medalImgs[gm.id]) { g.globalAlpha = on ? 1 : 0.3; g.drawImage(medalImgs[gm.id], x - 4, y - 34, 68, 68); g.globalAlpha = 1; return; }
       g.globalAlpha = on ? 1 : 0.28; g.fillStyle = on ? '#ffd84a' : '#ffffff'; g.beginPath(); g.arc(x + 30, y, 34, 0, 7); g.fill();
       g.globalAlpha = on ? 1 : 0.5; g.font = '34px system-ui,sans-serif'; g.textAlign = 'center'; g.fillStyle = '#000'; g.fillText(gm.icon, x + 30, y + 12); g.textAlign = 'left'; g.globalAlpha = 1;
     });

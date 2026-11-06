@@ -810,3 +810,14 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .fitem img{width:22px;border-radius:3px}
 .fitem.used{color:#f4c20d;font-weight:700}
 .itemuse{margin:8px 0}.itemuse.off{opacity:.55}
+
+/* ---------- Etiquetas de tipo (imagen) y medallas (imagen) ---------- */
+.tbadge{height:26px;width:auto;display:inline-block;vertical-align:middle}
+.tbadge.sm{height:20px}.tbadge.mt{height:28px}
+.types .tbadge{height:30px;margin-right:6px}
+.ticons{display:inline-flex;gap:4px;vertical-align:middle;margin-left:4px}
+.mini.img{background:none;box-shadow:none}.mini.img img{width:100%;height:100%;object-fit:contain}
+.mini.on.img{background:none}
+.medal .mi.img{background:none;box-shadow:none;border-radius:0}
+.medal .mi.img img{width:100%;height:100%;object-fit:contain}
+.medal.on .mi.img{background:none;box-shadow:none;filter:drop-shadow(0 0 8px #ffd84acc)}

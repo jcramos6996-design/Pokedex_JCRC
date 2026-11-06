@@ -530,6 +530,14 @@ function typeIcon(t) {
   img.onerror = () => { const d = el('span', 'tdot'); d.dataset.type = t; img.replaceWith(d); };
   return img;
 }
+/* Etiqueta de tipo con el estilo de las imágenes de assets/tipos_pill (icono + nombre) */
+function typeBadge(t, cls) {
+  const img = new Image();
+  img.className = 'tbadge' + (cls ? ' ' + cls : ''); img.alt = TYPE_ES[t] || cap(t); img.loading = 'lazy';
+  img.src = 'assets/tipos_pill/' + t + '.png';
+  img.onerror = () => { const s = el('span', 'tp', esc(TYPE_ES[t] || cap(t))); s.dataset.type = t; img.replaceWith(s); };
+  return img;
+}
 function section(title) {
   const sec = el('div', 'dsec');
   sec.appendChild(el('h3', null, esc(title)));
@@ -575,8 +583,7 @@ function openEffect(code, moveName) {
 
 function matchRow(t, badge, cls) {
   const li = el('li', 'mrow');
-  li.appendChild(typeIcon(t));
-  li.appendChild(el('span', 'mtype', esc(TYPE_ES[t] || cap(t))));
+  li.appendChild(typeBadge(t, 'mt'));
   li.appendChild(el('span', 'mbadge ' + cls, badge));
   return li;
 }
@@ -639,7 +646,7 @@ function renderDetail() {
   // Título, tipos y captura
   const head = el('div');
   head.innerHTML = `<div class="dtitle"><h2>${esc(c.name)}</h2><span>#${esc(c.id)}</span>${c.captura ? `<span class="capt">Captura ${esc(c.captura)}</span>` : ''}</div>
-    <div class="types">${c.types.map(t => `<span class="tp" data-type="${esc(t)}">${esc(TYPE_ES[t] || cap(t))}</span>`).join('')}</div>`;
+    <div class="types">${c.types.map(t => `<img class="tbadge" src="assets/tipos_pill/${esc(t)}.png" alt="${esc(TYPE_ES[t] || cap(t))}">`).join('')}</div>`;
   dcontent.appendChild(head);
 
   // Añadir a Mi Equipo
@@ -809,7 +816,7 @@ new ResizeObserver(() => document.documentElement.style.setProperty('--hh', $('#
 
 // API para Mi Equipo y el combate
 window.PMTU = Object.assign(window.PMTU || {}, {
-  CARDS, byId, EFFECTS, effKey, TYPE_ES, matchups, artEl, typeIcon, el, esc, cap, toast,
+  CARDS, byId, EFFECTS, effKey, TYPE_ES, matchups, artEl, typeIcon, typeBadge, el, esc, cap, toast,
   effectChip, openEffect, openDetail, depth, famMembers
 });
 
