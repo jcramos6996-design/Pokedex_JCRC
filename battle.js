@@ -170,14 +170,15 @@ function wildResult(S) {
   if (S.phase !== 'done') return null;                       // si sales antes de terminar, no cuenta como combate
   const wl = S.opts.wild.level;
   const fought = S.picks.A.slice(0, S.duels.length);
-  return { won: E.matchWinner(S) === 'A', rounds: S.log.length, higher: fought.some(p => p.level > wl) };
+  return { won: E.matchWinner(S) === 'A', rounds: S.log.length, higher: !S.opts.wild.match && fought.some(p => p.level > wl) };
 }
-function startWild(wildId, onDone) {
+function startWild(wildId, onDone, opts) {
   const c = cardOf(wildId);
-  const S = E.create({ wild: { id: wildId, level: c.level || 1 } });
+  const S = E.create({ wild: { id: wildId, level: c.level || 1, match: !!(opts && opts.match) } });
   E.apply(S, 'A', { type: 'hello', name: P.team.name() || 'Tú' });
   E.apply(S, 'B', { type: 'hello', name: c.name + ' salvaje' });
   S.phase = 'pick';
+  if (opts && opts.match && P.bag) P.bag.use('flauta_negra');
   M = newM({ mode: 'local', wild: true, S, onDone });
   openOverlay(); render();
 }
@@ -377,7 +378,7 @@ function viewPick(body, V, side) {
     const b = el('button', 'pickitem'); b.type = 'button'; b.disabled = used || !addable || t.fainted;
     b.appendChild(thumbCard(cardOf(t.id), true));
     b.appendChild(el('em', null, esc(t.name) + ' · ' + (t.fainted ? 'Debilitado' : 'Nv ' + t.level)));
-    b.onclick = () => { sel.push({ id: t.id, level: t.level, uid: t.uid, src: 'team', st: t.st || [] }); render(); };
+    b.onclick = () => { sel.push({ id: t.id, level: t.level, uid: t.uid, src: 'team', st: t.st || [], item: t.item || null }); render(); };
     grid.appendChild(b);
   });
   sec.appendChild(grid); w.appendChild(sec);
@@ -387,7 +388,7 @@ function viewPick(body, V, side) {
   w.appendChild(dex);
 
   const ok = el('button', 'btn primary wide big', wild ? '⚔️ ¡A luchar! (' + sel.length + ')' : '🔒 Confirmar en secreto (' + sel.length + ')'); ok.disabled = sel.length < 1;
-  ok.onclick = () => dispatch({ type: 'lock', picks: sel.map(p => ({ id: p.id, level: p.level, st: p.st || [] })) });
+  ok.onclick = () => dispatch({ type: 'lock', picks: sel.map(p => ({ id: p.id, level: p.level, st: p.st || [], item: p.item || null })) });
   w.appendChild(ok);
   body.appendChild(w);
 }
@@ -432,6 +433,7 @@ function fighterPanel(V, s, mine) {
   if (adv < 0) st.appendChild(el('span', 'stp bad', adv < -1 ? 'Doble Desventaja' : 'Desventaja'));
   if (f.dead) st.appendChild(el('span', 'stp bad', 'Debilitado'));
   info.appendChild(st);
+  if (f.item && P.bag) info.appendChild(P.bag.fightChip(f.item, V.use && V.use[s] && V.use[s].includes(f.item) && V.step !== 'choose'));
   if (c.ability) info.appendChild(el('div', 'fab', `<b>${esc(c.ability)}</b>${c.abilityDesc ? ': ' + esc(c.abilityDesc) : ''}`));
   d.appendChild(info);
   return d;
@@ -489,9 +491,19 @@ function viewChoose(w, V, side) {
     list.appendChild(b);
   });
   w.appendChild(list);
+  const myF = V.fighters[side];
+  if (mine === null && myF.item && E.ITEM_ACTIVE.includes(myF.item)) {           // objeto activo: casilla «usar»
+    const u = M.ui.sel != null ? E.itemUsable(V, side, M.ui.sel) : { ok: false, why: 'Elige un ataque para ver si puedes usarlo' };
+    const info = window.ITEMS.find(x => x.id === myF.item);
+    const l = el('label', 'chk itemuse' + (u.ok ? '' : ' off'));
+    const inp = el('input'); inp.type = 'checkbox'; inp.disabled = !u.ok; inp.checked = u.ok && !!M.ui.useItem;
+    inp.onchange = () => { M.ui.useItem = inp.checked; render(); };
+    l.append(inp, document.createTextNode(' Usar ' + (info ? info.name : myF.item) + (u.ok ? '' : ' · ' + (u.why || ''))));
+    w.appendChild(l);
+  }
   if (mine === null) {
     const ok = el('button', 'btn primary wide big', 'Confirmar ataque'); ok.disabled = M.ui.sel == null;
-    ok.onclick = () => dispatch({ type: 'choose', idx: M.ui.sel });
+    ok.onclick = () => { const use = !!M.ui.useItem && E.itemUsable(V, side, M.ui.sel).ok; M.ui.useItem = false; dispatch({ type: 'choose', idx: M.ui.sel, use }); };
     w.appendChild(ok);
     w.appendChild(el('p', 'hint', 'Toca un icono de efecto para ver qué hace. Tu rival no sabrá tu ataque hasta que los dos tiréis el dado.'));
   } else if (M.mode !== 'local') {
@@ -501,7 +513,7 @@ function viewChoose(w, V, side) {
 
 function viewRoll(w, V, side) {
   const o = other(side), f = V.fighters[side], mv = E.movesOf(cardOf(f.id))[V.choice[side]];
-  const faces = E.faces(mv.die), adv = clamp(f.adv + f.advPerm, -2, 2), n = 1 + Math.abs(adv);
+  const faces = E.rollFaces(V, side), adv = clamp(f.adv + f.advPerm, -2, 2), n = 1 + Math.abs(adv);
   const mine = V.rolls[side];
   w.appendChild(el('h2', null, mine ? 'Dado lanzado' : 'Tira el dado'));
   const mc = el('div', 'mychoice'); if (mv.type) mc.appendChild(P.typeIcon(mv.type));

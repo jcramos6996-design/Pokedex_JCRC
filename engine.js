@@ -140,6 +140,29 @@ E.statusByName = name => { const k = norm(name); return Object.values(E.STATUS_I
 /* ============================================================
    Estado del combate
    ============================================================ */
+/* ---------- Objetos de equipamiento que intervienen en el combate ----------
+   Pasivos (automáticos): vitamina (+1 al total), telescopio (Ventaja 5+), roca_del_rey (Desventaja 5+).
+   Se activan al elegir ataque (casilla): garra_afilada (dado mejor), garra_rapida (Prioridad, 1 vez por combate),
+   mineral_evolutivo (Desventaja al rival, 1 vez por combate, solo si no está del todo evolucionado), lupa (+1 al dado de efecto).
+   El resto (restos, baya, poción máxima, repartir exp, huevo suerte, amuleto) se gestionan a mano / desde la Mochila. */
+E.ITEM_IDS = ['vitamina', 'telescopio', 'roca_del_rey', 'garra_afilada', 'garra_rapida', 'mineral_evolutivo', 'lupa', 'restos', 'baya', 'pocion_maxima', 'repartir_exp', 'huevo_suerte', 'amuleto'];
+E.ITEM_ACTIVE = ['garra_afilada', 'garra_rapida', 'mineral_evolutivo', 'lupa'];
+const UPGRADE = { 4: 6, 6: 8, 8: 10, 10: 12 };
+E.itemUsable = (S, side, mvIdx) => {                      // ¿puede usar su objeto activo ahora?
+  const f = S.fighters[side]; if (!f || !f.item || !E.ITEM_ACTIVE.includes(f.item)) return { ok: false };
+  const card = DB.card(f.id), mv = E.movesOf(card)[mvIdx == null ? S.choice[side] : mvIdx];
+  if (f.item === 'garra_rapida' && f.iu.garra_rapida) return { ok: false, why: 'Ya la usaste en este combate' };
+  if (f.item === 'mineral_evolutivo') {
+    if (f.iu.mineral_evolutivo) return { ok: false, why: 'Ya lo usaste en este combate' };
+    if (!((card.evolvesTo || []).length)) return { ok: false, why: 'Ya está completamente evolucionado' };
+  }
+  if (f.item === 'lupa' && mv && (mv.effects || []).some(c => fxInfo(c).name === 'KO')) return { ok: false, why: 'No sirve con movimientos KO' };
+  return { ok: true };
+};
+E.rollFaces = (S, side) => {
+  const f = S.fighters[side], mv = E.movesOf(DB.card(f.id))[S.choice[side]], base = E.faces(mv.die);
+  return (S.use && S.use[side] || []).includes('garra_afilada') && UPGRADE[base] ? UPGRADE[base] : base;
+};
 E.create = (opts) => ({
   v: 1, size: 3, need: 2, phase: 'lobby',                       // lobby -> pick -> duel -> done
   names: { A: '', B: '' }, joined: { A: false, B: false },
@@ -148,18 +171,18 @@ E.create = (opts) => ({
   duel: 0, duelWins: { A: 0, B: 0 }, duels: [],
   fighters: null, round: 1, rw: { A: 0, B: 0 },
   step: 'choose',                             // choose -> roll -> result -> (duelEnd)
-  choice: { A: null, B: null }, rolls: { A: null, B: null }, adj: { A: 0, B: 0 },
+  choice: { A: null, B: null }, use: { A: [], B: [] }, rolls: { A: null, B: null }, adj: { A: 0, B: 0 },
   result: null, ack: { A: false, B: false }, log: []
 });
 
 function newFighter(spec) {
-  return { id: spec.id, level: spec.level, statuses: (spec.st || []).slice(), adv: 0, advPerm: 0, cool: {}, spent: {}, last: -1, streak: 0, dead: false };
+  return { id: spec.id, level: spec.level, item: spec.item || null, iu: {}, statuses: (spec.st || []).slice(), adv: 0, advPerm: 0, cool: {}, spent: {}, last: -1, streak: 0, dead: false };
 }
 function setupDuel(S) {
   S.fighters = { A: newFighter(S.picks.A[S.duel]), B: newFighter(S.picks.B[S.duel]) };
   S.round = 1; S.rw = { A: 0, B: 0 };
   S.step = 'choose'; S.choice = { A: null, B: null }; S.rolls = { A: null, B: null };
-  S.adj = { A: 0, B: 0 }; S.result = null; S.ack = { A: false, B: false };
+  S.adj = { A: 0, B: 0 }; S.result = null; S.ack = { A: false, B: false }; S.use = { A: [], B: [] };
 }
 
 // ¿Qué ataques puede usar este lado en la ronda actual?
@@ -195,14 +218,14 @@ E.apply = (S, side, a, rng) => {
         if (side !== 'A') return err('Solo juega el entrenador');
         const ps = (a.picks || []).slice(0, 6);
         if (!ps.length || ps.some(p => !DB.card(p.id))) return err('Elige al menos 1 Pokémon');
-        S.picks.A = ps.map(p => ({ id: p.id, level: Math.max(1, +p.level || 1), st: (p.st || []).filter(n => E.statusByName(n)) }));
-        S.picks.B = ps.map(() => ({ id: S.opts.wild.id, level: Math.max(1, +S.opts.wild.level || 1), st: [] }));
+        S.picks.A = ps.map(p => ({ id: p.id, level: Math.max(1, +p.level || 1), item: E.ITEM_IDS.includes(p.item) ? p.item : null, st: (p.st || []).filter(n => E.statusByName(n)) }));
+        S.picks.B = S.picks.A.map(pa => ({ id: S.opts.wild.id, level: S.opts.wild.match ? pa.level : Math.max(1, +S.opts.wild.level || 1), item: null, st: [] }));   // match = Flauta Negra: mismo nivel que tu Pokémon
         S.locked.A = S.locked.B = true; S.size = ps.length; S.need = 1; S.phase = 'duel'; S.duel = 0; setupDuel(S);
         return { ok: true };
       }
       const picks = (a.picks || []).slice(0, 3);
       if (picks.length < 1 || picks.length > 3 || picks.some(p => !DB.card(p.id))) return err('Elige de 1 a 3 Pokémon');
-      S.picks[side] = picks.map(p => ({ id: p.id, level: Math.max(1, +p.level || 1), st: (p.st || []).filter(n => E.statusByName(n)) }));
+      S.picks[side] = picks.map(p => ({ id: p.id, level: Math.max(1, +p.level || 1), item: E.ITEM_IDS.includes(p.item) ? p.item : null, st: (p.st || []).filter(n => E.statusByName(n)) }));
       S.locked[side] = true;
       if (S.locked.A && S.locked.B) {
         S.size = Math.min(S.picks.A.length, S.picks.B.length);      // se juegan tantos duelos como Pokémon lleve el que menos lleva
@@ -220,13 +243,29 @@ E.apply = (S, side, a, rng) => {
       const av = E.availableMoves(S, side)[a.idx];
       if (!av || !av.ok) return err('Ese ataque no está disponible');
       S.choice[side] = a.idx;
-      if (S.choice.A !== null && S.choice.B !== null) S.step = 'roll';
+      S.use = S.use || { A: [], B: [] };
+      S.use[side] = [];
+      if (a.use) {                                         // objeto activo de este Pokémon, si se puede
+        const fs = S.fighters[side], u = E.itemUsable(S, side, a.idx);
+        if (u.ok && a.use === true || (u.ok && a.use && a.use.includes && a.use.includes(fs.item))) {
+          S.use[side] = [fs.item];
+          if (fs.item === 'garra_rapida' || fs.item === 'mineral_evolutivo') fs.iu[fs.item] = true;
+        }
+      }
+      if (S.choice.A !== null && S.choice.B !== null) {
+        S.step = 'roll';
+        ['A', 'B'].forEach(x => {                          // Mineral Evolutivo: el rival tira con Desventaja esta ronda
+          if (!S.use[x].includes('mineral_evolutivo')) return;
+          const r = S.fighters[other(x)], rule = DB.card(r.id) && E.abilityRule(DB.card(r.id).ability);
+          if (!(rule && rule.noDisadv)) r.adv = Math.max(-2, r.adv - 1);
+        });
+      }
       return { ok: true };
     }
     case 'roll': {
       if (S.phase !== 'duel' || S.step !== 'roll' || S.rolls[side]) return err('No puedes tirar ahora');
       const f = S.fighters[side], card = DB.card(f.id), mv = E.movesOf(card)[S.choice[side]];
-      const faces = E.faces(mv.die);
+      const faces = E.rollFaces(S, side);
       const adv = Math.max(-2, Math.min(2, f.adv + f.advPerm));
       const n = 1 + Math.abs(adv);
       let dice;
@@ -254,11 +293,23 @@ E.apply = (S, side, a, rng) => {
    ============================================================ */
 function sideInfo(S, s) {
   const f = S.fighters[s], card = DB.card(f.id), idx = S.choice[s], mv = E.movesOf(card)[idx];
-  const effs = (mv.effects || []).map(fxInfo);
+  let effs = (mv.effects || []).map(fxInfo);
   const roll = S.rolls[s];
-  const fired = effs.filter(e => e.thr == null || roll.kept >= e.thr);
+  const use = (S.use && S.use[s]) || [];
+  const hasKO = effs.some(e => e.name === 'KO');
+  const lupa = use.includes('lupa') && !hasKO ? 1 : 0;
+  const nat = roll.kept + lupa;
+  const syn = (name, lado, thr, label) => {           // efecto que aporta el objeto: si el movimiento ya lo tiene, baja 1 su umbral
+    const mine = effs.find(e => (e.name === name || e.name === 'Doble ' + name) && e.lado === lado);
+    if (mine) { if (mine.thr != null) { mine.thr = Math.max(1, mine.thr - 1); mine.item = label; } }
+    else effs.push({ code: 'item_' + name, name, lado, thr, known: true, desc: label, item: label });
+  };
+  if (f.item === 'telescopio') syn('Ventaja', 'usuario', 5, 'Telescopio');
+  if (f.item === 'roca_del_rey') syn('Desventaja', 'rival', 5, 'Roca del Rey');
+  if (use.includes('garra_rapida')) effs.push({ code: 'item_Prioridad', name: 'Prioridad', lado: 'usuario', thr: null, known: true, desc: 'Garra Rápida', item: 'Garra Rápida' });
+  const fired = effs.filter(e => e.thr == null || nat >= e.thr);
   return {
-    s, f, card, idx, mv, effs, roll, fired, nat: roll.kept,
+    s, f, card, idx, mv, effs, roll, fired, nat, use,
     abil: E.abilityRule(card.ability),
     has: name => fired.some(e => e.name === name)
   };
@@ -325,6 +376,14 @@ function resolveRound(S, rng) {
     }
     if (me.has('Corazón')) add('corazon', 'Corazón', Math.floor(r.val / 3), '⅓ del dado');
 
+    // Objeto equipado
+    if (me.f.item === 'vitamina') add('objeto', 'Objeto · Vitamina', 1, '+1 al total');
+    if (me.use.includes('garra_afilada')) notes.push('Garra Afilada: el dado de este ataque sube de tamaño esta ronda.');
+    if (me.use.includes('lupa')) notes.push(me.nat > me.roll.kept ? 'Lupa: +1 a la tirada para activar efectos (sacaste ' + me.roll.kept + ' → cuenta ' + me.nat + ').' : 'Lupa: no se puede usar con movimientos KO.');
+    if (me.use.includes('garra_rapida')) notes.push('Garra Rápida: Prioridad esta ronda (ignora los efectos del rival).');
+    if (me.use.includes('mineral_evolutivo')) notes.push('Mineral Evolutivo: el rival tira con Desventaja esta ronda.');
+    if (me.f.item === 'restos' || me.f.item === 'baya') notes.push((me.f.item === 'restos' ? 'Restos: una vez por combate puedes repetir el dado de ataque (resta 1 al total con el ajuste manual).' : 'Baya: puedes descartarla para repetir el dado de ataque o quitar un estado.'));
+
     // Estados
     if (me.f.statuses.length) {
       const sum = me.f.statuses.reduce((t, st) => t + (E.STATUS_MOD[norm(st)] || 0), 0);
@@ -358,8 +417,8 @@ function resolveRound(S, rng) {
     const me = info[s], op = info[other(s)], fo = S.fighters[other(s)], fm = S.fighters[s];
     me.effs.forEach(e => {
       const fired = e.thr == null || me.nat >= e.thr;
-      const item = { side: s, name: e.name, code: e.code, lado: e.lado, thr: e.thr, fired, outcome: '', text: '' };
-      if (!fired) { item.outcome = 'no'; item.text = 'No se activa (sacaste ' + me.nat + ', hacía falta ' + e.thr + ')'; effects.push(item); return; }
+      const item = { fromItem: e.item || '', side: s, name: e.name, code: e.code, lado: e.lado, thr: e.thr, fired, outcome: '', text: '' };
+      if (!fired) { item.outcome = 'no'; item.text = 'No se activa (sacaste ' + me.nat + ', hacía falta ' + e.thr + ')' + (e.item ? ' · ' + e.item : ''); effects.push(item); return; }
       const toOpp = e.lado === 'rival';
       const target = toOpp ? fo : fm;
       const tInfo = toOpp ? op : me;
@@ -434,7 +493,7 @@ function advance(S) {
       S.duelWins[w]++;
       S.step = 'duelEnd'; S.ack = { A: false, B: false };
     } else {
-      S.round++; S.step = 'choose'; S.choice = { A: null, B: null }; S.rolls = { A: null, B: null }; S.adj = { A: 0, B: 0 };
+      S.round++; S.use = { A: [], B: [] }; S.step = 'choose'; S.choice = { A: null, B: null }; S.rolls = { A: null, B: null }; S.adj = { A: 0, B: 0 };
       S.result = null; S.ack = { A: false, B: false };
     }
   } else if (S.step === 'duelEnd') {

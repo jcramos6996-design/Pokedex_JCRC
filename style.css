@@ -775,3 +775,38 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .emo{font-size:1.8rem;min-height:52px;border-radius:12px;background:var(--panel2)}.emo.on{outline:3px solid var(--blue)}
 @media (min-width:560px){.trainerbody{max-width:640px;margin:0 auto}.medals,.cities{grid-template-columns:repeat(3,1fr)}.achs{grid-template-columns:repeat(3,1fr)}}
 @media (prefers-reduced-motion:reduce){.idcard::before{animation:none}}
+
+/* ---------- Mochila ---------- */
+.subtabs.scroll{overflow-x:auto;scrollbar-width:none;margin-bottom:10px}
+.subtabs.scroll button{flex:0 0 auto;padding:0 14px;white-space:nowrap}
+.bagq{width:100%;min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:0 14px;font:inherit;margin-bottom:10px}
+.iclist{display:flex;flex-direction:column;gap:10px}
+.igroup{margin:10px 2px 0;font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.icard{display:flex;gap:12px;padding:10px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line);opacity:.62}
+.icard.have{opacity:1;border-color:#4a5578}
+.iimg{flex:0 0 84px;padding:0;border:0;background:none;align-self:flex-start}
+.iimg img{width:84px;height:auto;border-radius:8px;display:block}
+.iinfo{flex:1;min-width:0}
+.iinfo small{color:var(--muted);margin-left:6px}
+.iinfo p{margin:4px 0;font-size:.85rem;color:#cfd5e6}
+.iinfo .iauto{color:#8fd3a8;font-size:.78rem}
+.ictl{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}
+.ictl .qn{min-width:34px;text-align:center;font-weight:700}
+.seg1{min-height:40px;padding:0 14px;border-radius:12px;background:#0003;font-weight:600;color:var(--text);border:1px solid var(--line)}
+.seg1.on{background:var(--green);border-color:var(--green);color:#fff}
+.holder{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:.85rem}
+.itemchip{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+.itemchip.on{padding:6px;border-radius:12px;background:#0003;border:1px solid var(--line)}
+.itemchip img{width:38px;border-radius:5px}
+.itemchip .it{flex:1;min-width:120px;display:flex;flex-direction:column;font-size:.85rem}
+.itemchip .it small{color:var(--muted);font-size:.72rem}
+.itemchip .ia{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.xpc{display:inline-flex;gap:3px}.xpc i{width:10px;height:10px;border-radius:50%;border:1px solid #fff8}.xpc i.on{background:#f4c20d}
+.bagdlgimg{display:block;width:60%;max-width:220px;margin:0 auto 10px;border-radius:10px}
+.bigdie{font-size:3rem;font-weight:800;text-align:center;margin:8px 0}
+.ballbtn{position:relative}
+.ballbtn .stock{position:absolute;top:2px;right:4px;font-style:normal;font-size:.7rem;font-weight:700;background:var(--blue);color:#fff;border-radius:99px;padding:0 6px}
+.fitem{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:.75rem}
+.fitem img{width:22px;border-radius:3px}
+.fitem.used{color:#f4c20d;font-weight:700}
+.itemuse{margin:8px 0}.itemuse.off{opacity:.55}

@@ -79,7 +79,7 @@ function catchSection(c, onCaught) {
   const S = {
     ball: BALLS.some(b => b.id === rd(KEY)) ? rd(KEY) : 'poke',
     fight: 'none',                       // none | won | lost
-    long: false, higher: false, surf: false,
+    long: false, higher: false, surf: false, flauta: false,
     medals: parseInt(rd(KEY_MEDALS, '0'), 10) || 0,
     manual: ''
   };
@@ -111,7 +111,10 @@ function catchSection(c, onCaught) {
     go.onclick = () => P.battle.wild(c.id, res => {
       if (res) { S.fight = res.won ? 'won' : 'lost'; S.long = res.rounds > 1; S.higher = res.higher; P.toast(res.won ? '¡Vencido! +' + FIGHT_BONUS + ' a la captura' : c.name + ' ha resistido', res.won ? 'ok' : 'info'); }
       drawFight(); renderOut();
-    });
+    }, { match: S.flauta });
+    if (P.bag && P.bag.count('flauta_negra') > 0) {
+      fightBox.appendChild(chk('Usar Flauta Negra (el salvaje iguala el nivel de tu Pokémon; se gasta al empezar)', S.flauta, v => { S.flauta = v; }));
+    }
     fightBox.appendChild(go);
     if (!n) fightBox.appendChild(el('p', 'hint', 'Para luchar necesitas al menos 1 Pokémon en Mi Equipo.'));
   }
@@ -127,6 +130,7 @@ function catchSection(c, onCaught) {
       const bt = el('button', 'ballbtn' + (b.id === S.ball ? ' on' : '')); bt.type = 'button';
       bt.setAttribute('role', 'radio'); bt.setAttribute('aria-checked', b.id === S.ball);
       bt.appendChild(ballMini(b)); bt.appendChild(el('span', null, esc(b.name.replace(' Ball', '')) + '<br>Ball'));
+      const st = P.bag ? P.bag.ballStock(b.id) : 0; if (st) bt.appendChild(el('i', 'stock', '×' + st));
       bt.onclick = () => { S.ball = b.id; wr(KEY, S.ball); drawPicker(); renderOut(); };
       picker.appendChild(bt);
     });
@@ -206,7 +210,11 @@ function catchSection(c, onCaught) {
     if (b.note && !b.auto) h += `<p class="tk-note">ℹ️ ${esc(b.note)}</p>`;
     box.innerHTML = h;
     const caught = el('button', 'btn wide', '✔ ¡Capturado! Añadir a Mi Equipo'); caught.type = 'button'; caught.dataset.nosound = '1';
-    caught.onclick = () => { if (P.trainer) P.trainer.captured(c.id, b.id); if (onCaught) onCaught(); };
+    caught.onclick = () => {
+      if (P.trainer) P.trainer.captured(c.id, b.id);
+      if (P.bag) P.bag.catchEffects(P.bag.ballItemFor(b.id), c.id);
+      if (onCaught) onCaught(); drawPicker();
+    };
     box.appendChild(caught);
   }
 

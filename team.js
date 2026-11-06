@@ -23,7 +23,13 @@ const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch
    dos Pidgey iguales no se confunden en pantalla ni se borran a la vez. */
 let seq = 0;
 const uid = () => Date.now().toString(36) + '-' + (++seq).toString(36) + Math.random().toString(36).slice(2, 5);
-const mk = id => { if (P.trainer) P.trainer.caught(id); return { uid: uid(), id, extra: 0, fainted: false }; };
+let bonus = null;                                       // niveles extra al capturar (Amigo Ball / Lujo Ball): { id, n }
+const mk = id => {
+  if (P.trainer) P.trainer.caught(id);
+  const e = { uid: uid(), id, extra: 0, fainted: false };
+  if (bonus && bonus.id === id) { e.extra = Math.max(0, Math.min(MAX_LEVEL - baseLevel(P.byId.get(id)), bonus.n)); bonus = null; }
+  return e;
+};
 (function fixIds() {                                  // guardados antiguos: sin uid o con uid repetido
   const seen = new Set();
   S.team.concat(S.pc).forEach(e => { if (!e.uid || seen.has(e.uid)) e.uid = uid(); seen.add(e.uid); e.fainted = !!e.fainted; });
@@ -49,10 +55,12 @@ function showView(v) {
   $('.layout').hidden = !dex;
   $('#viewTeam').hidden = v !== 'team';
   $('#viewTrainer').hidden = !tr;
+  $('#viewBag').hidden = v !== 'bag';
   document.body.classList.toggle('inteam', !dex);
   document.querySelectorAll('.bottomnav button').forEach(b => b.classList.toggle('on', b.dataset.view === v));
   if (v === 'team') renderTeamView();
   if (tr && P.trainer) P.trainer.render();
+  if (v === 'bag' && P.bag) P.bag.render();
   window.scrollTo(0, 0);
 }
 document.querySelectorAll('.bottomnav button').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
@@ -210,6 +218,7 @@ function toggleStatus(e, k) {
     if (k === 'par') e.st[k].n = 1;
     P.toast(cardOf(e).name + ' está ' + SI[k].name, 'info');
     if (navigator.vibrate) navigator.vibrate(25);
+    if (k === 'dor' && P.bag) setTimeout(() => P.bag.onSleep(e), 250);
   }
   save(); renderTeamView();
 }
@@ -342,6 +351,7 @@ function teamRow(e, i) {
   } else if ((c.evolvesTo || []).length) {
     info.appendChild(el('div', 'thint', 'Su evolución aún no tiene carta en la app'));
   }
+  const itemRow = P.bag && P.bag.chip(e); if (itemRow) info.appendChild(itemRow);
   row.appendChild(info);
   const act = el('div', 'tact');
   act.append(iconBtn('▲', 'Subir de posición', () => move(i, -1), i === 0),
@@ -468,7 +478,18 @@ function playEvolution(e, to) {
 P.team = {
   add,
   count: id => S.team.filter(e => e.id === id).length + S.pc.filter(e => e.id === id).length,
-  list: () => S.team.map(e => ({ uid: e.uid, id: e.id, level: levelOf(e), name: cardOf(e).name, st: stNames(e), fainted: !!e.fainted })),
+  list: () => S.team.map(e => ({ uid: e.uid, id: e.id, level: levelOf(e), name: cardOf(e).name, st: stNames(e), fainted: !!e.fainted, item: e.item || null })),
+  /* API para la Mochila */
+  setBonus: (id, n) => { bonus = n > 0 ? { id, n } : null; },
+  all: () => S.team.map(e => ({ e, where: 'team' })).concat(S.pc.map(e => ({ e, where: 'pc' }))),
+  teamEntries: () => S.team.slice(),
+  itemCount: id => S.team.concat(S.pc).filter(e => e.item === id).length,
+  levelOf, nameOf: e => cardOf(e).name, maxLevel: MAX_LEVEL,
+  levelUp: (e, n) => { const b = levelOf(e); changeLevel(e, n || 1); return levelOf(e) - b; },
+  revive: e => { e.fainted = false; save(); renderTeamView(); },
+  clearStatus: (e, k) => { if (k) delete e.st[k]; else e.st = {}; save(); renderTeamView(); },
+  stKeys: e => E.STATUS_ORDER.filter(k => e.st && e.st[k]),
+  save: () => { save(); renderTeamView(); },
   name: () => S.name || '',
   setName: n => { S.name = String(n || '').slice(0, 20); save(); },
   show: (v, t) => { if (t) tab = t; showView(v || 'team'); },

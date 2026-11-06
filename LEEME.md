@@ -161,3 +161,12 @@ El fondo de hexágonos está en `assets/fondo.jpg` (escritorio) y `assets/fondo-
 - `trainer.js` + `data/trainer.js`. Perfil (nombre, foto o icono, ID, rango), Pokédex personal (por región y tipo, qué te falta), medallas y Liga, ciudades visitadas y dónde estás, estadísticas de combate y capturas, logros, notas, guardar la tarjeta como imagen y copia de seguridad (descargar / restaurar).
 - Se rellena sola: cada Pokémon que entra en tu equipo cuenta en la Pokédex, "capturado" cuenta como captura, evolucionar suma evolución y los combates en línea y contra salvajes suman victorias/derrotas. Medallas y ciudades se marcan a mano.
 - Regiones, gimnasios y ciudades (Kanto y Johto de ejemplo) se cambian en `data/trainer.js`.
+
+
+## Mochila (cartas de objeto)
+- Nueva pestaña **Mochila** con las 46 cartas (`data/items.js`, imágenes en `assets/objetos/`). Subir a GitHub: `bag.js`, `data/items.js`, `assets/objetos/` (92 ficheros), y reemplazar `index.html`, `style.css`, `engine.js`, `battle.js`, `captura.js`, `team.js`.
+- Captura: se anota cuántas tienes; la calculadora muestra el stock y gasta una al capturar. Amigo/Lujo Ball suben 1 nivel al capturado, Sana Ball te deja revivir, Love Ball avisa de robar objeto. Flauta Negra: casilla en el combate salvaje previo.
+- Acción: Revivir, Max Revivir, Cura Total y Caramelo Raro se aplican solos; el resto (Bicicleta, Deportivas…) se «usan y descartan» llevando la cuenta.
+- Equipamiento: se equipa a un Pokémon (se ve en Mi Equipo). En combate: Vitamina, Telescopio y Roca del Rey son automáticos; Garra Afilada, Garra Rápida, Mineral Evolutivo y Lupa tienen casilla al elegir ataque; Poción Máxima, Baya, Repartir Exp y Huevo Suerte tienen botones en Mi Equipo/Mochila. Restos y Baya (repetir dado) y Amuleto son recordatorios.
+- Permanentes: Poké Flauta ofrece tirar el D4 cuando un Pokémon se duerme.
+- Se guarda en `pmtu.bag.v1` y entra en la copia de seguridad.
