@@ -44,8 +44,8 @@ Dormido,Dormido,rival,,El Pokémon obtiene el estado Dormido.,rival_dormido.png,
 Escudo,Protección,usuario,,"Esta ronda, la Fuerza de Ataque del movimiento del rival pasa a ser 0 y todos los efectos de movimiento que tengan como objetivo a tu Pokémon son ignorados.",usuario_proteccion.png,no
 Escudo con picos,Escudo con picos,,,,,no
 Espera,Espera,usuario,,"No puede ejecutar este movimiento dos turnos seguidos. Necesita, al menos, un turno de descanso.",usuario_espera.png,si
-Exclamación,Prioridad,usuario,,Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.,usuario_prioridad.png,no
-Explamación,Prioridad,usuario,,Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.,usuario_prioridad.png,no
+Exclamación,Prioridad,usuario,,"Tu ataque es más rápido: gana los empates del total final y anula los efectos del movimiento rival en esta ronda. Si los dos usan Prioridad, se anulan entre sí.",usuario_prioridad.png,no
+Explamación,Prioridad,usuario,,"Tu ataque es más rápido: gana los empates del total final y anula los efectos del movimiento rival en esta ronda. Si los dos usan Prioridad, se anulan entre sí.",usuario_prioridad.png,no
 Helado 6,Congelado,rival,6,El Pokémon obtiene el estado Congelado.,rival_congelado.png,si
 Ignore Type,Ignore Type,usuario,,Este movimiento no es efectivo ni débil contra ningún tipo.,usuario_ignore_type.png,si
 KO 5,KO,rival,5,El Pokémon se debilita al final de la ronda.,rival_ko.png,no
@@ -71,7 +71,7 @@ Parálisis 5,Paralizado,rival,5,El Pokémon obtiene el estado Paralizado.,rival_
 Parálisis 6,Paralizado,rival,6,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
 Paralizado 3,Paralizado,rival,3,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
 Paralizado 5,Paralizado,rival,5,El Pokémon obtiene el estado Paralizado.,rival_paralizado.png,si
-Prioridad,Prioridad,usuario,,Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.,usuario_prioridad.png,si
+Prioridad,Prioridad,usuario,,"Tu ataque es más rápido: gana los empates del total final y anula los efectos del movimiento rival en esta ronda. Si los dos usan Prioridad, se anulan entre sí.",usuario_prioridad.png,si
 Protección,Protección,usuario,,"Esta ronda, la Fuerza de Ataque del movimiento del rival pasa a ser 0 y todos los efectos de movimiento que tengan como objetivo a tu Pokémon son ignorados.",usuario_proteccion.png,si
 Quemado +,Quemado,rival,,El Pokémon obtiene el estado Quemado.,rival_quemado.png,no
 Quemado 3,Quemado,rival,3,El Pokémon obtiene el estado Quemado.,rival_quemado.png,si

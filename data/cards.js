@@ -6232,7 +6232,7 @@ window.EFFECTS = {
   "n": "Prioridad",
   "l": "usuario",
   "t": "",
-  "d": "Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.",
+  "d": "Tu ataque es más rápido: gana los empates del total final y anula los efectos del movimiento rival en esta ronda. Si los dos usan Prioridad, se anulan entre sí.",
   "i": "usuario_prioridad.png",
   "c": false,
   "k": "Exclamación"
@@ -6241,7 +6241,7 @@ window.EFFECTS = {
   "n": "Prioridad",
   "l": "usuario",
   "t": "",
-  "d": "Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.",
+  "d": "Tu ataque es más rápido: gana los empates del total final y anula los efectos del movimiento rival en esta ronda. Si los dos usan Prioridad, se anulan entre sí.",
   "i": "usuario_prioridad.png",
   "c": false,
   "k": "Explamación"
@@ -6475,7 +6475,7 @@ window.EFFECTS = {
   "n": "Prioridad",
   "l": "usuario",
   "t": "",
-  "d": "Cualquier efecto usado por los Pokémon del rival que tenga como objetivo a tu Pokémon se ignora hasta el final de la ronda.",
+  "d": "Tu ataque es más rápido: gana los empates del total final y anula los efectos del movimiento rival en esta ronda. Si los dos usan Prioridad, se anulan entre sí.",
   "i": "usuario_prioridad.png",
   "c": true,
   "k": "Prioridad"
