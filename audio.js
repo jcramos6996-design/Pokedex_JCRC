@@ -79,6 +79,8 @@ const SFX = {
     });
     [523, 659, 784].forEach(f => tone(f, t + 1.15, 1.0, { type: 'triangle', vol: 0.08 }));
   },
+  // Medalla conseguida: fanfarria corta
+  medal: t => { [523, 659, 784, 1047].forEach((f, i) => { tone(f, t + i * 0.11, 0.16, { type: 'square', vol: 0.07 }); tone(f / 2, t + i * 0.11, 0.16, { type: 'triangle', vol: 0.12 }); }); tone(1319, t + 0.5, 0.7, { type: 'triangle', vol: 0.14 }); tone(1047, t + 0.5, 0.7, { type: 'square', vol: 0.05 }); },
   faint: t => { tone(440, t, 0.5, { type: 'sawtooth', vol: 0.08, slide: 110 }); },
   evolve: t => { for (let i = 0; i < 14; i++) tone(400 + i * 70, t + i * 0.12, 0.14, { type: 'triangle', vol: 0.1 }); tone(1046, t + 1.8, 0.7, { type: 'square', vol: 0.08 }); }
 };

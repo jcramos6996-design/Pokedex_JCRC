@@ -223,8 +223,17 @@ E.apply = (S, side, a, rng) => {
         S.locked.A = S.locked.B = true; S.size = ps.length; S.need = 1; S.phase = 'duel'; S.duel = 0; setupDuel(S);
         return { ok: true };
       }
-      const picks = (a.picks || []).slice(0, 3);
+      let picks = (a.picks || []).slice(0, 3);
       if (picks.length < 1 || picks.length > 3 || picks.some(p => !DB.card(p.id))) return err('Elige de 1 a 3 Pokémon');
+      const gym = S.opts.gym;
+      if (gym && side === 'B') {                 // líder de gimnasio: solo de su equipo y con los niveles del gimnasio
+        const need = Math.min(3, gym.roster.length);
+        if (picks.length !== need) return err('El líder elige ' + need + ' Pokémon de su equipo');
+        const ids = picks.map(p => p.id); if (new Set(ids).size !== ids.length) return err('No repitas Pokémon');
+        const ent = picks.map(p => gym.roster.find(r => r.id === p.id));
+        if (ent.some(x => !x)) return err('Ese Pokémon no es del gimnasio');
+        picks = ent.map(x => ({ id: x.id, level: x.level, st: [], item: null }));
+      }
       S.picks[side] = picks.map(p => ({ id: p.id, level: Math.max(1, +p.level || 1), item: E.ITEM_IDS.includes(p.item) ? p.item : null, st: (p.st || []).filter(n => E.statusByName(n)) }));
       S.locked[side] = true;
       if (S.locked.A && S.locked.B) {
@@ -512,6 +521,94 @@ E.matchOver = S => S.opts.wild
   : (S.duelWins.A >= (S.need || E.MAX_DUEL_WIN) || S.duelWins.B >= (S.need || E.MAX_DUEL_WIN) || S.duel >= (S.size || 3) - 1);
 E.matchWinner = S => S.opts.wild ? (S.duelWins.A >= 1 ? 'A' : 'B')
   : (S.duelWins.A > S.duelWins.B ? 'A' : S.duelWins.B > S.duelWins.A ? 'B' : null);
+
+/* ============================================================
+   Líder de gimnasio controlado por la CPU (lado B).
+   Estudia el equipo del retador (ya confirmado) para elegir a sus 3 Pokémon y su orden, y en cada ronda
+   calcula con qué ataque tiene más probabilidades de ganar (nunca mira el ataque que ha elegido el rival).
+   ============================================================ */
+const dieP = (fa, fb, da, db) => {            // P(tirada A + da > tirada B + db) y P(empate), dados de fa y fb caras
+  let w = 0, t = 0;
+  for (let x = 1; x <= fa; x++) for (let y = 1; y <= fb; y++) { const d = x + da - (y + db); if (d > 0) w++; else if (d === 0) t++; }
+  const n = fa * fb; return { w: w / n, t: t / n };
+};
+function typeModOf(S, moveType, defCard, ability) {
+  if (!moveType) return 0;
+  let m = E.mult(moveType, defCard.types);
+  const ar = E.abilityRule(ability);
+  if (ar && ar.immune && ar.immune.includes(moveType)) m = 0;
+  if (m === 0) return S.opts.immune === 'falla' ? -99 : S.opts.immune === 'menos4' ? -4 : 0;
+  return m > 1 ? m : m < 1 ? -(1 / m) : 0;
+}
+function moveEst(S, atkCard, atkLevel, mv, defCard) {         // total esperado de un ataque (sin dado)
+  const pw = E.power(mv.power);
+  return { faces: E.faces(mv.die), base: atkLevel + (pw === null ? 2 : pw) + typeModOf(S, mv.type, defCard, atkCard.ability), mv };
+}
+const EFF_W = { KO: 3, Prioridad: 1.2, Ventaja: 1, Desventaja: 1, Protección: 1.2 };
+function effValue(mv, faces) {
+  return (mv.effects || []).reduce((t, c) => {
+    const e = fxInfo(c), pr = e.thr == null ? 1 : Math.max(0, (faces - e.thr + 1) / faces);
+    if (e.name === 'Recarga') return t - 0.5;
+    if (e.name === 'Espera') return t - 0.4;
+    return t + (EFF_W[e.name] || 0.7) * pr;
+  }, 0) * 0.6;
+}
+const bestEst = (S, atk, atkLv, def) => E.movesOf(atk).map(m => moveEst(S, atk, atkLv, m, def)).sort((a, b) => (b.base + b.faces / 2) - (a.base + a.faces / 2))[0];
+const duelWinP = p => p * p * (3 - 2 * p);                     // ganar un duelo al mejor de 3 rondas
+
+E.cpuPickTeam = (S, rng) => {
+  rng = rng || Math.random;
+  const gym = S.opts.gym, opp = S.picks.A, n = Math.min(3, gym.roster.length);
+  const ros = gym.roster.map(r => ({ r, c: DB.card(r.id) }));
+  const pw = (me, o) => {                                       // prob. de ganar una ronda: mi mejor ataque contra su mejor ataque
+    const oc = DB.card(o.id), a = bestEst(S, me.c, me.r.level, oc), b = bestEst(S, oc, o.level, me.c);
+    const d = dieP(a.faces, b.faces, a.base, b.base); return d.w + d.t / 2;
+  };
+  const M = ros.map(me => opp.map(o => pw(me, o)));
+  let best = null;
+  const rec = (chosen, used) => {
+    if (chosen.length === n) {
+      const ps = chosen.map((ri, pos) => opp[pos] ? duelWinP(M[ri][pos]) : 0.5), need = Math.floor(ps.length / 2) + 1;
+      let dp = [1]; ps.forEach(p => { const nx = new Array(dp.length + 1).fill(0); dp.forEach((v, k) => { nx[k + 1] += v * p; nx[k] += v * (1 - p); }); dp = nx; });
+      const win = dp.slice(need).reduce((t, v) => t + v, 0) + (rng() - 0.5) * 0.03 + chosen.filter(ri => ros[ri].r.hidden).length * 0.01;   // desempate: prefiere sacar su trampa
+      if (!best || win > best.win) best = { win, chosen: chosen.slice() };
+      return;
+    }
+    ros.forEach((_, i) => { if (!used.has(i)) { used.add(i); chosen.push(i); rec(chosen, used); chosen.pop(); used.delete(i); } });
+  };
+  rec([], new Set());
+  return best.chosen.map(i => ({ id: ros[i].r.id, level: ros[i].r.level }));
+};
+
+E.cpuChoose = (S, side, rng) => {
+  rng = rng || Math.random;
+  const me = S.fighters[side], opp = S.fighters[other(side)];
+  const mc = DB.card(me.id), oc = DB.card(opp.id);
+  const mine = E.availableMoves(S, side).filter(x => x.ok);
+  const theirs = E.availableMoves(S, other(side)).filter(x => x.ok).map(x => moveEst(S, oc, opp.level, x.m, mc));
+  const tBest = theirs.slice().sort((a, b) => (b.base + b.faces / 2) - (a.base + a.faces / 2))[0];
+  const scored = mine.map(x => {
+    const a = moveEst(S, mc, me.level, x.m, oc);
+    let p = 0;
+    theirs.forEach(t => {                                        // el rival suele jugar su mejor ataque, pero no siempre
+      const w = (theirs.length === 1 ? 1 : t === tBest ? 0.6 : 0.4 / (theirs.length - 1));
+      const d = dieP(a.faces, t.faces, a.base, t.base); p += w * (d.w + d.t / 2);
+    });
+    const hasPrio = (x.m.effects || []).some(c => fxInfo(c).name === 'Prioridad');
+    return { i: x.i, s: p * 10 + effValue(x.m, a.faces) + (hasPrio ? 0.3 : 0) + rng() * 0.05 };
+  }).sort((a, b) => b.s - a.s);
+  return scored[0].i;
+};
+
+E.autoGym = (S, rng) => {
+  rng = rng || Math.random;
+  const g = S.opts.gym; if (!g || !g.cpu) return;
+  if (S.phase === 'pick' && S.locked.A && !S.locked.B) E.apply(S, 'B', { type: 'lock', picks: E.cpuPickTeam(S, rng) }, rng);
+  if (S.phase !== 'duel') return;
+  if (S.step === 'choose' && S.choice.B === null) E.apply(S, 'B', { type: 'choose', idx: E.cpuChoose(S, 'B', rng) }, rng);
+  if (S.step === 'roll' && !S.rolls.B) E.apply(S, 'B', { type: 'roll', adj: 0 }, rng);
+  if ((S.step === 'result' || S.step === 'duelEnd') && !S.ack.B) E.apply(S, 'B', { type: 'ack' }, rng);
+};
 
 /* Salvaje: el lado B lo juega la app (ataque al azar, tira solo y confirma solo) */
 E.autoWild = (S, rng) => {

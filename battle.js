@@ -30,7 +30,7 @@ const store = {
 function persist() {
   if (!M || M.wild) return;
   if (M.mode === 'host') store.set({ mode: 'host', code: M.code, S: M.S });
-  else if (M.mode === 'local') store.set({ mode: 'local', S: M.S });
+  else if (M.mode === 'local') store.set({ mode: 'local', S: M.S, cpu: !!M.cpu });
   else if (M.mode === 'guest') store.set({ mode: 'guest', code: M.code, name: M.name });
 }
 
@@ -76,6 +76,7 @@ function menu(body) {
     <h2>Combate contra entrenador</h2>
     <p class="hint">Hasta 3 contra 3. Cada duelo entre dos Pokémon es al mejor de 3 rondas. Gana el combate quien gane 2 duelos. La app hace las cuentas; tú solo eliges y tiras.</p>
     <label class="field">Tu nombre<input id="bName" maxlength="20" placeholder="Ash" value="${esc(name)}" autocomplete="off"></label>
+    <div class="bcard gymcard"><h3>🏟️ Gimnasio</h3><p>Desafía a un líder de gimnasio y gana su medalla. El líder lo controla la CPU o un jugador sorteado.</p><button class="btn primary wide" id="bGym">Desafiar a un líder</button></div>
     <div class="bcard"><h3>Crear sala</h3><p>Tú serás el anfitrión. Te sale un código para que tu rival lo escriba en su móvil.</p><button class="btn primary wide" id="bHost">Crear sala</button></div>
     <div class="bcard"><h3>Unirme a una sala</h3><p>Escribe el código que te da tu rival.</p>
       <div class="inrow"><input id="bCode" maxlength="5" placeholder="CÓDIGO" autocapitalize="characters" autocomplete="off" value="${esc(joinPrefill)}"><button class="btn primary" id="bJoin">Unirme</button></div></div>
@@ -84,6 +85,7 @@ function menu(body) {
       <button class="btn wide" id="bLocal">Empezar con un móvil</button></div>
     <div id="bResume"></div>`));
   const nm = () => { const v = $('#bName').value.trim() || 'Entrenador'; P.team.setName($('#bName').value.trim()); return v; };
+  $('#bGym').onclick = () => { nm(); P.gym.open(); };
   $('#bHost').onclick = () => startHost(nm());
   $('#bJoin').onclick = () => { const c = N.normCode($('#bCode').value); if (c.length < 4) return P.toast('Escribe el código de la sala'); startGuest(c, nm()); };
   $('#bLocal').onclick = () => startLocal(nm(), $('#bName2').value.trim() || 'Rival');
@@ -182,15 +184,37 @@ function startWild(wildId, onDone, opts) {
   M = newM({ mode: 'local', wild: true, S, onDone });
   openOverlay(); render();
 }
+/* ---------- Gimnasio ---------- */
+function gymSession(g, cpu, challenger, leaderPlayer) {
+  const S = E.create({ gym: { id: g.id, leader: g.leader, city: g.city, medal: g.medal, region: g.region, quote: g.quote || '', cpu, player: leaderPlayer || '', roster: g.roster.map(r => ({ id: r.id, level: r.level, hidden: !!r.hidden })) } });
+  E.apply(S, 'A', { type: 'hello', name: challenger || P.team.name() || 'Retador' });
+  return S;
+}
+function startGymCpu(g, challenger) {
+  const S = gymSession(g, true, challenger);
+  E.apply(S, 'B', { type: 'hello', name: g.leader + ' (CPU)' });
+  S.phase = 'pick';
+  M = newM({ mode: 'local', cpu: true, S });
+  openOverlay(); persist(); render();
+}
+function startGymLocal(g, challenger, leaderPlayer) {
+  const S = gymSession(g, false, challenger, leaderPlayer);
+  E.apply(S, 'B', { type: 'hello', name: leaderPlayer });
+  S.phase = 'pick';
+  M = newM({ mode: 'local', S });
+  M.cur = localCur(); openOverlay(); persist(); render();
+}
+function startGymHost(g, challenger, leaderPlayer) { startHost(challenger, null, gymSession(g, false, challenger, leaderPlayer)); }
+
 function resume(s) {
   if (s.mode === 'host') startHost('', s.code, s.S);
   else if (s.mode === 'guest') startGuest(s.code, s.name);
-  else { M = newM({ mode: 'local', S: s.S }); M.cur = localCur(); openOverlay(); render(); }
+  else { M = newM({ mode: 'local', S: s.S, cpu: !!s.cpu }); M.cur = localCur(); openOverlay(); render(); autoPlay(); }
 }
 
 /* ---------- Enviar acciones ---------- */
 function localCur() {
-  if (M.wild) return 'A';
+  if (M.wild || M.cpu) return 'A';
   const S = M.S, pa = E.pending(S, 'A'), pb = E.pending(S, 'B');
   if (pa && !pb) return 'A';
   if (pb && !pa) return 'B';
@@ -207,7 +231,7 @@ function dispatch(a) {
   if (M.mode === 'local') M.cur = localCur();
   autoPlay(); sync();
 }
-function autoPlay() { if (M && M.wild) for (let i = 0; i < 4; i++) E.autoWild(M.S); }
+function autoPlay() { if (M && M.wild) for (let i = 0; i < 4; i++) E.autoWild(M.S); else if (M && M.cpu) for (let i = 0; i < 4; i++) E.autoGym(M.S); }
 function ackBoth() {
   if (M.mode === 'local') { E.apply(M.S, 'A', { type: 'ack' }); E.apply(M.S, 'B', { type: 'ack' }); M.cur = localCur(); autoPlay(); sync(); }
   else dispatch({ type: 'ack' });
@@ -228,14 +252,14 @@ function connBadge() {
   const c = $('#bConn');
   if (!M) { c.textContent = ''; return; }
   const m = { wait: ['🟡', M.mode === 'host' ? 'Esperando rival' : 'Conectando'], up: ['🟢', 'Conectado'], down: ['🔴', M.mode === 'host' ? 'Rival desconectado' : 'Reconectando…'], error: ['🔴', 'Sin conexión'] }[M.status];
-  c.textContent = M.wild ? '🌿' : M.mode === 'local' ? '📱 1 móvil' : (m ? m[0] + ' ' + m[1] : '');
+  c.textContent = M.wild ? '🌿' : M.cpu ? '🤖 CPU' : M.mode === 'local' ? '📱 1 móvil' : (m ? m[0] + ' ' + m[1] : '');
 }
 
 function render() {
   if (!M) return;
   const body = $('#bBody');
   connBadge();
-  $('#bTitle').textContent = M.wild ? 'Combate salvaje' : M.mode === 'local' ? 'Combate · un móvil' : 'Combate · sala ' + M.code;
+  $('#bTitle').textContent = M.wild ? 'Combate salvaje' : ((M.S || M.V || {}).opts || {}).gym ? '🏟️ Gimnasio · ' + (M.S || M.V).opts.gym.leader : M.mode === 'local' ? 'Combate · un móvil' : 'Combate · sala ' + M.code;
   let side, V;
   if (M.mode === 'guest') {
     side = 'B'; V = M.V;
@@ -254,7 +278,7 @@ function render() {
   body.innerHTML = '';
   const scroll = body.scrollTop;
   const secret = V.phase === 'pick' || (V.phase === 'duel' && V.step === 'choose');
-  if (M.mode === 'local' && !M.wild && secret && M.covered !== side) { viewCover(body, V, side); return; }
+  if (M.mode === 'local' && !M.wild && !M.cpu && secret && M.covered !== side) { viewCover(body, V, side); return; }
   if (!secret) M.covered = null;
 
   if (V.phase === 'lobby') viewLobby(body, V, side);
@@ -288,6 +312,7 @@ function viewLobby(body, V, side) {
     row.appendChild(cp); w.appendChild(row);
     w.appendChild(el('div', 'who', `<div class="${V.joined.A ? 'ok' : ''}">${V.joined.A ? '✔' : '…'} ${esc(nameOf(V, 'A'))} <small>(tú)</small></div>
       <div class="${V.joined.B ? 'ok' : ''}">${V.joined.B ? '✔ ' + esc(nameOf(V, 'B')) : '⏳ Esperando a tu rival…'}</div>`));
+    if (V.opts.gym) w.appendChild(el('div', 'gymnote', `🏟️ Gimnasio de <b>${esc(V.opts.gym.leader)}</b>. Líder sorteado: <b>${esc(V.opts.gym.player)}</b>. Que se una con este código y elegirá sus 3 Pokémon del equipo del gimnasio.`));
     const opt = el('label', 'field', 'Si un ataque no hace efecto por tipo (inmune)');
     const sel = el('select'); Object.entries(E.IMMUNE_MODES).forEach(([k, v]) => { const o = el('option', null, esc(v)); o.value = k; if (V.opts.immune === k) o.selected = true; sel.appendChild(o); });
     sel.onchange = () => dispatch({ type: 'opts', opts: { immune: sel.value } });
@@ -295,7 +320,7 @@ function viewLobby(body, V, side) {
     const go = el('button', 'btn primary wide', 'Empezar combate'); go.disabled = !(V.joined.A && V.joined.B);
     go.onclick = () => dispatch({ type: 'start' }); w.appendChild(go);
   } else {
-    w.innerHTML = `<h2>¡Conectado!</h2><p>Estás en la sala <b>${esc(M.code)}</b>.</p>
+    w.innerHTML = `<h2>¡Conectado!</h2><p>Estás en la sala <b>${esc(M.code)}</b>.</p>${V.opts.gym ? `<p class="gymnote">🏟️ Eres el líder <b>${esc(V.opts.gym.leader)}</b>. Elegirás 3 Pokémon de tu gimnasio.</p>` : ''}
       <div class="who"><div class="ok">✔ ${esc(nameOf(V, 'A'))} <small>(anfitrión)</small></div><div class="ok">✔ ${esc(nameOf(V, 'B'))} <small>(tú)</small></div></div>
       <div class="bwait"><div class="spin"></div><p>Esperando a que el anfitrión empiece el combate…</p></div>`;
   }
@@ -336,10 +361,20 @@ function viewPick(body, V, side) {
   const o = other(side), w = el('div', 'bpick');
   const myLocked = V.locked[side];
   const wild = !!V.opts.wild, MAXP = wild ? 6 : 3;     // normal: de 1 a 3; salvaje: de 1 a 6
+  const gym = V.opts.gym, leaderPick = !!gym && !gym.cpu && side === 'B';   // el líder humano elige de SU equipo de gimnasio
+  const needN = leaderPick ? Math.min(3, gym.roster.length) : gym ? Math.max(1, Math.min(3, P.team.list().filter(t => !t.fainted).length)) : 1;
   const oppLine = el('div', 'oppline ' + (V.locked[o] ? 'ok' : ''), V.locked[o] ? `✔ ${esc(nameOf(V, o))} ya ha elegido` : `⏳ ${esc(nameOf(V, o))} está eligiendo…`);
   if (M.mode === 'local') oppLine.hidden = true;
-  w.appendChild(el('h2', null, myLocked ? 'Equipo confirmado' : wild ? `Elige quién lucha contra ${esc(fightWildName(V))}` : 'Elige de 1 a 3 Pokémon'));
+  w.appendChild(el('h2', null, myLocked ? 'Equipo confirmado' : leaderPick ? `Líder ${esc(gym.leader)}: elige ${needN} Pokémon` : wild ? `Elige quién lucha contra ${esc(fightWildName(V))}` : 'Elige de 1 a 3 Pokémon'));
   if (wild) w.appendChild(el('p', 'hint', 'Elige de 1 a 6 Pokémon de tu equipo, en orden. El 1.º se enfrenta al salvaje en un duelo al mejor de 3 rondas; si pierde, entra el siguiente. En cuanto uno gane un duelo, venciste: +2 a tu tirada de captura.'));
+  else if (gym) {
+    w.appendChild(el('p', 'hint', leaderPick ? `Eres el líder ${esc(gym.leader)}. Elige ${needN} Pokémon de tu gimnasio, en orden: el 1.º lucha el duelo 1, el 2.º el duelo 2 y el 3.º el duelo 3. Es en secreto hasta que el retador confirme.` : gym.cpu ? `Desafías a ${esc(gym.leader)} (CPU). Elige ${needN} Pokémon en orden. El líder elegirá los suyos después de estudiar tu equipo, así que piensa bien el orden.` : `Desafías a ${esc(gym.leader)}. Elige ${needN} Pokémon en orden; el líder elige en secreto de su equipo.`));
+    if (!leaderPick) {                                           // el equipo del gimnasio es público: conoce a tu rival
+      const rs = el('div', 'gymroster'); rs.appendChild(el('h3', null, 'Equipo del gimnasio'));
+      const g = el('div', 'gymgrid'); gym.roster.forEach(r => { const c = cardOf(r.id); const x = el('div', 'gymcell'); if (r.hidden) { x.appendChild(el('div', 'gmystery', '❓')); x.appendChild(el('em', null, 'Pokémon sorpresa')); g.appendChild(x); return; } x.appendChild(thumbCard(c, true)); x.appendChild(el('em', null, esc(c.name) + ' · Nv ' + r.level)); x.appendChild(typesRow(c)); g.appendChild(x); });
+      rs.appendChild(g); w.appendChild(rs);
+    }
+  }
   else w.appendChild(el('p', 'hint', 'Es en secreto: tu rival no verá tu elección hasta que los dos confirméis. El 1.º lucha en el duelo 1, el 2.º en el duelo 2 y el 3.º en el duelo 3. Puedes llevar solo 1 o 2: se juegan tantos duelos como Pokémon lleve el que menos lleve.'));
   w.appendChild(oppLine);
 
@@ -369,9 +404,9 @@ function viewPick(body, V, side) {
   w.appendChild(slots);
 
   const addable = sel.length < MAXP;
-  const team = P.team.list();
-  const sec = el('div', 'bsec'); sec.appendChild(el('h3', null, M.mode === 'local' ? 'Equipo guardado en este móvil' : 'De Mi Equipo'));
-  if (!team.length) sec.appendChild(el('p', 'hint', 'Tu equipo está vacío. Añade Pokémon desde la Pokédex o elige del Pokédex abajo.'));
+  const team = leaderPick ? [] : P.team.list();
+  const sec = el('div', 'bsec'); sec.appendChild(el('h3', null, leaderPick ? `Equipo del gimnasio de ${esc(gym.leader)}` : M.mode === 'local' ? 'Equipo guardado en este móvil' : 'De Mi Equipo'));
+  if (!team.length && !leaderPick) sec.appendChild(el('p', 'hint', 'Tu equipo está vacío. Añade Pokémon desde la Pokédex o elige del Pokédex abajo.'));
   const grid = el('div', 'pickgrid');
   team.forEach(t => {
     const used = sel.some(p => p.uid === t.uid);
@@ -381,13 +416,20 @@ function viewPick(body, V, side) {
     b.onclick = () => { sel.push({ id: t.id, level: t.level, uid: t.uid, src: 'team', st: t.st || [], item: t.item || null }); render(); };
     grid.appendChild(b);
   });
+  if (leaderPick) gym.roster.forEach(r => {
+    const c = cardOf(r.id), used = sel.some(p => p.id === r.id);
+    const b = el('button', 'pickitem'); b.type = 'button'; b.disabled = used || !addable;
+    b.appendChild(thumbCard(c, true)); b.appendChild(el('em', null, esc(c.name) + ' · Nv ' + r.level));
+    b.onclick = () => { sel.push({ id: r.id, level: r.level, src: 'gym' }); render(); };
+    grid.appendChild(b);
+  });
   sec.appendChild(grid); w.appendChild(sec);
 
-  const dex = el('button', 'btn wide', '📖 Elegir del Pokédex (líder de gimnasio)'); dex.disabled = !addable; dex.hidden = wild;
+  const dex = el('button', 'btn wide', '📖 Elegir del Pokédex (líder de gimnasio)'); dex.disabled = !addable; dex.hidden = wild || !!gym;
   dex.onclick = () => openDexPicker(c => { sel.push({ id: c.id, level: c.level || 1, src: 'dex' }); render(); });
   w.appendChild(dex);
 
-  const ok = el('button', 'btn primary wide big', wild ? '⚔️ ¡A luchar! (' + sel.length + ')' : '🔒 Confirmar en secreto (' + sel.length + ')'); ok.disabled = sel.length < 1;
+  const ok = el('button', 'btn primary wide big', wild ? '⚔️ ¡A luchar! (' + sel.length + ')' : '🔒 Confirmar en secreto (' + sel.length + ')'); ok.disabled = sel.length < needN;
   ok.onclick = () => dispatch({ type: 'lock', picks: sel.map(p => ({ id: p.id, level: p.level, st: p.st || [], item: p.item || null })) });
   w.appendChild(ok);
   body.appendChild(w);
@@ -697,7 +739,7 @@ function recordOnce(V, side, win) {
   if (!M || M.recorded || !P.trainer) return;
   M.recorded = true;
   if (V.opts.wild) { const r = wildResult(V); if (r) P.trainer.battle({ kind: 'wild', won: r.won }); }
-  else if (M.mode !== 'local') P.trainer.battle({ kind: 'trainer', won: win === side, tie: win == null });
+  else if (M.mode !== 'local' || M.cpu) P.trainer.battle({ kind: 'trainer', won: win === (M.cpu ? 'A' : side), tie: win == null });
 }
 function viewDone(body, V, side) {
   const o = other(side), win = E.matchWinner(V), w = el('div', 'bdone');
@@ -716,8 +758,22 @@ function viewDone(body, V, side) {
     body.appendChild(w);
     return;
   }
-  w.appendChild(el('div', 'banner big ' + (win === side ? 'win' : win ? 'lose' : 'tie'),
+  const gm = V.opts.gym;
+  if (gm && side === 'A') {                                        // el retador gana (o no) la medalla
+    const won = win === 'A';
+    w.appendChild(el('div', 'banner big ' + (won ? 'win' : 'lose'),
+      won ? `¡Has derrotado a ${esc(gm.leader)}!<small>${esc(gm.medal)} conseguida</small>` : `${esc(gm.leader)} te ha vencido<small>Entrena y vuelve a desafiarle</small>`));
+    if (won) {
+      if (M.gymNew === undefined) M.gymNew = !!(P.trainer && P.trainer.awardBadge(gm.region, gm.id));
+      const first = M.gymNew;
+      const mimg = el('img', 'gymmedal'); mimg.src = 'assets/medallas/' + gm.id + '.png'; mimg.alt = gm.medal; mimg.onerror = () => mimg.remove();
+      w.appendChild(mimg);
+      if (first) w.appendChild(el('p', 'hint', 'Se ha añadido a tu tarjeta de entrenador.'));
+    }
+  }
+  if (!(gm && side === 'A')) w.appendChild(el('div', 'banner big ' + (win === side ? 'win' : win ? 'lose' : 'tie'),
     win ? `¡Gana ${esc(nameOf(V, win))}!<small>${V.duelWins.A}–${V.duelWins.B} en duelos</small>` : 'Combate empatado'));
+  else w.appendChild(el('p', 'hint', `Duelos: ${V.duelWins.A}–${V.duelWins.B}`));
   const l = el('div', 'bsec'); l.appendChild(el('h3', null, 'Duelos'));
   V.duels.forEach((d, i) => {
     const a = cardOf(d.ids[side]), b = cardOf(d.ids[o]);
@@ -734,7 +790,7 @@ function viewDone(body, V, side) {
 }
 
 /* ---------- API y arranque ---------- */
-P.battle = { menu, wild: startWild };
+P.battle = { menu, wild: startWild, gym: { cpu: startGymCpu, local: startGymLocal, host: startGymHost } };
 const sala = N.normCode(new URLSearchParams(location.search).get('sala'));
 if (sala) { joinPrefill = sala; P.team.show('team', 'battle'); }
 })();

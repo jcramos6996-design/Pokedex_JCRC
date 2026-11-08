@@ -177,3 +177,22 @@ Un ataque con Prioridad (símbolo o Garra Rápida) gana los empates del total fi
 ## Tipos y medallas con imagen
 - Etiquetas de tipo (`assets/tipos_pill/<tipo>.png`, 18 tipos): se ven en la ficha de la carta, Mi Equipo, combate y fortalezas/debilidades. Los iconos pequeños de los ataques siguen igual.
 - Medallas de Kanto (`assets/medallas/<id>.png`): en la tarjeta de entrenador, la lista de medallas y la imagen PNG de la tarjeta. Las de Johto siguen con emoji hasta que haya imágenes (mismo nombre que su id, p. ej. `cefiro.png`, y añadir el id en MEDAL_IMG de trainer.js, y cambiar la condición de región).
+
+## Mochila v2 (lista + menú inferior) e InventoryManager
+- La Mochila es una lista: icono · nombre · ×cantidad · [＋]. El ＋ solo añade botín/compras. Tocar la fila abre el menú inferior: **Usar / Equipar · Tirar · Cancelar**. «＋ Añadir objeto» abre el catálogo completo.
+- Usar Revivir/Cura Total/Caramelo Raro abre la lista de Mi Equipo; los Pokémon que no valen salen apagados con el motivo (Revivir solo con Debilitado). Al usarlo se resta 1, se guarda y suena el SFX de curación.
+- `window.InventoryManager` (en bag.js): `defaultInventory` (vacío; ej. `{ pokeball: 5 }`), `addItem(id, n)`, `discard(id)`, `useItem(id, uid, estado?)`, `qty(id)`. Guarda en `pmtu.bag.v1` en cada cambio.
+- Entrenador: el nombre se guarda al teclear. Medallas apagadas en gris con opacidad .3; al tocarlas se iluminan, hacen zoom ×1.1 y suena el SFX `medal`.
+
+## Gimnasios (Combate → 🏟️ Gimnasio)
+**Los equipos de los líderes se definen en `data/gimnasios.csv`** (una fila por Pokémon; ábrelo con Excel o cualquier editor) y se convierten con:
+
+    python3 tools/csv_a_gimnasios.py
+
+Eso valida las cartas y genera `data/gimnasios.js`. Columnas: `gimnasio` (id de data/trainer.js: roca, cascada…), `region`, `lider`, `ciudad`, `medalla`, `frase` (en una sola fila por gimnasio; vacíos = los de trainer.js), `carta` (id: 074, 037, 074_alola, 058_hisui…), `nivel` (1-10; vacío = nivel base de la carta, así graduas la dificultad), `oculto` (si = **trampa**: el retador la ve como «❓ Pokémon sorpresa»), `nota` (libre).
+- El número de Pokémon por líder es libre; el líder elige 3 (o todos si tiene menos).
+- Una carta que aún no existe en data/cards.js se avisa al convertir y se ignora en la app hasta que la añadas.
+- El archivo actual es PROVISIONAL, salvo la idea de Brock (Geodude de Alola, Graveler, Onix y Vulpix oculto).
+- **CPU**: tras confirmar tú tus 3 Pokémon, el líder estudia tu equipo y elige sus 3 y su orden; cada ronda calcula su mejor ataque sin mirar el tuyo. Si hay empate de valoración prefiere sacar su trampa (`E.cpuPickTeam`, `E.cpuChoose`).
+- **Jugador**: lista de jugadores (`pmtu.players.v1`), sorteo entre todos menos el retador; el elegido controla al líder desde que escoge sus Pokémon hasta el final, en un móvil o en sala.
+- Al ganar se concede la medalla automáticamente en la tarjeta de entrenador.

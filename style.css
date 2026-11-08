@@ -286,7 +286,7 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
 .tact{display:flex;flex-direction:column;gap:4px;flex:none}
 .trow .tact{flex-direction:row;flex-wrap:wrap;max-width:96px;justify-content:flex-end}
 .ibtn{min-width:40px;min-height:40px;border-radius:10px;background:var(--panel2);font-size:1rem}
-.ibtn:disabled,.btn:disabled{opacity:.35}
+.bplus:disabled,.btn:disabled{opacity:.35}
 .ibtn.danger{background:#5a2226}
 .btn.small{min-height:36px;padding:0 10px;font-size:.85rem}
 .btn.danger{background:var(--neg);font-weight:700}
@@ -821,3 +821,52 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .medal .mi.img{background:none;box-shadow:none;border-radius:0}
 .medal .mi.img img{width:100%;height:100%;object-fit:contain}
 .medal.on .mi.img{background:none;box-shadow:none;filter:drop-shadow(0 0 8px #ffd84acc)}
+
+/* ---------- Mochila v2: lista + menú inferior ---------- */
+.irow{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:14px;background:var(--panel);border:1px solid var(--line);min-height:60px}
+.irow.tap{cursor:pointer}.irow.tap:active{transform:scale(.985)}
+.irow img{width:36px;height:auto;border-radius:5px;flex:none}
+.irow .nm{flex:1;min-width:0;display:flex;flex-direction:column}
+.irow .nm small,.irow>b+.qn{color:var(--muted)}
+.irow b{flex:1;font-size:.95rem}.irow .nm b{flex:none}
+.irow .qn{font-weight:700;min-width:34px;text-align:right}
+.bplus{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:#0003;color:var(--text);font-size:1.2rem;flex:none}
+.bplus:disabled{opacity:.3}
+.addbtn{margin-top:12px}
+.addlist{max-height:48vh;overflow:auto;margin:8px 0}
+#teamDlg.sheet{margin:auto auto 0;width:100%;max-width:560px;border-radius:20px 20px 0 0;max-height:88vh;overflow:auto;animation:sheetUp .22s ease-out}
+@keyframes sheetUp{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.sheetbtns{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.btn.danger{color:#ff8b8b;border-color:#8a2a2e}
+.pickitem.off{opacity:.4}.pickitem.fainted{filter:grayscale(.6)}
+.pickitem small{display:block;font-size:.72rem}.pickitem .why{color:#ff9d9d}
+/* medallas: apagadas gris+opacidad .3; al conseguirlas, color y un pequeño zoom */
+.medal .mi.img img{filter:grayscale(1) opacity(.3);transition:transform .25s,filter .25s}
+.medal.on .mi.img{filter:none}
+.medal.on .mi.img img{filter:drop-shadow(0 0 8px #ffd84acc);transform:scale(1.1);animation:medalPop .5s ease-out}
+@keyframes medalPop{0%{transform:scale(.8)}60%{transform:scale(1.25)}100%{transform:scale(1.1)}}
+.mini.img img{filter:grayscale(1) opacity(.3)}.mini.on.img img{filter:none}
+
+/* ---------- Gimnasios ---------- */
+.gymcard{border-color:#d4a62a}
+.gymlist{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.gymrow{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:14px;background:#0003;border:1px solid var(--line);color:var(--text);text-align:left;min-height:58px}
+.gymrow.done{border-color:#4caf6a}
+.gymrow .gtxt{flex:1;display:flex;flex-direction:column}.gymrow small{color:var(--muted)}
+.gymrow .gst{font-size:.8rem;font-weight:700;color:#f4c20d}.gymrow.done .gst{color:#7ee09b}
+.gymmini{width:40px;height:40px;object-fit:contain;flex:none}.gymmini.emoji{font-size:1.8rem;text-align:center}
+.gymmedal{display:block;width:96px;margin:6px auto;filter:drop-shadow(0 0 12px #ffd84acc);animation:medalPop .6s ease-out}
+.quote{font-style:italic;color:var(--muted);margin:2px 0 8px}
+.gymgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin:6px 0}
+.gymgrid .gymcell{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.72rem;text-align:center}
+.gymroster{margin:8px 0}.gymroster h3{margin:0 0 4px;font-size:.9rem}
+.gymnote{padding:8px 10px;border-radius:10px;background:#d4a62a22;border:1px solid #d4a62a;margin:8px 0;font-size:.88rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 12px;border-radius:99px;background:#0004;border:1px solid var(--line);font-size:.9rem}
+.chip.me{border-color:#4a90ff}.chip button{width:28px;height:28px;border-radius:50%;background:#0004;color:var(--text);border:0}
+.drawres{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+.bigname{font-size:1.8rem;font-weight:800;text-align:center;padding:14px;border-radius:14px;background:#0004;min-height:64px}
+.bigname.win{background:#d4a62a33;border:1px solid #d4a62a}
+.gmystery{width:100%;aspect-ratio:5/7;max-width:84px;border-radius:8px;background:repeating-linear-gradient(45deg,#2a3358,#2a3358 8px,#323c68 8px,#323c68 16px);display:flex;align-items:center;justify-content:center;font-size:2rem;border:1px dashed #6a78b0}
+.gymcell .bthumb,.gymcell .gmystery{width:84px}
+.gymcell .ticons{display:flex;flex-direction:column;align-items:center;gap:2px;margin:0}.gymcell .tbadge{height:18px}

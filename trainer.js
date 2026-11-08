@@ -190,6 +190,7 @@ function heroCard() {
   body.appendChild(av);
   const info = el('div', 'idinfo');
   const name = el('input', 'idname'); name.value = P.team.name(); name.placeholder = 'Tu nombre'; name.maxLength = 20; name.setAttribute('aria-label', 'Nombre del entrenador');
+  name.oninput = () => P.team.setName(name.value);                 // se guarda al teclear
   name.onchange = () => { P.team.setName(name.value.trim()); P.toast('Nombre guardado', 'ok'); };
   info.appendChild(name);
   info.appendChild(el('div', 'idrank', `${rk.icon} ${esc(rk.name)}`));
@@ -278,7 +279,7 @@ function badgesSection() {
     const b = el('button', 'medal' + (on ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', on);
     b.innerHTML = `<span class="mi${medalSrc(reg, g) ? ' img' : ''}">${medalHTML(reg, g)}</span><b>${esc(g.medal)}</b><small>${esc(g.leader)} · ${esc(g.city)}</small><em>${on ? '✔ ' + esc(S.badges[k]) : 'Sin conseguir'}</em>`;
     b.onclick = () => {
-      if (on) delete S.badges[k]; else { S.badges[k] = today(); P.toast('🏅 ' + g.medal + ' conseguida', 'ok'); if (window.AudioManager) AudioManager.play('capture'); }
+      if (on) delete S.badges[k]; else { S.badges[k] = today(); P.toast('🏅 ' + g.medal + ' conseguida', 'ok'); if (window.AudioManager) AudioManager.play('medal'); }
       save(); checkAch(); render();
     };
     grid.appendChild(b);
@@ -438,6 +439,13 @@ function render() {
   window.scrollTo(0, scroll);
 }
 
-P.trainer = { caught, seen, captured, evolved, battle, render, state: () => S, checkAch };
+/* Medalla ganada en un combate de gimnasio: devuelve true si es nueva */
+function awardBadge(regId, gymId) {
+  const k = regId + ':' + gymId; if (S.badges[k]) return false;
+  S.badges[k] = today(); save(); checkAch();
+  P.toast('🏅 Medalla conseguida', 'ok'); if (window.AudioManager) AudioManager.play('medal');
+  return true;
+}
+P.trainer = { caught, seen, captured, evolved, battle, render, state: () => S, checkAch, awardBadge };
 checkAch(true);
 })();
