@@ -3,16 +3,14 @@ roca,kanto,Brock,Ciudad Plateada,Medalla Roca,¡Mi voluntad es firme como una ro
 roca,kanto,,,,,075,4,, · PROVISIONAL
 roca,kanto,,,,,095,3,, · PROVISIONAL
 roca,kanto,,,,,037,2,si,"TRAMPA: Vulpix, fuego, para quien lleve Bulbasaur · PROVISIONAL"
-cascada,kanto,Misty,Ciudad Celeste,Medalla Cascada,¡Mi estilo de combate es agresivo… y mojado!,118,,, · PROVISIONAL
-cascada,kanto,,,,,116,,, · PROVISIONAL
-cascada,kanto,,,,,120,,, · PROVISIONAL
-cascada,kanto,,,,,121,,, · PROVISIONAL
-cascada,kanto,,,,,054,,, · PROVISIONAL
-trueno,kanto,Teniente Surge,Ciudad Carmín,Medalla Trueno,"¡Te voy a dar una buena descarga, novato!",100,,, · PROVISIONAL
-trueno,kanto,,,,,101,,, · PROVISIONAL
-trueno,kanto,,,,,081,,, · PROVISIONAL
-trueno,kanto,,,,,082,,, · PROVISIONAL
-trueno,kanto,,,,,026,,, · PROVISIONAL
+cascada,kanto,Misty,Ciudad Celeste,Medalla Cascada,¡Mi estilo de combate es agresivo… y mojado!,120_misty,,,Staryu (carta de gimnasio)
+cascada,kanto,,,,,121_misty,,,Starmie
+cascada,kanto,,,,,116_misty,,,Horsea
+cascada,kanto,,,,,054_misty,,,Psyduck
+trueno,kanto,Teniente Surge,Ciudad Carmín,Medalla Trueno,"¡Te voy a dar una buena descarga, novato!",081_surge,,,Magnemite
+trueno,kanto,,,,,101_surge,,,Electrode
+trueno,kanto,,,,,100_hisuisurge,,,Voltorb de Hisui (eléctrico/planta; candidato a «oculto»)
+trueno,kanto,,,,,026_surge,,,Raichu
 arcoiris,kanto,Erika,Ciudad Azulona,Medalla Arcoíris,Mis Pokémon de planta te dejarán sin aliento.,043,,, · PROVISIONAL
 arcoiris,kanto,,,,,044,,, · PROVISIONAL
 arcoiris,kanto,,,,,045,,, · PROVISIONAL

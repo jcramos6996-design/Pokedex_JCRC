@@ -5820,6 +5820,321 @@ window.CARDS = [
   "regions": [
    "hisui"
   ]
+ },
+ {
+  "id": "081_surge",
+  "name": "Magnemite",
+  "gen": 1,
+  "types": [
+   "electric",
+   "steel"
+  ],
+  "evolvesTo": [
+   "082"
+  ],
+  "props": [
+   "gym"
+  ],
+  "level": 3,
+  "moves": [
+   {
+    "name": "Impactrueno",
+    "type": "electric",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Parálisis 6"
+    ]
+   },
+   {
+    "name": "Giro Bola",
+    "type": "steel",
+    "die": "D6",
+    "power": "",
+    "effects": [
+     "1/2 LVL",
+     "Viñeta"
+    ]
+   }
+  ],
+  "text": "Carta de gimnasio: Lt. Surge"
+ },
+ {
+  "id": "101_surge",
+  "name": "Electrode",
+  "gen": 1,
+  "types": [
+   "electric"
+  ],
+  "props": [
+   "gym"
+  ],
+  "level": 4,
+  "moves": [
+   {
+    "name": "Onda Voltio",
+    "type": "electric",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Parálisis"
+    ]
+   },
+   {
+    "name": "Rapidez",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Prioridad"
+    ]
+   },
+   {
+    "name": "Explosión",
+    "type": "normal",
+    "die": "D6",
+    "power": "5",
+    "effects": [
+     "B-KO"
+    ]
+   }
+  ],
+  "text": "Carta de gimnasio: Lt. Surge"
+ },
+ {
+  "id": "100_hisuisurge",
+  "name": "Voltorb de Hisui",
+  "gen": 8,
+  "types": [
+   "electric",
+   "grass"
+  ],
+  "props": [
+   "gym"
+  ],
+  "level": 5,
+  "moves": [
+   {
+    "name": "Paralizador",
+    "type": "grass",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "Parálisis"
+    ]
+   },
+   {
+    "name": "Autodestrucción",
+    "type": "normal",
+    "die": "D6",
+    "power": "4",
+    "effects": [
+     "B-KO"
+    ]
+   }
+  ],
+  "text": "Carta de gimnasio: Lt. Surge"
+ },
+ {
+  "id": "026_surge",
+  "name": "Raichu",
+  "gen": 1,
+  "types": [
+   "electric"
+  ],
+  "props": [
+   "gym"
+  ],
+  "level": 5,
+  "moves": [
+   {
+    "name": "Rayo",
+    "type": "electric",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Moflete Estático",
+    "type": "electric",
+    "die": "D6",
+    "power": "1",
+    "effects": [
+     "Parálisis"
+    ]
+   },
+   {
+    "name": "Atizar",
+    "type": "normal",
+    "die": "D6",
+    "power": "3",
+    "effects": []
+   }
+  ],
+  "text": "Carta de gimnasio: Lt. Surge"
+ },
+ {
+  "id": "120_misty",
+  "name": "Staryu",
+  "gen": 1,
+  "types": [
+   "water"
+  ],
+  "evolvesTo": [
+   "121"
+  ],
+  "props": [
+   "gym"
+  ],
+  "level": 3,
+  "moves": [
+   {
+    "name": "Rayo Burbuja",
+    "type": "water",
+    "die": "D8",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Psicoonda",
+    "type": "psychic",
+    "die": "D6",
+    "power": "",
+    "effects": [
+     "1/2 LVL",
+     "Viñeta"
+    ]
+   },
+   {
+    "name": "Rapidez",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Prioridad"
+    ]
+   }
+  ],
+  "text": "Carta de gimnasio: Misty"
+ },
+ {
+  "id": "121_misty",
+  "name": "Starmie",
+  "gen": 1,
+  "types": [
+   "water",
+   "psychic"
+  ],
+  "props": [
+   "gym"
+  ],
+  "level": 3,
+  "moves": [
+   {
+    "name": "Hidrobomba",
+    "type": "water",
+    "die": "D8",
+    "power": "3",
+    "effects": []
+   },
+   {
+    "name": "Psíquico",
+    "type": "psychic",
+    "die": "D8",
+    "power": "2",
+    "effects": [
+     "N-D6 +6",
+     "Espera"
+    ]
+   },
+   {
+    "name": "Giro Rápido",
+    "type": "normal",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "1 CAMBIO"
+    ]
+   }
+  ],
+  "text": "Carta de gimnasio: Misty"
+ },
+ {
+  "id": "116_misty",
+  "name": "Horsea",
+  "gen": 1,
+  "types": [
+   "water"
+  ],
+  "evolvesTo": [
+   "117"
+  ],
+  "props": [
+   "gym"
+  ],
+  "level": 3,
+  "moves": [
+   {
+    "name": "Pistola de Agua",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": []
+   },
+   {
+    "name": "Pantalla de Humo",
+    "type": "normal",
+    "die": "D6",
+    "power": "0",
+    "effects": [
+     "N-D6"
+    ]
+   }
+  ],
+  "text": "Carta de gimnasio: Misty"
+ },
+ {
+  "id": "054_misty",
+  "name": "Psyduck",
+  "gen": 1,
+  "types": [
+   "water"
+  ],
+  "evolvesTo": [
+   "055"
+  ],
+  "props": [
+   "gym"
+  ],
+  "level": 3,
+  "moves": [
+   {
+    "name": "Hidropulso",
+    "type": "water",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 5"
+    ]
+   },
+   {
+    "name": "Confusión",
+    "type": "psychic",
+    "die": "D6",
+    "power": "2",
+    "effects": [
+     "Confuso 4"
+    ]
+   },
+   {
+    "name": "Anulación",
+    "type": "normal",
+    "die": "D6",
+    "power": "0*",
+    "effects": []
+   }
+  ],
+  "text": "Carta de gimnasio: Misty"
  }
 ];
 window.EFFECTS = {

@@ -36,19 +36,16 @@ window.GYMS = [
   "quote": "¡Mi estilo de combate es agresivo… y mojado!",
   "roster": [
    {
-    "id": "118"
+    "id": "120_misty"
    },
    {
-    "id": "116"
+    "id": "121_misty"
    },
    {
-    "id": "120"
+    "id": "116_misty"
    },
    {
-    "id": "121"
-   },
-   {
-    "id": "054"
+    "id": "054_misty"
    }
   ]
  },
@@ -61,19 +58,16 @@ window.GYMS = [
   "quote": "¡Te voy a dar una buena descarga, novato!",
   "roster": [
    {
-    "id": "100"
+    "id": "081_surge"
    },
    {
-    "id": "101"
+    "id": "101_surge"
    },
    {
-    "id": "081"
+    "id": "100_hisuisurge"
    },
    {
-    "id": "082"
-   },
-   {
-    "id": "026"
+    "id": "026_surge"
    }
   ]
  },
