@@ -82,7 +82,7 @@ const SECTIONS = [
 /* ============================================================
    Datos: normalización, familias evolutivas y etiquetas
    ============================================================ */
-const CARDS = (window.CARDS || []).map(c => {
+const ALLCARDS = (window.CARDS || []).map(c => {
   const o = Object.assign({ types: [], regions: [], abilities: [], props: [], evolvesTo: [], forms: [], aliases: [] }, c);
   o.id = pad(o.id);
   o.dex = dexOf(o.id);
@@ -97,7 +97,9 @@ const CARDS = (window.CARDS || []).map(c => {
   return o;
 }).sort((a, b) => a.id.localeCompare(b.id, 'en', { numeric: true }));
 
-const byId = new Map(CARDS.map(c => [c.id, c]));
+/* Las cartas de gimnasio (props: gym) solo existen para los combates de líder: no salen en la Pokédex ni en los listados. */
+const CARDS = ALLCARDS.filter(c => !c.props.includes('gym'));
+const byId = new Map(ALLCARDS.map(c => [c.id, c]));
 
 const parents = {};
 CARDS.forEach(c => c.evolvesTo.forEach(t => (parents[t] = parents[t] || []).push(c.id)));

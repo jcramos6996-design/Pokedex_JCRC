@@ -196,3 +196,9 @@ Eso valida las cartas y genera `data/gimnasios.js`. Columnas: `gimnasio` (id de 
 - **CPU**: tras confirmar tú tus 3 Pokémon, el líder estudia tu equipo y elige sus 3 y su orden; cada ronda calcula su mejor ataque sin mirar el tuyo. Si hay empate de valoración prefiere sacar su trampa (`E.cpuPickTeam`, `E.cpuChoose`).
 - **Jugador**: lista de jugadores (`pmtu.players.v1`), sorteo entre todos menos el retador; el elegido controla al líder desde que escoge sus Pokémon hasta el final, en un móvil o en sala.
 - Al ganar se concede la medalla automáticamente en la tarjeta de entrenador.
+
+## Cartas de líder (Surge y Misty)
+- Ids: `081_surge, 101_surge, 100_hisuisurge, 026_surge, 120_misty, 121_misty, 116_misty, 054_misty` (imagen en `cards/<id>.webp`).
+- Llevan `props: gym`: no aparecen en la Pokédex, solo en los gimnasios (`data/gimnasios.csv`).
+- `nivel` vacío = nivel de la carta. `oculto` = Pokémon trampa.
+- La CPU evita los ataques con KO sobre sí misma (Explosión/Autodestrucción), porque el Pokémon se debilita y pierde el duelo.

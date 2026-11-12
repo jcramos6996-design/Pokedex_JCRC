@@ -550,7 +550,9 @@ function effValue(mv, faces) {
     const e = fxInfo(c), pr = e.thr == null ? 1 : Math.max(0, (faces - e.thr + 1) / faces);
     if (e.name === 'Recarga') return t - 0.5;
     if (e.name === 'Espera') return t - 0.4;
-    return t + (EFF_W[e.name] || 0.7) * pr;
+    const w = (EFF_W[e.name] || 0.7) * pr;
+    const malo = ['KO', 'Confuso', 'Paralizado', 'Dormido', 'Quemado', 'Envenenado', 'Congelado', 'Desventaja', 'Doble Desventaja', 'Stat. Down', 'Maldito'].includes(e.name);
+    return t + (malo && e.lado === 'usuario' ? -1.2 * w : w);     // un efecto malo que cae sobre su propio Pokémon (p. ej. Explosión) resta
   }, 0) * 0.6;
 }
 const bestEst = (S, atk, atkLv, def) => E.movesOf(atk).map(m => moveEst(S, atk, atkLv, m, def)).sort((a, b) => (b.base + b.faces / 2) - (a.base + a.faces / 2))[0];
@@ -595,7 +597,8 @@ E.cpuChoose = (S, side, rng) => {
       const d = dieP(a.faces, t.faces, a.base, t.base); p += w * (d.w + d.t / 2);
     });
     const hasPrio = (x.m.effects || []).some(c => fxInfo(c).name === 'Prioridad');
-    return { i: x.i, s: p * 10 + effValue(x.m, a.faces) + (hasPrio ? 0.3 : 0) + rng() * 0.05 };
+    const selfKO = (x.m.effects || []).some(c => { const e = fxInfo(c); return e.name === 'KO' && e.lado === 'usuario' && (e.thr == null); });   // Explosión/Autodestrucción: su Pokémon se debilita y pierde el duelo
+    return { i: x.i, s: (selfKO ? -50 : 0) + p * 10 + effValue(x.m, a.faces) + (hasPrio ? 0.3 : 0) + rng() * 0.05 };
   }).sort((a, b) => b.s - a.s);
   return scored[0].i;
 };
