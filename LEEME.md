@@ -202,3 +202,8 @@ Eso valida las cartas y genera `data/gimnasios.js`. Columnas: `gimnasio` (id de 
 - Llevan `props: gym`: no aparecen en la Pokédex, solo en los gimnasios (`data/gimnasios.csv`).
 - `nivel` vacío = nivel de la carta. `oculto` = Pokémon trampa.
 - La CPU evita los ataques con KO sobre sí misma (Explosión/Autodestrucción), porque el Pokémon se debilita y pierde el duelo.
+
+## Combate: suma animada y relevo (v16)
+- Tras tirar, ya no sale el resultado de golpe: sumas **tú** el ataque línea a línea (botón ➕ Sumar), luego el del rival y por último se enfrentan los dos totales con cuenta animada. «⏩ Sumar todo» salta el paso y «Sumar solo» lo hace automático (se recuerda en `pmtu.sumauto`).
+- Si tu Pokémon pierde el duelo y el combate sigue, aparece una ventana: eliges con cuál sigues (se muestra a quién te enfrentarás) o **🏳️ Retirarte** (se da el combate por perdido, con confirmación). Motor: acciones `next` y `forfeit`, campos `repl` y `forfeit`.
+- La CPU del líder mantiene el orden de equipo que ya eligió.

@@ -287,8 +287,23 @@ E.apply = (S, side, a, rng) => {
       if (S.rolls.A && S.rolls.B) resolveRound(S, rng);
       return { ok: true };
     }
+    case 'next': {                                   // el Pokémon cae: eliges con cuál sigues
+      if (S.step !== 'duelEnd' || !(S.repl && S.repl[side])) return err('No toca elegir Pokémon');
+      const n = S.duel + 1, i = +a.idx, ps = S.picks[side];
+      if (!Number.isInteger(i) || i < n || i >= ps.length) return err('Pokémon no válido');
+      const t = ps[n]; ps[n] = ps[i]; ps[i] = t;
+      S.repl[side] = false;
+      return { ok: true };
+    }
+    case 'forfeit': {                                // retirarse: el combate se da por perdido
+      if (S.step !== 'duelEnd' || !(S.repl && S.repl[side])) return err('Solo puedes retirarte cuando tu Pokémon cae');
+      S.forfeit = side; S.repl = { A: false, B: false };
+      S.phase = 'done'; S.step = 'done'; S.ack = { A: false, B: false };
+      return { ok: true };
+    }
     case 'ack': {
       if (S.step !== 'result' && S.step !== 'duelEnd') return err('Nada que confirmar');
+      if (S.step === 'duelEnd' && S.repl && S.repl[side]) return err('Elige tu siguiente Pokémon o retírate');
       S.ack[side] = true;
       if (S.ack.A && S.ack.B) advance(S);
       return { ok: true };
@@ -504,6 +519,8 @@ function advance(S) {
       S.duels[S.duel] = { winner: w, rw: { A: S.rw.A, B: S.rw.B }, ko: S.fighters.A.dead || S.fighters.B.dead, ids: { A: S.fighters.A.id, B: S.fighters.B.id } };
       S.duelWins[w]++;
       S.step = 'duelEnd'; S.ack = { A: false, B: false };
+      const over = E.matchOver(S);                                  // el que pierde el duelo debe elegir a quién saca después (o retirarse)
+      S.repl = { A: !over && w === 'B', B: !over && w === 'A' && !S.opts.wild };
     } else {
       S.round++; S.use = { A: [], B: [] }; S.step = 'choose'; S.choice = { A: null, B: null }; S.rolls = { A: null, B: null }; S.adj = { A: 0, B: 0 };
       S.result = null; S.ack = { A: false, B: false };
@@ -516,10 +533,10 @@ function advance(S) {
 }
 
 /* ¿Se acabó el combate completo? (en el salvaje: cuando uno de tus Pokémon gana un duelo, o ya han peleado todos) */
-E.matchOver = S => S.opts.wild
+E.matchOver = S => S.forfeit ? true : S.opts.wild
   ? (S.duelWins.A >= 1 || S.duel >= (S.picks.A ? S.picks.A.length : 1) - 1)
   : (S.duelWins.A >= (S.need || E.MAX_DUEL_WIN) || S.duelWins.B >= (S.need || E.MAX_DUEL_WIN) || S.duel >= (S.size || 3) - 1);
-E.matchWinner = S => S.opts.wild ? (S.duelWins.A >= 1 ? 'A' : 'B')
+E.matchWinner = S => S.forfeit ? other(S.forfeit) : S.opts.wild ? (S.duelWins.A >= 1 ? 'A' : 'B')
   : (S.duelWins.A > S.duelWins.B ? 'A' : S.duelWins.B > S.duelWins.A ? 'B' : null);
 
 /* ============================================================
@@ -610,6 +627,7 @@ E.autoGym = (S, rng) => {
   if (S.phase !== 'duel') return;
   if (S.step === 'choose' && S.choice.B === null) E.apply(S, 'B', { type: 'choose', idx: E.cpuChoose(S, 'B', rng) }, rng);
   if (S.step === 'roll' && !S.rolls.B) E.apply(S, 'B', { type: 'roll', adj: 0 }, rng);
+  if (S.step === 'duelEnd' && S.repl && S.repl.B) E.apply(S, 'B', { type: 'next', idx: S.duel + 1 }, rng);   // la CPU ya ordenó su equipo a propósito
   if ((S.step === 'result' || S.step === 'duelEnd') && !S.ack.B) E.apply(S, 'B', { type: 'ack' }, rng);
 };
 
@@ -632,7 +650,8 @@ E.pending = (S, s) => {
   if (S.phase === 'done') return false;
   if (S.step === 'choose') return S.choice[s] === null;
   if (S.step === 'roll') return !S.rolls[s];
-  if (S.step === 'result' || S.step === 'duelEnd') return !S.ack[s];
+  if (S.step === 'duelEnd') return !S.ack[s] || !!(S.repl && S.repl[s]);
+  if (S.step === 'result') return !S.ack[s];
   return false;
 };
 

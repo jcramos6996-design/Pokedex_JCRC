@@ -257,6 +257,7 @@ function connBadge() {
 
 function render() {
   if (!M) return;
+  clearTimeout(M.sumTimer);
   const body = $('#bBody');
   connBadge();
   $('#bTitle').textContent = M.wild ? 'Combate salvaje' : ((M.S || M.V || {}).opts || {}).gym ? '🏟️ Gimnasio · ' + (M.S || M.V).opts.gym.leader : M.mode === 'local' ? 'Combate · un móvil' : 'Combate · sala ' + M.code;
@@ -684,13 +685,76 @@ function fxText(V, it) {
   const nm = fightName(V, tgt);
   return it.text.replace(/^(El rival|Tu Pokémon)/, nm);
 }
+/* ---------- Animación de suma: el jugador va sumando línea a línea ---------- */
+let autoSum = false; try { autoSum = localStorage.getItem('pmtu.sumauto') === '1'; } catch (e) {}
+function countUp(node, from, to, ms) {
+  if (from === to) { node.textContent = to; return; }
+  const t0 = performance.now();
+  const step = t => { const k = Math.min(1, (t - t0) / ms); node.textContent = Math.round(from + (to - from) * k); if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function sumTicket(V, s, mine, n) {                              // ticket con solo las primeras n líneas sumadas
+  const R = V.result[s], f = V.fighters[s], c = cardOf(f.id), o = other(s), oc = cardOf(V.fighters[o].id);
+  const mv = E.movesOf(c)[R.moveIdx], pw = E.power(mv.power);
+  const d = el('div', 'ticket res sum');
+  d.appendChild(el('div', 'tk-head', `🧮 ${esc(c.name)} · ${esc(nameOf(V, s))}${mine ? ' (tú)' : ''}<small>usa ${esc(R.move)}</small>`));
+  d.appendChild(tkMatchup(c.name, mv.type, oc.name, oc.types));
+  if (mv.type && pw !== 0) d.appendChild(tkEffect(mv.type, oc.types));
+  const rows = el('div', 'tk-rows');
+  R.rows.slice(0, n).forEach((r, i) => {
+    const plain = ['nivel', 'potencia', 'dado'].includes(r.k);
+    const row = tkRow(r.label, plain ? r.v : sgn(r.v), r.note, r.v < 0 ? 'neg' : r.v > 0 && !plain ? 'plus' : '');
+    if (i === n - 1) row.classList.add('new');
+    rows.appendChild(row);
+  });
+  if (n === 0) rows.appendChild(el('p', 'tk-empty', 'Toca “Sumar” para ir añadiendo cada línea al total.'));
+  d.appendChild(rows);
+  const part = R.rows.slice(0, n).reduce((t, x) => t + x.v, 0), prev = R.rows.slice(0, Math.max(0, n - 1)).reduce((t, x) => t + x.v, 0);
+  const full = n >= R.rows.length, shown = full && R.miss ? 0 : part;
+  const fin = el('div', 'tk-final' + (full ? ' done' : ''), `<span>${full ? '→ Total de ' + esc(c.name) : 'Llevas'}</span><b class="cnt">${prev}</b>`);
+  d.appendChild(fin);
+  if (full && R.miss) d.appendChild(el('p', 'tk-empty', '¡El ataque falla! El total se queda en 0.'));
+  countUp(fin.querySelector('.cnt'), full && R.miss ? part : prev, shown, 450);
+  return d;
+}
+
 function viewResult(w, V, side) {
-  const o = other(side), R = V.result;
+  const o = other(side), R = V.result, U = M.ui;
+  if (!U.sum) U.sum = { stage: 0, n: 0 };
+  const S = U.sum, rowsOf = s => R[s].rows.length;
+  const advanceSum = () => {                                      // un toque = una línea; al acabar, pasa al siguiente ticket
+    if (S.stage > 1) return;
+    const t = S.stage === 0 ? side : o;
+    if (S.n < rowsOf(t)) S.n++; else { S.stage++; S.n = 0; }
+    render();
+  };
+  if (S.stage <= 1) {
+    const t = S.stage === 0 ? side : o, mine = t === side, full = S.n >= rowsOf(t);
+    w.appendChild(el('h2', null, S.stage === 0 ? 'Suma tu ataque' : `Ahora suma el de ${esc(nameOf(V, o))}`));
+    w.appendChild(el('div', 'sumdots', `<i class="${S.stage === 0 ? 'on' : 'ok'}"></i><i class="${S.stage === 1 ? 'on' : ''}"></i><i></i>`));
+    w.appendChild(sumTicket(V, t, mine, S.n));
+    const nxt = R[t].rows[S.n];
+    const b = el('button', 'btn primary wide big', full ? (S.stage === 0 ? '➡️ Ver el ataque rival' : '⚖️ Comparar totales') : `➕ Sumar${nxt ? ': ' + esc(nxt.label) : ''}`);
+    b.onclick = advanceSum; w.appendChild(b);
+    const row = el('div', 'sumopts');
+    const sk = el('button', 'btn', '⏩ Sumar todo'); sk.onclick = () => { S.n = rowsOf(t); render(); };
+    const au = el('label', 'chk'); const cb = el('input'); cb.type = 'checkbox'; cb.checked = autoSum;
+    cb.onchange = () => { autoSum = cb.checked; try { localStorage.setItem('pmtu.sumauto', autoSum ? '1' : '0'); } catch (e) {} render(); };
+    au.append(cb, document.createTextNode(' Sumar solo'));
+    row.append(sk, au); w.appendChild(row);
+    if (autoSum) { clearTimeout(M.sumTimer); const k = M.uiKey; M.sumTimer = setTimeout(() => { if (M && M.uiKey === k && M.ui.sum === S) advanceSum(); }, S.n === 0 ? 500 : full ? 1400 : 800); }
+    return;
+  }
+  // Fase final: se enfrentan los dos totales
   const banner = R.winner ? `¡Ronda para ${esc(fightName(V, R.winner))}!` : 'Empate: nadie suma ronda';
   const sub = R.tieBreak ? R.tieBreak : (R.winner ? nameOf(V, R.winner) : '');
-  w.appendChild(el('div', 'banner ' + (R.winner === side ? 'win' : R.winner ? 'lose' : 'tie'), banner + `<small>${esc(sub)}</small>`));
-  w.appendChild(sideCard(V, side, true));
-  w.appendChild(sideCard(V, o, false));
+  const vs = el('div', 'vsbar', `<div class="${R.winner === side ? 'win' : R.winner ? 'lose' : ''}"><em>${esc(fightName(V, side))}</em><b class="cnt" data-to="${R[side].total}">0</b></div><span>VS</span><div class="${R.winner === o ? 'win' : R.winner ? 'lose' : ''}"><em>${esc(fightName(V, o))}</em><b class="cnt" data-to="${R[o].total}">0</b></div>`);
+  w.appendChild(vs);
+  vs.querySelectorAll('.cnt').forEach(n => countUp(n, 0, +n.dataset.to, 800));
+  const ban = el('div', 'banner late ' + (R.winner === side ? 'win' : R.winner ? 'lose' : 'tie'), banner + `<small>${esc(sub)}</small>`);
+  w.appendChild(ban);
+  const det = el('details', 'bsec'); det.appendChild(el('summary', null, 'Ver el cálculo de los dos ataques'));
+  det.appendChild(sideCard(V, side, true)); det.appendChild(sideCard(V, o, false)); w.appendChild(det);
   if (R.effects.length) {
     const sec = el('div', 'bsec'); sec.appendChild(el('h3', null, 'Efectos'));
     R.effects.forEach(it => {
@@ -720,17 +784,51 @@ function ackBtn(V, side, label) {
   return frag;
 }
 
+function replaceModal(V, side) {                                 // ventana: elegir al siguiente Pokémon o retirarse
+  const n = V.duel + 1, o = other(side), ps = V.picks[side], rv = V.picks[o] && V.picks[o][n];
+  const m = el('div', 'bmodal'), box = el('div', 'bbox');
+  const lost = cardOf(V.fighters[side].id);
+  box.appendChild(el('h2', null, `${esc(lost.name)} ha caído`));
+  box.appendChild(el('p', 'hint', '¿Con quién sigues? Elige a tu siguiente Pokémon o retírate del combate.'));
+  if (rv && cardOf(rv.id)) box.appendChild(el('p', 'hint', `Te espera: <b>${esc(cardOf(rv.id).name)}</b> (Nv. ${rv.level}) · ${cardOf(rv.id).types.map(tname).join(' / ')}`));
+  const list = el('div', 'replist');
+  ps.forEach((p, i) => {
+    if (i < n) return;
+    const c = cardOf(p.id), b = el('button', 'repcard');
+    b.appendChild(thumbCard(c, true));
+    b.appendChild(el('span', 'rin', `<b>${esc(c.name)}</b><small>Nv. ${p.level}${p.item ? ' · ' + esc(p.item) : ''}</small>`));
+    b.appendChild(typesRow(c));
+    b.onclick = () => dispatch({ type: 'next', idx: i });
+    list.appendChild(b);
+  });
+  box.appendChild(list);
+  const fl = el('button', 'btn danger wide', '🏳️ Retirarme y dar el combate por perdido');
+  fl.onclick = async () => {
+    const ok = await new Promise(res => {
+      const dlg = $('#teamDlg'), body = $('#teamDlgBody');
+      body.innerHTML = '<h2>¿Retirarte?</h2><p>El combate se dará por perdido y no sufrirás más daños.</p>';
+      const row = el('div', 'dlgrow'), no = el('button', 'btn', 'Seguir luchando'), yes = el('button', 'btn danger', 'Retirarme');
+      no.onclick = () => { dlg.close(); res(false); }; yes.onclick = () => { dlg.close(); res(true); };
+      row.append(no, yes); body.appendChild(row); dlg.showModal();
+    });
+    if (ok) dispatch({ type: 'forfeit' });
+  };
+  box.appendChild(fl); m.appendChild(box);
+  return m;
+}
 function viewDuelEnd(w, V, side) {
   const d = V.duels[V.duel], o = other(side);
   w.appendChild(el('div', 'banner ' + (d.winner === side ? 'win' : 'lose'),
     `¡${esc(fightName(V, d.winner))} gana el duelo ${V.duel + 1}!<small>${esc(nameOf(V, d.winner))} · rondas ${d.rw[side]}–${d.rw[o]}${d.ko ? ' · KO' : ''}</small>`));
   w.appendChild(el('div', 'bigscore', `<div><em>${esc(nameOf(V, side))}</em><b>${V.duelWins[side]}</b></div><span>duelos</span><div><em>${esc(nameOf(V, o))}</em><b>${V.duelWins[o]}</b></div>`));
-  const over = E.matchOver(V);
-  if (!over && V.picks.A && V.picks.B) {
+  const over = E.matchOver(V), mustPick = !!(V.repl && V.repl[side]);
+  if (!over && V.picks.A && V.picks.B && !mustPick) {
     const n = V.duel + 1, a = cardOf(V.picks[side][n].id), b = cardOf(V.picks[o][n].id);
     w.appendChild(el('p', 'hint', `Siguiente duelo: ${esc(a.name)} contra ${esc(b.name)}.`));
   }
   w.appendChild(ackBtn(V, side, over ? 'Ver resultado final' : 'Siguiente duelo'));
+  if (mustPick) { w.querySelector('.ackwrap .btn').disabled = true; w.appendChild(replaceModal(V, side)); }
+  else if (V.repl && V.repl[o] && M.mode !== 'local') w.appendChild(el('div', 'bwait', `<div class="spin"></div><p>${esc(nameOf(V, o))} está eligiendo su siguiente Pokémon…</p>`));
 }
 
 /* ---------- Final ---------- */
@@ -774,6 +872,7 @@ function viewDone(body, V, side) {
   if (!(gm && side === 'A')) w.appendChild(el('div', 'banner big ' + (win === side ? 'win' : win ? 'lose' : 'tie'),
     win ? `¡Gana ${esc(nameOf(V, win))}!<small>${V.duelWins.A}–${V.duelWins.B} en duelos</small>` : 'Combate empatado'));
   else w.appendChild(el('p', 'hint', `Duelos: ${V.duelWins.A}–${V.duelWins.B}`));
+  if (V.forfeit) w.appendChild(el('p', 'hint', `${esc(nameOf(V, V.forfeit))} se retiró del combate.`));
   const l = el('div', 'bsec'); l.appendChild(el('h3', null, 'Duelos'));
   V.duels.forEach((d, i) => {
     const a = cardOf(d.ids[side]), b = cardOf(d.ids[o]);
