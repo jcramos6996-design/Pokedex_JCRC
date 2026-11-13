@@ -64,15 +64,10 @@ function open() {
 function detail(g) {
   dialog((body, close) => {
     body.innerHTML = `<h2>${esc(g.leader)} · ${esc(g.city)}</h2><p class="quote">«${esc(g.quote || '')}»</p>`;
-    const gr = el('div', 'gymgrid');
-    g.roster.forEach(r => {
-      const c = P.byId.get(r.id), x = el('div', 'gymcell');
-      if (r.hidden) { x.appendChild(el('div', 'gmystery', '❓')); x.appendChild(el('em', null, 'Pokémon sorpresa')); gr.appendChild(x); return; }
-      const th = el('div', 'bthumb s'); th.appendChild(P.artEl(c)); x.appendChild(th); x.appendChild(el('em', null, esc(c.name) + ' · Nv ' + r.level));
-      const t = el('span', 'ticons'); c.types.forEach(ty => t.appendChild(P.typeBadge(ty, 'sm'))); x.appendChild(t);
-      gr.appendChild(x);
-    });
+    const n = g.roster.length, gr = el('div', 'gymballs');          // solo se enseña cuántos Pokémon lleva, no cuáles
+    for (let i = 0; i < n; i++) { const im = el('img'); im.src = 'assets/pokeball.png'; im.alt = 'Pokémon sorpresa'; im.style.animationDelay = (i * 0.12) + 's'; gr.appendChild(im); }
     body.appendChild(gr);
+    body.appendChild(el('p', 'hint ctr', `${n} Pokémon · elegirá ${Math.min(3, n)} para el combate. ¡Descubre cuáles al luchar!`));
     body.appendChild(el('h3', null, '¿Quién controla al líder?'));
     body.appendChild(btn('🤖 La CPU', 'primary wide', () => {
       const me = (P.team.name() || '').trim();

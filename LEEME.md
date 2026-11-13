@@ -207,3 +207,6 @@ Eso valida las cartas y genera `data/gimnasios.js`. Columnas: `gimnasio` (id de 
 - Tras tirar, ya no sale el resultado de golpe: sumas **tú** el ataque línea a línea (botón ➕ Sumar), luego el del rival y por último se enfrentan los dos totales con cuenta animada. «⏩ Sumar todo» salta el paso y «Sumar solo» lo hace automático (se recuerda en `pmtu.sumauto`).
 - Si tu Pokémon pierde el duelo y el combate sigue, aparece una ventana: eliges con cuál sigues (se muestra a quién te enfrentarás) o **🏳️ Retirarte** (se da el combate por perdido, con confirmación). Motor: acciones `next` y `forfeit`, campos `repl` y `forfeit`.
 - La CPU del líder mantiene el orden de equipo que ya eligió.
+
+## Equipo del líder oculto (v17)
+La ficha del gimnasio solo muestra cuántos Pokémon lleva el líder (Poké Balls, `assets/pokeball.png`), no cuáles. Los rivales humanos tampoco ven tu equipo hasta que los dos confirman.
